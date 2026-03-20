@@ -1,0 +1,187 @@
+/* ═══════════════════════════════════════════════════
+   OVERUSED GROTESK — Fuente local
+   Coloca los archivos .otf en public/fonts/
+   ═══════════════════════════════════════════════════ */
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Light.otf') format('opentype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Book.otf') format('opentype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Medium.otf') format('opentype');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-SemiBold.otf') format('opentype');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-ExtraBold.otf') format('opentype');
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-Black.otf') format('opentype');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-BookItalic.otf') format('opentype');
+  font-weight: 400; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Overused Grotesk';
+  src: url('/fonts/OverusedGrotesk-MediumItalic.otf') format('opentype');
+  font-weight: 500; font-style: italic; font-display: swap;
+}
+
+/* ═══════════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════════ */
+:root {
+  --cream:      #F5EFE6;
+  --ink:        #2A2A2A;
+  --ink-60:     rgba(42,42,42,0.6);
+  --ink-30:     rgba(42,42,42,0.3);
+  --ink-10:     rgba(42,42,42,0.1);
+  --font:       'Overused Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --nav-h:      60px;
+  --max-w:      1140px;
+  --pad-x:      clamp(1.25rem, 4vw, 3rem);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET
+   ═══════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; height: auto; object-fit: cover; }
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; }
+
+/* ═══════════════════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════════════════ */
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-x);
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPE SCALE
+   ═══════════════════════════════════════════════════ */
+.t-hero {
+  font-size: clamp(2.6rem, 6.5vw, 5.2rem);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+}
+.t-section {
+  font-size: clamp(1.9rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+.t-project-title {
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.t-body {
+  font-size: clamp(0.875rem, 1.4vw, 0.95rem);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--ink-60);
+}
+.t-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+.t-nav {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════
+   ARROW LINK
+   ═══════════════════════════════════════════════════ */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: gap 0.2s ease;
+}
+.arrow-link::after { content: '↘'; }
+.arrow-link:hover  { gap: 0.55em; }
+
+/* ═══════════════════════════════════════════════════
+   IMAGE PLACEHOLDER (reemplazar con <img> real)
+   ═══════════════════════════════════════════════════ */
+.img-ph {
+  width: 100%;
+  background: #D8D1C5;
+  display: block;
+}
+.img-ph--hero   { aspect-ratio: 4/3; }
+.img-ph--card   { aspect-ratio: 4/3; }
+.img-ph--wide   { aspect-ratio: 16/9; }
+.img-ph--tall   { aspect-ratio: 2/3; }
+.img-ph--square { aspect-ratio: 1; }
+
+/* ═══════════════════════════════════════════════════
+   DIVIDER
+   ═══════════════════════════════════════════════════ */
+hr {
+  border: none;
+  border-top: 1px solid var(--ink-10);
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE TRANSITION
+   ═══════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-enter { animation: fadeUp 0.45s ease both; }
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--ink-30); border-radius: 2px; }
