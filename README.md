@@ -64,21 +64,7 @@ portfolio/
 
 ## Pasos antes de subir a GitHub
 
-### 1. Fuente Overused Grotesk
-Copia tus archivos OTF en `public/fonts/`. Los nombres exactos esperados son:
-- `OverusedGrotesk-Light.otf`
-- `OverusedGrotesk-Book.otf`
-- `OverusedGrotesk-Medium.otf`
-- `OverusedGrotesk-SemiBold.otf`
-- `OverusedGrotesk-Bold.otf`
-- `OverusedGrotesk-ExtraBold.otf`
-- `OverusedGrotesk-Black.otf`
-- `OverusedGrotesk-BookItalic.otf`
-- `OverusedGrotesk-MediumItalic.otf`
-
-Si tus archivos tienen nombres distintos, edita los `@font-face` en `src/styles/global.css`.
-
-### 2. Imágenes de proyectos
+### 1. Imágenes de proyectos
 Añade tus imágenes en `public/images/projects/`. Luego en cada página de proyecto
 (p.ej. `arbocala.astro`) busca el bloque comentado y sustituye el placeholder:
 
@@ -96,18 +82,6 @@ En la **home** (`index.astro`) el hero también tiene un bloque comentado:
 <div class="img-ph img-ph--hero hero__img"></div>  ← borrar esta línea
 ```
 
-### 3. CV descargable
-Coloca `cv-rafael-hijano.pdf` en `public/`. El botón en `/curriculum` ya apunta a `/cv-rafael-hijano.pdf`.
-
-### 4. Edita `astro.config.mjs`
-```js
-site: 'https://TU_USUARIO.github.io',
-base: '/',  // o '/nombre-repo' si no es el repo raíz
-```
-
-### 5. Links externos
-En `Nav.astro` y `Footer.astro` actualiza las URLs de LinkedIn y Behance con las tuyas reales.
-
 ---
 
 ## Deploy en GitHub Pages
@@ -118,10 +92,6 @@ git add .
 git commit -m "Initial commit"
 git remote add origin https://github.com/TU_USUARIO/TU_REPO.git
 git push -u origin main
-```
-
-En GitHub: **Settings → Pages → Source → GitHub Actions**.
-Cada `push` a `main` lanza el deploy automáticamente vía `.github/workflows/deploy.yml`.
 
 ---
 
