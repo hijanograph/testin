@@ -1,10 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // Cambia esto por tu usuario y nombre de repo de GitHub:
-  // Si el repo se llama "rafael-hijano" → site: 'https://tuusuario.github.io', base: '/'
-  // Si el repo se llama "portfolio" → site: 'https://tuusuario.github.io', base: '/portfolio'
   site: 'https://rafaelhijano.work',
   base: '/',
-  output: 'static',
+  // output: 'static' eliminado — es el valor por defecto en Astro 4
+  // y fue eliminado como opción en Astro 5 (causaría error de build)
 });
