@@ -28,11 +28,11 @@
    ═══════════════════════════════════════════════════ */
 :root {
   --cream:      #F5EFE6;
-  --ink:        #2A2A2A;
+  --ink:        #3C3A26;
   --ink-60:     rgba(42,42,42,0.6);
   --ink-30:     rgba(42,42,42,0.3);
   --ink-10:     rgba(42,42,42,0.1);
-  --font:       'Overused Grotesk', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font:       'Overused Grotesk';
   --nav-h:      60px;
   --max-w:      1140px;
   --pad-x:      clamp(1.25rem, 4vw, 3rem);
