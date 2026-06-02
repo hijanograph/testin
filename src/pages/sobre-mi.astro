@@ -1,53 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
 
-const skills = [
-  'Adobe Illustrator', 'Adobe Photoshop', 'Adobe InDesign',
-  'Adobe After Effects', 'Adobe Premiere Pro',
-  'Figma', 'WordPress', 'HTML5',
-];
+const siteEntry = await getEntry('sobremi', 'site');
+const site = siteEntry?.data;
 
-const experience = [
-  {
-    role: 'Diseñador Visual',
-    company: 'Batterylight',
-    period: 'Feb 2025 — presente',
-    companyDesc: 'Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centrado en la eficiencia energética y la sostenibilidad en la industria de la iluminación proyectada.',
-    tasks: [
-      'Gestión del departamento de marketing, diseño de packaging y edición de catálogos, asegurando la coherencia visual y el cumplimiento de las guías de marca.',
-      'Optimización de materiales de venta en formatos editables, garantizando su alineación con los estándares visuales y de marca de la empresa.',
-    ],
-  },
-  {
-    role: 'Diseñador de Marca',
-    company: 'Freepik',
-    period: 'Feb 2024',
-    companyDesc: 'Freepik Company S.L. es una plataforma líder de contenido digital que ofrece una amplia gama de recursos gráficos gratuitos y premium, incluyendo fotos, vectores e ilustraciones.',
-    tasks: [
-      'Participación en el proyecto Neighborhood Design, centrado en la creación de identidad de marca y aplicaciones para un negocio urbano, incluyendo la gestión del rebranding y la coordinación con producción e impresión.',
-      'Asistencia en la creación de recursos de marca y materiales de marketing para distintas plataformas, con el objetivo de mejorar la visibilidad y el engagement.',
-    ],
-  },
-  {
-    role: 'Marketing Specialist',
-    company: 'Ertheo',
-    period: 'Feb 2019 — Abr 2020',
-    companyDesc: 'Ertheo es una plataforma de cursos deportivos internacionales que conecta jóvenes talentos con academias de élite.',
-    tasks: [
-      'Gestión de campañas de marketing digital en múltiples mercados europeos.',
-      'Creación de materiales de comunicación y coordinación con el equipo de diseño.',
-    ],
-  },
-];
-
-const education = [
-  { title: 'Máster en Diseño Visual', institution: 'La X Gauss', period: '2021 — 2023' },
-  { title: 'Máster en Dirección y Liderazgo', institution: 'GADE Business School', period: '2020' },
-  { title: 'Grado en Comunicación Audiovisual', institution: 'Universidad de Málaga', period: '2015 — 2019' },
-];
+const bio        = site?.bio        ?? [];
+const experience = site?.experience ?? [];
+const education  = site?.education  ?? [];
+const skills     = site?.skills     ?? [];
 ---
 
-<Layout title="Sobre mí — Rafael Hijano" description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual.">
+<Layout
+  title="Sobre mí — Rafael Hijano"
+  description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual."
+>
   <div class="page">
     <div class="container">
 
@@ -58,43 +25,17 @@ const education = [
         <div class="intro__grid">
           <!-- Foto -->
           <div class="intro__photo-wrap">
-            <!--
-              IMAGEN REAL: descomenta y borra el div
-              <img src="/images/rafael.jpg" alt="Rafael Hijano" class="intro__photo" />
-            -->
-            <div class="img-ph img-ph--tall intro__photo"></div>
+            {site?.photo
+              ? <img src={site.photo} alt={site.photoAlt ?? 'Rafael Hijano'} class="intro__photo" />
+              : <div class="img-ph img-ph--tall intro__photo"></div>
+            }
           </div>
 
           <!-- Bio -->
           <div class="intro__bio">
-            <p class="t-body">
-              Soy Rafael, un Diseñador Visual que vive y trabaja en el área de Málaga.
-              Me apasiona crear espacios donde las marcas cobran vida y construir proyectos
-              con alma, conectando con las personas a través de un diseño cuidado y con propósito.
-            </p>
-            <p class="t-body">
-              Soy graduado de la Universidad de Málaga en Comunicación Audiovisual y cuento con
-              un Máster en Diseño Visual de La Gauss. Mi interés por el diseño nació de forma
-              natural: de niño me fascinaban los sistemas interactivos y el arte visual en los
-              videojuegos y los ordenadores, lo que me llevó a querer estudiar informática.
-              Aunque sabía que mi hábitat se encontraba entre interfaces, algo dentro de mí me
-              pedía explorar más mi lado creativo.
-            </p>
-            <p class="t-body">
-              Así fue cómo comencé por segunda vez mi etapa universitaria, y tras explorar la
-              comunicación en todas sus formas, descubrí que mi verdadera vocación era contar
-              historias a través del diseño visual.
-            </p>
-            <p class="t-body">
-              Actualmente, trabajo como Diseñador Visual en Batterylight. Lidero diferentes
-              áreas creativas dentro del departamento de marketing, desde el diseño de packaging
-              hasta la edición de catálogos.
-            </p>
-            <p class="t-body">
-              Fuera del diseño, soy un entusiasta de la psicología, la música, la tecnología y
-              la cultura geek en general. Cuando tengo tiempo libre, puedes encontrarme leyendo,
-              jugando, cocinando, viendo alguna serie o acariciando algún gato.
-            </p>
+            {bio.map((p) => (
+              <p class="t-body">{p}</p>
+            ))}
           </div>
         </div>
       </section>
@@ -116,7 +57,7 @@ const education = [
               </div>
               <p class="t-body timeline__desc">{item.companyDesc}</p>
               <ul class="timeline__tasks">
-                {item.tasks.map(t => <li class="t-body">{t}</li>)}
+                {item.tasks.map((t) => <li class="t-body">{t}</li>)}
               </ul>
             </div>
           ))}
@@ -145,7 +86,7 @@ const education = [
       <section class="section">
         <h2 class="t-section section__title">Habilidades</h2>
         <div class="skills">
-          {skills.map(s => <span class="skill t-label">{s}</span>)}
+          {skills.map((s) => <span class="skill t-label">{s}</span>)}
         </div>
       </section>
 
@@ -161,46 +102,21 @@ const education = [
 
 /* ── Intro ── */
 .intro { margin-bottom: 4rem; }
-
 .intro__title { margin-bottom: 3rem; }
-
-.intro__grid {
-  display: grid;
-  gap: 2rem;
-}
-
+.intro__grid { display: grid; gap: 2rem; }
 @media (min-width: 860px) {
-  .intro__grid {
-    grid-template-columns: 340px 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
+  .intro__grid { grid-template-columns: 340px 1fr; gap: 4rem; align-items: start; }
 }
-
-.intro__photo {
-  width: 100%;
-}
-
-.intro__bio {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
+.intro__photo { width: 100%; }
+.intro__bio { display: flex; flex-direction: column; gap: 1.25rem; }
 
 /* ── Sections ── */
 .section { padding: 3.5rem 0; }
-
 .section__title { margin-bottom: 2.5rem; }
-
 hr { margin: 0; }
 
 /* ── Timeline ── */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
+.timeline { display: flex; flex-direction: column; gap: 3rem; }
 .timeline__head {
   display: flex;
   justify-content: space-between;
@@ -209,75 +125,22 @@ hr { margin: 0; }
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
-
-.timeline__role {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
+.timeline__role { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; }
 .timeline__company { margin-top: 0.2rem; }
-
 .timeline__period { white-space: nowrap; }
-
-.timeline__desc {
-  margin-bottom: 1rem;
-  max-width: 70ch;
-}
-
-.timeline__tasks {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.timeline__tasks li {
-  padding-left: 1.25rem;
-  position: relative;
-  max-width: 70ch;
-}
-
-.timeline__tasks li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--ink-30);
-}
+.timeline__desc { margin-bottom: 1rem; max-width: 70ch; }
+.timeline__tasks { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.timeline__tasks li { padding-left: 1.25rem; position: relative; max-width: 70ch; }
+.timeline__tasks li::before { content: '—'; position: absolute; left: 0; color: var(--ink-30); }
 
 /* ── Education ── */
-.edu-grid {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 640px) {
-  .edu-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-.edu-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.edu-item__title {
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
+.edu-grid { display: grid; gap: 2rem; }
+@media (min-width: 640px) { .edu-grid { grid-template-columns: repeat(3, 1fr); } }
+.edu-item { display: flex; flex-direction: column; gap: 0.4rem; }
+.edu-item__title { font-size: 0.95rem; font-weight: 600; }
 .edu-item__inst { margin-top: 0.1rem; }
 
 /* ── Skills ── */
-.skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.skill {
-  border: 1px solid var(--ink-30);
-  padding: 0.45em 1em;
-  color: var(--ink-60);
-}
+.skills { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.skill { border: 1px solid var(--ink-30); padding: 0.45em 1em; color: var(--ink-60); }
 </style>

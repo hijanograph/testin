@@ -1,6 +1,5 @@
 /* ═══════════════════════════════════════════════════
    OVERUSED GROTESK — Fuente local
-   Coloca los archivos .otf en public/fonts/
    ═══════════════════════════════════════════════════ */
 @font-face {
   font-family: 'Overused Grotesk';
@@ -29,9 +28,9 @@
 :root {
   --cream:      #FFF5E9;
   --ink:        #3C3A26;
-  --ink-60:     rgba(60, 58, 38,0.6);
-  --ink-30:     rgba(60, 58, 38,0.3);
-  --ink-10:     rgba(60, 58, 38,0.1);
+  --ink-60:     rgb(138, 133, 116);       /* opaco — era rgba() con 3 args */
+  --ink-30:     rgba(60, 58, 38, 0.30);   /* 30% opacidad sobre el ink */
+  --ink-10:     rgba(60, 58, 38, 0.10);   /* 10% opacidad sobre el ink */
   --font:       'Overused Grotesk';
   --nav-h:      60px;
   --max-w:      1140px;
@@ -160,3 +159,4 @@ hr {
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--cream); }
 ::-webkit-scrollbar-thumb { background: var(--ink-30); border-radius: 2px; }
+

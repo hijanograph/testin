@@ -1,37 +1,114 @@
 paths:
   static: public
-  uploads: public/uploads
+  uploads: public/images
 timezone: Europe/Madrid
-markdown:
-  engine: commonmark
-  options:
-    gfm: true
 
+# ═══════════════════════════════════════════════════════════
+# COLECCIONES
+# ═══════════════════════════════════════════════════════════
 collections_config:
-  # Colección para las páginas generales de la raíz de src/pages
-  pages:
-    path: src/pages
-    icon: wysiwyg
-    output: true
-    url: "/[slug]/" # Si un archivo es src/pages/sobre-mi.md, su URL será /sobre-mi/
 
-  # Colección específica para los archivos dentro de src/pages/portfolio
-  pages_portfolio:
-    path: src/pages/portfolio
-    icon: page_control
+  # ── Portfolio ──────────────────────────────────────────────
+  portfolio:
+    path: src/content/portfolio
+    url: "/portfolio/[slug]/"
+    icon: image
     output: true
-    url: "/portfolio/[slug]/" # Si el archivo es src/pages/portfolio/proyecto1.md, su URL será /portfolio/proyecto1/
+    sort:
+      key: order
+      order: asc
+    # Campos con etiquetas amigables para el editor visual
+    _inputs:
+      title:
+        label: Título del proyecto
+        type: text
+      tagline:
+        label: Tagline (subtítulo corto)
+        type: text
+      desc:
+        label: Descripción breve (para listados)
+        type: textarea
+      area:
+        label: Área(s) de trabajo
+        type: text
+        comment: "Ej: Branding — Editorial — UX/UI"
+      rol:
+        label: Rol(es)
+        type: text
+      software:
+        label: Software utilizado
+        type: text
+        comment: "Ej: Illustrator — After Effects"
+      order:
+        label: Orden de aparición
+        type: number
+      heroImg:
+        label: Imagen hero (interior del proyecto)
+        type: image
+      coverImg:
+        label: Imagen cover (para listados)
+        type: image
+      wip:
+        label: Proyecto en proceso (WIP)
+        type: checkbox
+      prevSlug:
+        label: Slug del proyecto anterior
+        type: text
+        comment: "Ej: arbocala"
+      prevLabel:
+        label: Nombre del proyecto anterior
+        type: text
+      nextSlug:
+        label: Slug del proyecto siguiente
+        type: text
+      nextLabel:
+        label: Nombre del proyecto siguiente
+        type: text
 
-  # Colección para tus contenidos globales (src/content)
-  # NOTA: En Astro, el contenido de src/content suele inyectarse en una ruta dinámica. 
-  # Si tus proyectos de portfolio están en 'src/content/portfolio/', la regla de abajo los buscará en '/portfolio/nombre-del-archivo/'
-  content:
-    path: src/content
-    icon: wysiwyg
-    output: true
-    url: "/[collection]/[slug]/" 
-
+  # ── Configuración global del sitio ────────────────────────
   config:
-    path: src/config
-    icon: coffee
-    output: false # Los archivos de configuración no generan URLs públicas
+    path: src/content/config
+    icon: settings
+    output: false
+    _inputs:
+      # Home
+      heroTitle:
+        label: "HOME — Título hero"
+        type: text
+      heroBio:
+        label: "HOME — Párrafo bio (hero)"
+        type: textarea
+      heroImg:
+        label: "HOME — Imagen hero"
+        type: image
+      # Sobre mí
+      photo:
+        label: "SOBRE MÍ — Foto"
+        type: image
+      bio:
+        label: "SOBRE MÍ — Párrafos de bio"
+        type: array
+        comment: "Cada item es un párrafo"
+      experience:
+        label: "Experiencia laboral"
+        type: array
+      education:
+        label: "Educación"
+        type: array
+      skills:
+        label: "Habilidades (chips)"
+        type: array
+      # Currículum
+      cvIntro:
+        label: "CV — Párrafo introductorio"
+        type: textarea
+      cvPdfPath:
+        label: "CV — Ruta al PDF"
+        type: text
+        comment: "Ej: /cv-rafael-hijano.pdf"
+      skillsSoftware:
+        label: "CV — Software"
+        type: array
+      skillsAreas:
+        label: "CV — Áreas de trabajo"
+        type: array
