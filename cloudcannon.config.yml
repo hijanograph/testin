@@ -1,0 +1,21 @@
+paths:
+  static: public
+  uploads: public/uploads
+timezone: Europe/Madrid
+markdown:
+  engine: commonmark
+  options:
+    gfm: true
+collections_config:
+  pages:
+    path: src/pages
+    icon: wysiwyg
+  config:
+    path: src/config
+    icon: coffee
+  content:
+    path: src/content
+    icon: wysiwyg
+  pages_portfolio:
+    path: src/pages/portfolio
+    icon: page_control
