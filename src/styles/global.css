@@ -29,9 +29,9 @@
 :root {
   --cream:      #FFF5E9;
   --ink:        #3C3A26;
-  --ink-60:     rgb(138,133,116);
-  --ink-30:     rgba(197,189,175);
-  --ink-10:     rgba(236,226,214);
+  --ink-60:     rgba(60, 58, 38,0.6);
+  --ink-30:     rgba(60, 58, 38,0.3);
+  --ink-10:     rgba(60, 58, 38,0.1);
   --font:       'Overused Grotesk';
   --nav-h:      60px;
   --max-w:      1140px;
