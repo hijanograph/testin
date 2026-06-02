@@ -6,16 +6,32 @@ markdown:
   engine: commonmark
   options:
     gfm: true
+
 collections_config:
+  # Colección para las páginas generales de la raíz de src/pages
   pages:
     path: src/pages
     icon: wysiwyg
-  config:
-    path: src/config
-    icon: coffee
-  content:
-    path: src/content
-    icon: wysiwyg
+    output: true
+    url: "/[slug]/" # Si un archivo es src/pages/sobre-mi.md, su URL será /sobre-mi/
+
+  # Colección específica para los archivos dentro de src/pages/portfolio
   pages_portfolio:
     path: src/pages/portfolio
     icon: page_control
+    output: true
+    url: "/portfolio/[slug]/" # Si el archivo es src/pages/portfolio/proyecto1.md, su URL será /portfolio/proyecto1/
+
+  # Colección para tus contenidos globales (src/content)
+  # NOTA: En Astro, el contenido de src/content suele inyectarse en una ruta dinámica. 
+  # Si tus proyectos de portfolio están en 'src/content/portfolio/', la regla de abajo los buscará en '/portfolio/nombre-del-archivo/'
+  content:
+    path: src/content
+    icon: wysiwyg
+    output: true
+    url: "/[collection]/[slug]/" 
+
+  config:
+    path: src/config
+    icon: coffee
+    output: false # Los archivos de configuración no generan URLs públicas
