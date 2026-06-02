@@ -1,6 +1,12 @@
+# ═══════════════════════════════════════════════════════════
+# CLOUDCANNON CONFIG — rafaelhijano.work
+# Framework: Astro 6  |  Node ≥22.12
+# ═══════════════════════════════════════════════════════════
+
 paths:
   static: public
   uploads: public/images
+
 timezone: Europe/Madrid
 
 # ═══════════════════════════════════════════════════════════
@@ -8,7 +14,8 @@ timezone: Europe/Madrid
 # ═══════════════════════════════════════════════════════════
 collections_config:
 
-  # ── Portfolio ──────────────────────────────────────────────
+  # ── 1. PORTFOLIO ─────────────────────────────────────────
+  # src/content/portfolio/*.md → genera /portfolio/<slug>/
   portfolio:
     path: src/content/portfolio
     url: "/portfolio/[slug]/"
@@ -17,98 +24,194 @@ collections_config:
     sort:
       key: order
       order: asc
-    # Campos con etiquetas amigables para el editor visual
     _inputs:
       title:
         label: Título del proyecto
         type: text
       tagline:
-        label: Tagline (subtítulo corto)
+        label: Tagline (tarjetas y listados)
         type: text
       desc:
-        label: Descripción breve (para listados)
+        label: Descripción breve (tarjetas y listados)
         type: textarea
+      subtitle:
+        label: Subtítulo (página interior, bajo el título)
+        type: text
       area:
-        label: Área(s) de trabajo
+        label: Área de trabajo
         type: text
         comment: "Ej: Branding — Editorial — UX/UI"
       rol:
-        label: Rol(es)
+        label: Rol en el proyecto
         type: text
       software:
         label: Software utilizado
         type: text
-        comment: "Ej: Illustrator — After Effects"
+        comment: "Ej: Illustrator — After Effects — Figma"
       order:
-        label: Orden de aparición
+        label: Orden en listados (1 = primero)
         type: number
+      coverImg:
+        label: Imagen de portada (home y listado)
+        type: image
+      coverAlt:
+        label: Alt de la portada
+        type: text
       heroImg:
         label: Imagen hero (interior del proyecto)
         type: image
-      coverImg:
-        label: Imagen cover (para listados)
-        type: image
+      heroAlt:
+        label: Alt del hero
+        type: text
       wip:
         label: Proyecto en proceso (WIP)
         type: checkbox
       prevSlug:
         label: Slug del proyecto anterior
         type: text
-        comment: "Ej: arbocala"
+        comment: "Nombre del archivo .md sin extensión. Ej: arbocala"
       prevLabel:
-        label: Nombre del proyecto anterior
+        label: Etiqueta del enlace anterior
         type: text
       nextSlug:
         label: Slug del proyecto siguiente
         type: text
       nextLabel:
-        label: Nombre del proyecto siguiente
+        label: Etiqueta del enlace siguiente
         type: text
 
-  # ── Configuración global del sitio ────────────────────────
+  # ── 2. CONFIGURACIÓN GLOBAL ───────────────────────────────
+  # src/content/config/site.md → controla home, sobre-mí y currículum
   config:
     path: src/content/config
     icon: settings
     output: false
     _inputs:
-      # Home
+      # HOME
       heroTitle:
-        label: "HOME — Título hero"
+        label: "HOME · Título principal"
         type: text
       heroBio:
-        label: "HOME — Párrafo bio (hero)"
+        label: "HOME · Párrafo del hero"
         type: textarea
       heroImg:
-        label: "HOME — Imagen hero"
+        label: "HOME · Foto del hero"
         type: image
-      # Sobre mí
+      heroImgAlt:
+        label: "HOME · Alt de la foto"
+        type: text
+
+      # SOBRE MÍ
       photo:
-        label: "SOBRE MÍ — Foto"
+        label: "SOBRE MÍ · Foto de perfil"
         type: image
+      photoAlt:
+        label: "SOBRE MÍ · Alt de la foto"
+        type: text
       bio:
-        label: "SOBRE MÍ — Párrafos de bio"
+        label: "SOBRE MÍ · Párrafos de bio"
         type: array
-        comment: "Cada item es un párrafo"
+        comment: "Cada elemento es un párrafo"
+        _inputs:
+          value:
+            type: textarea
+            label: Párrafo
+
+      # EXPERIENCIA
       experience:
         label: "Experiencia laboral"
         type: array
+        _inputs:
+          role:
+            label: Cargo
+            type: text
+          company:
+            label: Empresa
+            type: text
+          period:
+            label: Período
+            type: text
+            comment: "Ej: Feb 2025 — presente"
+          companyDesc:
+            label: Descripción de la empresa
+            type: textarea
+          tasks:
+            label: Tareas
+            type: array
+            _inputs:
+              value:
+                type: textarea
+                label: Tarea
+
+      # EDUCACIÓN
       education:
         label: "Educación"
         type: array
+        _inputs:
+          title:
+            label: Título / Grado
+            type: text
+          institution:
+            label: Centro educativo
+            type: text
+          period:
+            label: Años
+            type: text
+
+      # HABILIDADES (sobre mí)
       skills:
-        label: "Habilidades (chips)"
+        label: "Habilidades (sobre mí)"
         type: array
-      # Currículum
+        _inputs:
+          value:
+            type: text
+            label: Habilidad
+
+      # CURRÍCULUM
       cvIntro:
-        label: "CV — Párrafo introductorio"
+        label: "CV · Párrafo introductorio"
         type: textarea
       cvPdfPath:
-        label: "CV — Ruta al PDF"
+        label: "CV · Ruta al PDF"
         type: text
         comment: "Ej: /cv-rafael-hijano.pdf"
       skillsSoftware:
-        label: "CV — Software"
+        label: "CV · Software"
         type: array
+        _inputs:
+          value:
+            type: text
+            label: Software
       skillsAreas:
-        label: "CV — Áreas de trabajo"
+        label: "CV · Áreas"
         type: array
+        _inputs:
+          value:
+            type: text
+            label: Área
+
+# ═══════════════════════════════════════════════════════════
+# AGRUPACIÓN EN EL SIDEBAR
+# ═══════════════════════════════════════════════════════════
+collection_groups:
+  - heading: Portfolio
+    collections:
+      - portfolio
+  - heading: Configuración del sitio
+    collections:
+      - config
+
+# ═══════════════════════════════════════════════════════════
+# RUTAS EXPLÍCITAS
+# Asocia cada archivo de colección a su URL pública.
+# Esto activa el botón "Ver en el sitio" en CloudCannon.
+# ═══════════════════════════════════════════════════════════
+routes:
+  - from: src/content/portfolio/arbocala.md
+    to: /portfolio/arbocala/
+  - from: src/content/portfolio/fiambre.md
+    to: /portfolio/fiambre/
+  - from: src/content/portfolio/andaluce.md
+    to: /portfolio/andaluce/
+  - from: src/content/config/site.md
+    to: /

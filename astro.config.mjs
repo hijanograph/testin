@@ -1,6 +1,9 @@
 import { defineConfig } from 'astro/config';
+import cloudcannon from '@cloudcannon/astro-connector';
 
 export default defineConfig({
   site: 'https://rafaelhijano.work',
-  // base: '/' es el valor por defecto — no hace falta declararlo
+  integrations: [
+    cloudcannon(),
+  ],
 });
