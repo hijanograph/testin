@@ -7,8 +7,8 @@
     "build": "astro build",
     "preview": "astro preview"
   },
- "dependencies": {
-   "astro": "^6.0.7",
-   "@cloudcannon/astro-bookshop": "^0.3.0"
-}
+  "dependencies": {
+    "astro": "^6.0.7",
+    "@bookshop/astro-bookshop": "latest"
+  }
 }
