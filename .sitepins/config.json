@@ -1,8 +1,10 @@
 {
-  "content": "src/pages",
+  "content": "src/content",
   "media": "public/images",
   "public": "public",
-  "configs": [],
+  "configs": [
+    "src/config"
+  ],
   "custom-commit": false,
   "arrangement": []
 }
