@@ -2,7 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
 
-const siteEntry = await getEntry('sobremi', 'site');
+// CORREGIDO: Apuntamos a 'config' que es como se configuró en el cloudcannon.config.yml
+const siteEntry = await getEntry('config', 'site');
 const site = siteEntry?.data;
 
 const bio        = site?.bio        ?? [];
@@ -34,7 +35,8 @@ const skills     = site?.skills     ?? [];
           <!-- Bio -->
           <div class="intro__bio">
             {bio.map((p) => (
-              <p class="t-body">{p}</p>
+              /* CORREGIDO: Accedemos a p.value según la estructura del array de CloudCannon */
+              <p class="t-body">{p.value || p}</p>
             ))}
           </div>
         </div>
@@ -57,7 +59,10 @@ const skills     = site?.skills     ?? [];
               </div>
               <p class="t-body timeline__desc">{item.companyDesc}</p>
               <ul class="timeline__tasks">
-                {item.tasks.map((t) => <li class="t-body">{t}</li>)}
+                {item.tasks?.map((t) => (
+                  /* CORREGIDO: Accedemos a t.value para arrays estructurados */
+                  <li class="t-body">{t.value || t}</li>
+                ))}
               </ul>
             </div>
           ))}
@@ -86,7 +91,10 @@ const skills     = site?.skills     ?? [];
       <section class="section">
         <h2 class="t-section section__title">Habilidades</h2>
         <div class="skills">
-          {skills.map((s) => <span class="skill t-label">{s}</span>)}
+          {skills.map((s) => (
+            /* CORREGIDO: Accedemos a s.value según pide el panel */
+            <span class="skill t-label">{s.value || s}</span>
+          ))}
         </div>
       </section>
 
