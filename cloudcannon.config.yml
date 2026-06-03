@@ -8,246 +8,62 @@ paths:
 
 timezone: Europe/Madrid
 
-# ═══════════════════════════════════════════════════════════
-# COLECCIONES
-# ═══════════════════════════════════════════════════════════
 collections_config:
+  
   portfolio:
     path: src/content/portfolio
     icon: image
     url: /portfolio/[slug]/
-    disable_url: false
-    sort:
-      key: order
-      order: asc
+    output: true
     _inputs:
       title:
         type: text
         label: Título del proyecto
-        cascade: true
-      tagline:
-        type: text
-        label: Tagline (tarjetas y listados)
-        cascade: true
-      desc:
-        type: textarea
-        label: Descripción breve (tarjetas y listados)
-        cascade: true
-      subtitle:
-        type: text
-        label: Subtítulo (página interior, bajo el título)
-        cascade: true
-      area:
-        type: text
-        label: Área de trabajo
-        comment: 'Ej: Branding — Editorial — UX/UI'
-        cascade: true
-      rol:
-        type: text
-        label: Rol en el proyecto
-        cascade: true
-      software:
-        type: text
-        label: Software utilizado
-        comment: 'Ej: Illustrator — After Effects — Figma'
-        cascade: true
-      order:
-        type: number
-        label: Orden en listados (1 = primero)
-        cascade: true
-      coverImg:
-        type: image
-        label: Imagen de portada (home y listado)
-        cascade: true
-      coverAlt:
-        type: text
-        label: Alt de la portada
-        cascade: true
-      heroImg:
-        type: image
-        label: Imagen hero (interior del proyecto)
-        cascade: true
-      heroAlt:
-        type: text
-        label: Alt del hero
-        cascade: true
-      wip:
-        type: checkbox
-        label: Proyecto en proceso (WIP)
-        cascade: true
-      prevSlug:
-        type: text
-        label: Slug del proyecto anterior
-        comment: 'Nombre del archivo .md sin extensión. Ej: arbocala'
-        cascade: true
-      prevLabel:
-        type: text
-        label: Etiqueta del enlace anterior
-        cascade: true
-      nextSlug:
-        type: text
-        label: Slug del proyecto siguiente
-        cascade: true
-      nextLabel:
-        type: text
-        label: Etiqueta del enlace siguiente
-        cascade: true
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
 
   config:
     path: src/content/config
     icon: settings
-    disable_url: false
-    _inputs:
-      heroTitle:
-        type: text
-        label: HOME · Título principal
-        cascade: true
-      heroBio:
-        type: textarea
-        label: HOME · Párrafo del hero
-        cascade: true
-      heroImg:
-        type: image
-        label: HOME · Foto del hero
-        cascade: true
-      heroImgAlt:
-        type: text
-        label: HOME · Alt de la foto
-        cascade: true
-      photo:
-        type: image
-        label: SOBRE MÍ · Foto de perfil
-        cascade: true
-      photoAlt:
-        type: text
-        label: SOBRE MÍ · Alt de la foto
-        cascade: true
-      bio:
-        type: array
-        label: SOBRE MÍ · Párrafos de bio
-        comment: Cada elemento es un párrafo
-        cascade: true
-        _inputs:
-          value:
-            type: textarea
-            label: Párrafo
-            cascade: true
-      experience:
-        type: array
-        label: Experiencia laboral
-        cascade: true
-        _inputs:
-          role:
-            type: text
-            label: Cargo
-            cascade: true
-          company:
-            type: text
-            label: Empresa
-            cascade: true
-          period:
-            type: text
-            label: Período
-            comment: 'Ej: Feb 2025 — presente'
-            cascade: true
-          companyDesc:
-            type: textarea
-            label: Descripción de la empresa
-            cascade: true
-          tasks:
-            type: array
-            label: Tareas
-            cascade: true
-            _inputs:
-              value:
-                type: textarea
-                label: Tarea
-                cascade: true
-      education:
-        type: array
-        label: Educación
-        cascade: true
-        _inputs:
-          title:
-            type: text
-            label: Título / Grado
-            cascade: true
-          institution:
-            type: text
-            label: Centro educativo
-            cascade: true
-          period:
-            type: text
-            label: Años
-            cascade: true
-      skills:
-        type: array
-        label: Habilidades (sobre mí)
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Habilidad
-            cascade: true
-      cvIntro:
-        type: textarea
-        label: CV · Párrafo introductorio
-        cascade: true
-      cvPdfPath:
-        type: text
-        label: CV · Ruta al PDF
-        comment: 'Ej: /cv-rafael-hijano.pdf'
-        cascade: true
-      skillsSoftware:
-        type: array
-        label: CV · Software
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Software
-            cascade: true
-      skillsAreas:
-        type: array
-        label: CV · Áreas
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Area
-            cascade: true
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
+    output: false
 
   pages:
     path: src/pages
     icon: wysiwyg
-    disable_url: false
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
+    output: true
+    filter:
+      base: 'files'
+      glob: '*.astro'
+
+  pages_portfolio:
+    path: src/pages/portfolio
+    icon: folder_special
+    output: true
 
 collection_groups:
-  - heading: Portfolio
+  - heading: Contenido de Trabajo
     collections:
       - portfolio
-  - heading: Configuración del sitio
-    collections:
-      - config
-  - heading: Páginas
+  - heading: Estructura y Páginas Web
     collections:
       - pages
+      - pages_portfolio
+  - heading: Ajustes Generales
+    collections:
+      - config
 
 routes:
   - from: "src/content/portfolio/{slug}.md"
     to: "/portfolio/{slug}/"
+
   - from: "src/content/config/site.md"
+    to: "/"
+
+  - from: "src/pages/index.astro"
     to: "/"
   - from: "src/pages/{slug}.astro"
     to: "/{slug}/"
-  - from: "src/pages/index.astro"
-    to: "/"
+
+  # Reglas para las páginas .astro que están dentro de la subcarpeta portfolio
+  - from: "src/pages/portfolio/index.astro"
+    to: "/portfolio/"
+  - from: "src/pages/portfolio/{slug}.astro"
+    to: "/portfolio/{slug}/"
