@@ -1,22 +1,21 @@
-# ═══════════════════════════════════════════════════════════
-# CLOUDCANNON CONFIG — rafaelhijano.work
-# ═══════════════════════════════════════════════════════════
-
 paths:
   uploads: public/images
   static: public
-
-timezone: Europe/Madrid
-
-# ═══════════════════════════════════════════════════════════
-# COLECCIONES
-# ═══════════════════════════════════════════════════════════
 collections_config:
   portfolio:
     path: src/content/portfolio
     icon: image
     url: /portfolio/[slug]/
     disable_url: false
+    preview:
+      text:
+      subtext:
+      icon:
+      icon_color:
+      icon_background_color:
+      image:
+      metadata:
+      gallery:
     sort:
       key: order
       order: asc
@@ -95,7 +94,6 @@ collections_config:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
-
   config:
     path: src/content/config
     icon: settings
@@ -182,3 +180,22 @@ collections_config:
           period:
             type: text
             label: A
+            cascade: true
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  pages:
+    path: src/pages
+    icon: wysiwyg
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  content:
+    path: src/content
+    icon: wysiwyg
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+timezone: Europe/Madrid
