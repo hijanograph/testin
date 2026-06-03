@@ -1,198 +1,230 @@
-# ═══════════════════════════════════════════════════════════
-# CLOUDCANNON CONFIG — rafaelhijano.work
-# Framework: Astro 6  |  Node ≥22.12
-# ═══════════════════════════════════════════════════════════
-
 paths:
-  static: public
   uploads: public/images
-
-timezone: Europe/Madrid
-
-# ═══════════════════════════════════════════════════════════
-# COLECCIONES
-# ═══════════════════════════════════════════════════════════
+  static: public
 collections_config:
-
-  # ── 1. PORTFOLIO ─────────────────────────────────────────
-  # src/content/portfolio/*.md → genera /portfolio/<slug>/
   portfolio:
     path: src/content/portfolio
-    url: "/portfolio/[slug]/"
     icon: image
-    output: true
+    url: /portfolio/[slug]/
+    disable_url: false
     sort:
       key: order
       order: asc
     _inputs:
       title:
+        type: text
         label: Título del proyecto
-        type: text
+        cascade: true
       tagline:
+        type: text
         label: Tagline (tarjetas y listados)
-        type: text
+        cascade: true
       desc:
-        label: Descripción breve (tarjetas y listados)
         type: textarea
+        label: Descripción breve (tarjetas y listados)
+        cascade: true
       subtitle:
+        type: text
         label: Subtítulo (página interior, bajo el título)
-        type: text
+        cascade: true
       area:
+        type: text
         label: Área de trabajo
-        type: text
-        comment: "Ej: Branding — Editorial — UX/UI"
+        comment: 'Ej: Branding — Editorial — UX/UI'
+        cascade: true
       rol:
+        type: text
         label: Rol en el proyecto
-        type: text
+        cascade: true
       software:
+        type: text
         label: Software utilizado
-        type: text
-        comment: "Ej: Illustrator — After Effects — Figma"
+        comment: 'Ej: Illustrator — After Effects — Figma'
+        cascade: true
       order:
-        label: Orden en listados (1 = primero)
         type: number
+        label: Orden en listados (1 = primero)
+        cascade: true
       coverImg:
+        type: image
         label: Imagen de portada (home y listado)
-        type: image
+        cascade: true
       coverAlt:
+        type: text
         label: Alt de la portada
-        type: text
+        cascade: true
       heroImg:
-        label: Imagen hero (interior del proyecto)
         type: image
+        label: Imagen hero (interior del proyecto)
+        cascade: true
       heroAlt:
+        type: text
         label: Alt del hero
-        type: text
+        cascade: true
       wip:
-        label: Proyecto en proceso (WIP)
         type: checkbox
+        label: Proyecto en proceso (WIP)
+        cascade: true
       prevSlug:
+        type: text
         label: Slug del proyecto anterior
-        type: text
-        comment: "Nombre del archivo .md sin extensión. Ej: arbocala"
+        comment: 'Nombre del archivo .md sin extensión. Ej: arbocala'
+        cascade: true
       prevLabel:
+        type: text
         label: Etiqueta del enlace anterior
-        type: text
+        cascade: true
       nextSlug:
+        type: text
         label: Slug del proyecto siguiente
-        type: text
+        cascade: true
       nextLabel:
-        label: Etiqueta del enlace siguiente
         type: text
-
-  # ── 2. CONFIGURACIÓN GLOBAL ───────────────────────────────
-  # src/content/config/site.md → controla home, sobre-mí y currículum
+        label: Etiqueta del enlace siguiente
+        cascade: true
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
   config:
     path: src/content/config
     icon: settings
-    output: false
+    disable_url: false
     _inputs:
-      # HOME
       heroTitle:
-        label: "HOME · Título principal"
         type: text
+        label: HOME · Título principal
+        cascade: true
       heroBio:
-        label: "HOME · Párrafo del hero"
         type: textarea
+        label: HOME · Párrafo del hero
+        cascade: true
       heroImg:
-        label: "HOME · Foto del hero"
         type: image
+        label: HOME · Foto del hero
+        cascade: true
       heroImgAlt:
-        label: "HOME · Alt de la foto"
         type: text
-
-      # SOBRE MÍ
+        label: HOME · Alt de la foto
+        cascade: true
       photo:
-        label: "SOBRE MÍ · Foto de perfil"
         type: image
+        label: SOBRE MÍ · Foto de perfil
+        cascade: true
       photoAlt:
-        label: "SOBRE MÍ · Alt de la foto"
         type: text
+        label: SOBRE MÍ · Alt de la foto
+        cascade: true
       bio:
-        label: "SOBRE MÍ · Párrafos de bio"
         type: array
-        comment: "Cada elemento es un párrafo"
+        label: SOBRE MÍ · Párrafos de bio
+        comment: Cada elemento es un párrafo
+        cascade: true
         _inputs:
           value:
             type: textarea
             label: Párrafo
-
-      # EXPERIENCIA
+            cascade: true
       experience:
-        label: "Experiencia laboral"
         type: array
+        label: Experiencia laboral
+        cascade: true
         _inputs:
           role:
+            type: text
             label: Cargo
-            type: text
+            cascade: true
           company:
+            type: text
             label: Empresa
-            type: text
+            cascade: true
           period:
-            label: Período
             type: text
-            comment: "Ej: Feb 2025 — presente"
+            label: Período
+            comment: 'Ej: Feb 2025 — presente'
+            cascade: true
           companyDesc:
-            label: Descripción de la empresa
             type: textarea
+            label: Descripción de la empresa
+            cascade: true
           tasks:
-            label: Tareas
             type: array
+            label: Tareas
+            cascade: true
             _inputs:
               value:
                 type: textarea
                 label: Tarea
-
-      # EDUCACIÓN
+                cascade: true
       education:
-        label: "Educación"
         type: array
+        label: Educación
+        cascade: true
         _inputs:
           title:
+            type: text
             label: Título / Grado
-            type: text
+            cascade: true
           institution:
+            type: text
             label: Centro educativo
-            type: text
+            cascade: true
           period:
-            label: Años
             type: text
-
-      # HABILIDADES (sobre mí)
+            label: Años
+            cascade: true
       skills:
-        label: "Habilidades (sobre mí)"
         type: array
+        label: Habilidades (sobre mí)
+        cascade: true
         _inputs:
           value:
             type: text
             label: Habilidad
-
-      # CURRÍCULUM
+            cascade: true
       cvIntro:
-        label: "CV · Párrafo introductorio"
         type: textarea
+        label: CV · Párrafo introductorio
+        cascade: true
       cvPdfPath:
-        label: "CV · Ruta al PDF"
         type: text
-        comment: "Ej: /cv-rafael-hijano.pdf"
+        label: CV · Ruta al PDF
+        comment: 'Ej: /cv-rafael-hijano.pdf'
+        cascade: true
       skillsSoftware:
-        label: "CV · Software"
         type: array
+        label: CV · Software
+        cascade: true
         _inputs:
           value:
             type: text
             label: Software
+            cascade: true
       skillsAreas:
-        label: "CV · Áreas"
         type: array
+        label: CV · Áreas
+        cascade: true
         _inputs:
           value:
             type: text
             label: Área
-
-# ═══════════════════════════════════════════════════════════
-# AGRUPACIÓN EN EL SIDEBAR
-# ═══════════════════════════════════════════════════════════
+            cascade: true
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  content_config:
+    path: src/content/config
+    icon: content_copy
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
+  pages:
+    path: src/pages
+    icon: wysiwyg
+    disable_url: false
+    disable_add: false
+    disable_add_folder: false
+    disable_file_actions: false
 collection_groups:
   - heading: Portfolio
     collections:
@@ -200,12 +232,10 @@ collection_groups:
   - heading: Configuración del sitio
     collections:
       - config
-
-# ═══════════════════════════════════════════════════════════
-# RUTAS EXPLÍCITAS
-# Asocia cada archivo de colección a su URL pública.
-# Esto activa el botón "Ver en el sitio" en CloudCannon.
-# ═══════════════════════════════════════════════════════════
+  - heading: New Collections
+    collections:
+      - pages
+timezone: Europe/Madrid
 routes:
   - from: src/content/portfolio/arbocala.md
     to: /portfolio/arbocala/
