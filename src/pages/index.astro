@@ -2,13 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
 
-// Datos del sitio (hero)
-const siteEntry = await getEntry('sobremi', 'site');
+// CORREGIDO: Apuntamos a 'config' para que conecte con cloudcannon.config.yml
+const siteEntry = await getEntry('config', 'site');
 const site = siteEntry?.data;
 
-// Proyectos ordenados
+// Proyectos ordenados por el número que decidas en el panel
 const projects = (await getCollection('portfolio'))
-  .sort((a, b) => a.data.order - b.data.order);
+  .sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 ---
 
 <Layout title="Rafael Hijano — Diseñador Visual">
@@ -47,7 +47,8 @@ const projects = (await getCollection('portfolio'))
       <div class="projects__grid">
         {projects.map((p) => (
           <article class="project-card">
-            <a href={`/portfolio/${p.id}`} class="project-card__img-link">
+            {/* CORREGIDO: En Astro 6 usamos p.slug o p.id de forma limpia */}
+            <a href={`/portfolio/${p.slug || p.id}/`} class="project-card__img-link">
               {p.data.coverImg
                 ? <img src={p.data.coverImg} alt={p.data.coverAlt ?? p.data.title} class="project-card__img" />
                 : <div class="img-ph img-ph--card project-card__img"></div>
@@ -55,7 +56,7 @@ const projects = (await getCollection('portfolio'))
               {p.data.wip && <span class="project-card__wip t-label">En proceso</span>}
             </a>
             <div class="project-card__body">
-              <a href={`/portfolio/${p.id}`}>
+              <a href={`/portfolio/${p.slug || p.id}/`}>
                 <h3 class="t-project-title project-card__title">{p.data.title}</h3>
               </a>
               <p class="t-body project-card__desc">{p.data.desc}</p>
