@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectLayout from '../../components/ProjectLayout.astro';
+---
+
+<Layout title="Editorial Fiambre — Rafael Hijano" description="Identidad visual integral para la editorial multiplataforma Fiambre.">
+  <ProjectLayout
+    title="Editorial Fiambre"
+    area="Branding — Editorial — Motion Graphics — UX/UI"
+    rol="Director creativo — Diseñador visual — Diseñador gráfico — Motion grapher"
+    software="Illustrator — InDesign — After Effects — Figma"
+    heroImg="/images/projects/fiambre-hero.jpg"
+    heroAlt="Editorial Fiambre — identidad visual"
+    prevHref="/portfolio/arbocala"
+    prevLabel="Bodegas Arbocala"
+    nextHref="/portfolio/andaluce"
+    nextLabel="Andaluçê yorá"
+  >
+
+    <!-- Intro extra -->
+    <div class="text-block">
+      <p class="t-body">
+        Diseño de un ecosistema visual para Fiambre Editorial, con vistas a su integración
+        en redes sociales, su plataforma de streaming Fiambre TV y la creación de proyectos
+        subsidiarios como su podcast: Chacina by Fiambre.
+      </p>
+    </div>
+
+    <!-- El proyecto -->
+    <div class="text-block">
+      <h2 class="block-title">El proyecto</h2>
+      <p class="t-body">
+        El proyecto Editorial Fiambre, un cliente con un enfoque fresco y atrevido en la
+        literatura de terror patria y contemporánea, me planteó el desafío de desarrollar
+        una identidad visual que reflejara su misión de destacar como referente en el género.
+      </p>
+      <p class="t-body">
+        El objetivo clave era transmitir una aproximación auténtica y cercana al terror,
+        integrando un toque de humor socarrón y folclore español, sin comprometer la calidad
+        y profesionalidad editorial. Necesitaban una marca que trascendiera los medios
+        tradicionales, expandiéndose a eventos, un canal de televisión online (Fiambre TV)
+        y un podcast (Chacina by Fiambre).
+      </p>
+    </div>
+
+    <div class="img-grid-2">
+      <div class="img-ph img-ph--card"></div>
+      <div class="img-ph img-ph--card"></div>
+    </div>
+
+    <!-- Proceso -->
+    <div class="text-block">
+      <h2 class="block-title">Proceso de diseño</h2>
+      <p class="t-body">
+        Mi metodología se centró en un análisis exhaustivo del terror patrio contemporáneo
+        y el folclore español, buscando una estética que comunicara su idiosincrasia única
+        y su comunicación "de tú a tú". Un descubrimiento crucial fue la necesidad de una
+        tipografía distintiva que evocara una estética popular y la adaptabilidad de la marca
+        a una amplia gama de soportes y aplicaciones.
+      </p>
+      <p class="t-body">
+        Era muy importante crear una comunicación ubicable en el contexto folclórico español,
+        sin renunciar al ambiente de terror. Por eso busqué fusionar un medio cotidiano para
+        expresar mensajes que impactaran, pero dejando espacio para que el humor tampoco
+        desentonara.
+      </p>
+    </div>
+
+    <div class="img-ph img-ph--wide"></div>
+
+    <!-- Solución -->
+    <div class="text-block">
+      <h2 class="block-title">Solución y resultados</h2>
+      <p class="t-body">
+        La solución conceptual se materializó en una identidad visual robusta, construida
+        sobre la familia tipográfica GT Pressura, que simula la estética de los tickets
+        impresos. Diseñé un icono cuadrado adaptable para diversas aplicaciones, desde
+        lomos de libros hasta avatares en redes sociales.
+      </p>
+      <p class="t-body">
+        Las aplicaciones prácticas incluyeron el logotipo, paleta de colores, papelería
+        corporativa (tarjetas, hojas, sobres), elementos de merchandising (camisetas, tote bags),
+        y un completo manual de identidad corporativa. También se crearon formatos específicos
+        para Fiambre TV y el avatar del podcast Chacina.
+      </p>
+      <p class="t-body">
+        El resultado es una marca cohesiva y versátil que posiciona a Fiambre como un
+        referente en su nicho, conectando con su público a través de una propuesta visual
+        memorable y profesional.
+      </p>
+    </div>
+
+    <div class="img-grid-3">
+      <div class="img-ph img-ph--square"></div>
+      <div class="img-ph img-ph--square"></div>
+      <div class="img-ph img-ph--square"></div>
+    </div>
+
+  </ProjectLayout>
+</Layout>
+
+<style>
+.text-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 72ch;
+}
+.block-title {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+.img-grid-2 {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .img-grid-2 { grid-template-columns: 1fr 1fr; }
+}
+.img-grid-3 {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .img-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+</style>

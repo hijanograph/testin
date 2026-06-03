@@ -1,7 +1,9 @@
 import { defineConfig } from 'astro/config';
-import astroBookshop from '@bookshop/astro-bookshop';
+import cloudcannon from '@cloudcannon/astro-connector';
 
 export default defineConfig({
   site: 'https://rafaelhijano.work',
-  integrations: [astroBookshop()]
+  integrations: [
+    cloudcannon(),
+  ],
 });
