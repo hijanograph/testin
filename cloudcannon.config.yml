@@ -1,6 +1,16 @@
+# ═══════════════════════════════════════════════════════════
+# CLOUDCANNON CONFIG — rafaelhijano.work
+# ═══════════════════════════════════════════════════════════
+
 paths:
   uploads: public/images
   static: public
+
+timezone: Europe/Madrid
+
+# ═══════════════════════════════════════════════════════════
+# COLECCIONES
+# ═══════════════════════════════════════════════════════════
 collections_config:
   portfolio:
     path: src/content/portfolio
@@ -85,6 +95,7 @@ collections_config:
     disable_add: false
     disable_add_folder: false
     disable_file_actions: false
+
   config:
     path: src/content/config
     icon: settings
@@ -170,78 +181,4 @@ collections_config:
             cascade: true
           period:
             type: text
-            label: Años
-            cascade: true
-      skills:
-        type: array
-        label: Habilidades (sobre mí)
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Habilidad
-            cascade: true
-      cvIntro:
-        type: textarea
-        label: CV · Párrafo introductorio
-        cascade: true
-      cvPdfPath:
-        type: text
-        label: CV · Ruta al PDF
-        comment: 'Ej: /cv-rafael-hijano.pdf'
-        cascade: true
-      skillsSoftware:
-        type: array
-        label: CV · Software
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Software
-            cascade: true
-      skillsAreas:
-        type: array
-        label: CV · Áreas
-        cascade: true
-        _inputs:
-          value:
-            type: text
-            label: Área
-            cascade: true
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
-  content_config:
-    path: src/content/config
-    icon: content_copy
-    disable_url: false
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
-  pages:
-    path: src/pages
-    icon: wysiwyg
-    disable_url: false
-    disable_add: false
-    disable_add_folder: false
-    disable_file_actions: false
-collection_groups:
-  - heading: Portfolio
-    collections:
-      - portfolio
-  - heading: Configuración del sitio
-    collections:
-      - config
-  - heading: New Collections
-    collections:
-      - pages
-timezone: Europe/Madrid
-routes:
-  - from: src/content/portfolio/arbocala.md
-    to: /portfolio/arbocala/
-  - from: src/content/portfolio/fiambre.md
-    to: /portfolio/fiambre/
-  - from: src/content/portfolio/andaluce.md
-    to: /portfolio/andaluce/
-  - from: src/content/config/site.md
-    to: /
+            label: A
