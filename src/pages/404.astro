@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="404 — Rafael Hijano">
+  <div class="page">
+    <div class="container">
+      <p class="t-label">Error 404</p>
+      <h1 class="t-hero">Página no encontrada</h1>
+      <p class="t-body">Esta página no existe o ha sido movida.</p>
+      <a href="/" class="arrow-link">Volver al inicio</a>
+    </div>
+  </div>
+</Layout>
+<style>
+.page {
+  padding-top: calc(var(--nav-h) + 5rem);
+  padding-bottom: 5rem;
+  min-height: 80vh;
+  display: flex;
+  align-items: flex-start;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.t-body { max-width: 40ch; }
+</style>
