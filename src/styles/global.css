@@ -56,11 +56,15 @@ scroll-behavior: smooth;
 body {
 background: var(--cream);
 color: var(--ink);
-font-family: var(--font);
+font-family: "Overused Grotesk", sans-serif;
 font-weight: 400;
-line-height: 1.5;
--webkit-font-smoothing: antialiased;
+line-height: 1.25;
+/* webkit-font-smoothing: antialiased; */
 overflow-x: hidden;
+font-variant-ligatures: common-ligatures;
+font-feature-settings: "kern" 1, "RVRN" 1, "JALT" 1, "YALT" 1;
+hanging-punctuation: first last;
+margin: 0;
 }
 
 img {
@@ -92,11 +96,10 @@ font-family: "Overused Grotesk", sans-serif;
 font-size: 24px;
 font-weight: 500;
 line-height: 1.25;
-letter-spacing: -0.03em;
 text-transform: uppercase;
 font-kerning: normal;
-font-variant-ligatures:
-common-ligatures;
+font-feature-settings: "kern" 1;
+font-variant-ligatures: common-ligatures;
 font-feature-settings: "kern" 1, "RVRN" 1, "JALT" 1, "YALT" 1;
 text-box-trim: trim-both;
 text-box-edge: cap alphabetic;
