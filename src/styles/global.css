@@ -33,12 +33,12 @@ font-display: swap;
 :root {
 --cream: #FFF5E9;
 --ink: #3C3A26;
---ink-60: rgba(60,58,54,60);
---ink-30: rgba(60,58,54,30);
---ink-10: rgba(60,58,54,10);
+--ink-60: rgba(60, 58, 54, 0.6);
+--ink-30: rgba(60, 58, 54, 0.3);
+--ink-10: rgba(60, 58, 54, 0.1);
 --font: 'Overused Grotesk';
---nav-h: 60px;
---max-w: 1140px;
+--nav-h: 86px;
+--max-w: 1920px;
 --pad-x: clamp(1.25rem, 4vw, 3rem);
 }
 
@@ -51,6 +51,7 @@ padding: 0;
 html {
 font-size: 20px;
 scroll-behavior: smooth;
+scroll-padding-top: 86px;
 }
 
 body {
