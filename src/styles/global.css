@@ -38,7 +38,6 @@ font-display: swap;
 --ink-10: rgba(60, 58, 54, 0.1);
 --font: 'Overused Grotesk';
 --nav-h: 86px;
---max-w: 1920px;
 --pad-x: clamp(1.25rem, 4vw, 3rem);
 }
 
@@ -63,7 +62,7 @@ line-height: 1.25;
 webkit-font-smoothing: antialiased;
 overflow-x: hidden;
 font-variant-ligatures: common-ligatures;
-font-feature-settings: "kern" 1, "RVRN" 1, "JALT" 1, "YALT" 1;
+font-feature-settings: "kern" 1, "ss05" 1, "ss06" 1, "ss07" 1;
 hanging-punctuation: first last;
 margin: 0;
 }
