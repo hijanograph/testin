@@ -12,19 +12,34 @@ const links = [
 <header class="nav" id="nav">
   <div class="nav__inner">
 
-    <!-- Logo -->
-    <a href="/" class="nav__logo">RAFAEL HIJANO</a>
+    <!-- Caja 1: Logo -->
+    <div class="nav__box">
+      <a href="/" class="nav__logo">RAFAEL HIJANO</a>
+    </div>
 
-    <!-- Desktop links (centro) -->
-    <nav class="nav__links" aria-label="Navegación principal">
-      {links.map(l => (
-        <a
-          href={l.href}
-          class:list={['nav__link t-nav', { 'nav__link--active': path === l.href }]}
-        >
-          {l.label}
-        </a>
-      ))}
+    <!-- Caja 2: Vacío (Espaciador flexible) -->
+    <div class="nav__box nav__box--empty"></div>
+
+    <nav class="nav__links">
+    <!-- Caja 3: Inicio -->
+    <div class="nav__box">
+      <a href="/" class:list={['nav__link t-nav', { 'nav__link--active': path === '/' }]}>Inicio</a>
+    </div>
+
+    <!-- Caja 4: Sobre mí -->
+    <div class="nav__box">
+      <a href="/sobre-mi" class:list={['nav__link t-nav', { 'nav__link--active': path === '/sobre-mi' }]}>Sobre mí</a>
+    </div>
+
+    <!-- Caja 5: Currículum -->
+    <div class="nav__box">
+      <a href="/curriculum" class:list={['nav__link t-nav', { 'nav__link--active': path === '/curriculum' }]}>Currículum</a>
+    </div>
+
+    <!-- Caja 6: Portfolio -->
+    <div class="nav__box">
+      <a href="/portfolio" class:list={['nav__link t-nav', { 'nav__link--active': path === '/portfolio' }]}>Portfolio</a>
+    </div>
     </nav>
 
     <!-- Hamburger (mobile) -->
@@ -65,7 +80,7 @@ const links = [
   top: 0; left: 0; right: 0;
   z-index: 100;
   height: var(--nav-h);
-  /* background: var(--cream);*/
+  width: 100%;
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s;
 }
@@ -73,13 +88,14 @@ const links = [
 
 .nav__inner {
   display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
   height: 100%;
-  padding: 0 var(--pad-x);
-  /*max-width: var(--max-w);*/
-  margin: 0 auto;
+  padding: 28px 47px;
+  box-sizing: border-box;
   position: relative;
- width: 100%;
 }
 
 /* Logo */
@@ -91,8 +107,7 @@ const links = [
   flex-shrink: 0;
   font-variant-ligatures: common-ligatures;
   font-kerning: normal;
-  font-feature-settings: "kern" 1, "RVRN" 1, "JALT" 1, "YALT" 1;
-  hanging-punctuation: first last;
+  font-feature-settings: "kern" 1, "ss05" 1, "ss06" 1, "ss07" 1;  hanging-punctuation: first last;
   text-decoration: none;
 }
 
@@ -121,6 +136,7 @@ const links = [
 .nav__link {
   color: var(--ink-60);
   transition: color 0.15s;
+  text-align: right;
 }
 
 .nav__item {
@@ -130,7 +146,8 @@ const links = [
 }
 
 .nav__link:hover,
-.nav__link--active { color: var(--ink); }
+.nav__link--active { color: var(--ink);
+text-decoration: none;}
 
 /* Hamburger */
 .nav__toggle {
@@ -158,7 +175,7 @@ const links = [
   position: fixed;
   inset: 0;
   z-index: 200;
-  /*background: var(--cream);*/
+  background: var(--cream);
   display: flex;
   flex-direction: column;
   padding: 0 var(--pad-x) 3rem;
@@ -195,7 +212,7 @@ const links = [
 
 .nav-overlay__link {
   font-size: clamp(2rem, 8vw, 3rem);
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: -0.3em;
   text-transform: uppercase;
   color: var(--ink);
