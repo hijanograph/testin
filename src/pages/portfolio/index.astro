@@ -1,0 +1,120 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const projects = [
+  {
+    slug: 'arbocala',
+    title: 'Bodegas Arbocala',
+    tagline: 'Una marca viva, pero con historia',
+    desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados',
+    area: 'Branding — Editorial — UX/UI',
+    img: '/images/projects/arbocala-cover.jpg',
+    imgAlt: 'Bodegas Arbocala branding',
+  },
+  {
+    slug: 'fiambre',
+    title: 'Editorial Fiambre',
+    tagline: 'El alma del terror cotidiano',
+    desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre',
+    area: 'Branding — Editorial — Motion',
+    img: '/images/projects/fiambre-cover.jpg',
+    imgAlt: 'Editorial Fiambre branding',
+  },
+  {
+    slug: 'andaluce',
+    title: 'Andaluçê yorá',
+    tagline: 'Música, arte y tradición',
+    desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾',
+    area: 'Ilustración — Motion Graphics',
+    img: '/images/projects/andaluce-cover.jpg',
+    imgAlt: 'Andaluçê yorá ilustración',
+    wip: true,
+  },
+];
+---
+
+<Layout title="Portfolio — Rafael Hijano" description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics.">
+  <div class="page">
+    <div class="container">
+
+      <h1 class="t-hero page-title">Portfolio</h1>
+
+      <div class="projects-grid">
+        {projects.map((p, i) => (
+          <article class="card">
+            <a href={`/portfolio/${p.slug}`} class="card__img-link">
+              <!--
+                IMAGEN REAL: descomenta y borra el div
+                <img src={p.img} alt={p.imgAlt} class="card__img" />
+              -->
+              <div class="img-ph img-ph--card card__img"></div>
+              {p.wip && <span class="card__wip t-label">En proceso</span>}
+            </a>
+            <div class="card__body">
+              <span class="t-label card__num">{String(i + 1).padStart(2, '0')}</span>
+              <a href={`/portfolio/${p.slug}`}>
+                <h2 class="t-project-title card__title">{p.title}</h2>
+              </a>
+              <p class="t-body card__desc">{p.desc}</p>
+              <p class="t-label card__area">{p.area}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</Layout>
+
+<style>
+.page {
+  padding-top: calc(var(--nav-h) + 3rem);
+  padding-bottom: 2rem;
+}
+
+.page-title { margin-bottom: 3rem; }
+
+.projects-grid {
+  display: grid;
+  gap: 3rem;
+}
+
+@media (min-width: 640px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; }
+}
+
+@media (min-width: 960px) {
+  .projects-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.card { display: flex; flex-direction: column; gap: 1rem; }
+
+.card__img-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.card__img {
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+.card__img-link:hover .card__img { transform: scale(1.03); }
+
+.card__wip {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0.3em 0.75em;
+  font-size: 0.62rem;
+}
+
+.card__body { display: flex; flex-direction: column; gap: 0.4rem; }
+.card__num  { display: block; margin-bottom: 0.2rem; }
+.card__title { transition: opacity 0.15s; }
+.card__title:hover { opacity: 0.6; }
+.card__desc  { max-width: 38ch; }
+.card__area  { margin-top: 0.25rem; }
+</style>

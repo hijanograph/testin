@@ -1,0 +1,249 @@
+@font-face {
+font-family: 'Overused Grotesk';
+src: url('/fonts/OverusedGrotesk-Regular.woff2') format('woff2');
+font-weight: 400;
+font-style: normal;
+font-display: swap;
+}
+
+@font-face {
+font-family: 'Overused Grotesk';
+src: url('/fonts/OverusedGrotesk-Italic.woff2') format('woff2');
+font-weight: 400;
+font-style: italic;
+font-display: swap;
+}
+
+@font-face {
+font-family: 'Overused Grotesk';
+src: url('/fonts/OverusedGrotesk-Medium.woff2') format('woff2');
+font-weight: 500;
+font-style: normal;
+font-display: swap;
+}
+
+@font-face {
+font-family: 'Overused Grotesk';
+src: url('/fonts/OverusedGrotesk-MediumItalic.woff2') format('woff2');
+font-weight: 500;
+font-style: italic;
+font-display: swap;
+}
+
+:root {
+--cream: #FFF5E9;
+--ink: #3C3A26;
+--ink-60: rgba(60, 58, 54, 0.6);
+--ink-30: rgba(60, 58, 54, 0.3);
+--ink-10: rgba(60, 58, 54, 0.1);
+--font: 'Overused Grotesk';
+--nav-h: 86px;
+--pad-x: clamp(1.25rem, 4vw, 3rem);
+}
+
+*, *::before, *::after {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html {
+font-size: 20px;
+scroll-behavior: smooth;
+scroll-padding-top: 86px;
+}
+
+body {
+background: var(--cream);
+color: var(--ink);
+font-family: "Overused Grotesk", sans-serif;
+font-weight: 400;
+line-height: 1.25;
+webkit-font-smoothing: antialiased;
+overflow-x: hidden;
+font-variant-ligatures: common-ligatures;
+font-feature-settings: "kern" 1, "ss05" 1, "ss06" 1, "ss07" 1;
+hanging-punctuation: first last;
+margin: 0;
+}
+
+img {
+display: block;
+max-width: 100%;
+height: auto;
+object-fit: cover;
+}
+
+a {
+color: inherit;
+text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.container {
+width: 100%;
+max-width: var(--max-w);
+margin: 0 auto;
+padding: 0 var(--pad-x);
+}
+
+/* H1 */
+.t-hero {
+font-family: "Overused Grotesk", sans-serif;
+font-size: 4.8rem;
+font-weight: 500;
+line-height: 0.85;
+font-kerning: normal;
+font-feature-settings: "kern" 1;
+text-box-trim: trim-both;
+text-box-edge: cap alphabetic;
+margin: 0;
+letter-spacing: -0.03em;
+}
+
+/* H2 */
+.t-section {
+font-family: "Overused Grotesk", sans-serif;
+font-size: 2.4rem;
+line-height: 0.95;
+font-weight: 500;
+letter-spacing: -0.03em;
+font-kerning: normal;
+font-feature-settings: "kern" 1;
+}
+
+/* H3 */
+.t-project-title {
+font-family: "Overused Grotesk", sans-serif;
+font-size: 1.6rem;
+font-weight: 500;
+line-height: 0.95;
+letter-spacing: -0.03em;
+font-kerning: normal;
+font-feature-settings: "kern" 1;
+}
+
+/* CUERPO */
+.t-body {
+font-weight: 400;
+line-height: 1.25;
+letter-spacing: 0em;
+/*color: var(--ink-60);*/
+}
+
+.t-body p {
+  margin-bottom: 20px;
+}
+
+.t-body p:last-child {
+  margin-bottom: 0;
+}
+
+.t-label {
+}
+
+.t-label:hover {
+
+}
+
+.t-nav {
+font-family: "Overused Grotesk", sans-serif;
+font-size: 1.2rem;
+font-weight: 500;
+letter-spacing: -0.03em;
+text-transform: uppercase;
+font-kerning: normal;
+font-feature-settings: "kern" 1, "ss05" 1, "ss06" 1, "ss07" 1;  hanging-punctuation: first last;
+}
+
+.arrow-link {
+display: inline-flex;
+align-items: center;
+font-weight: 500;
+letter-spacing: -0.03em;
+text-transform: uppercase;
+transition: gap 0.2s ease;
+}
+
+.arrow-link::after {
+content: '↘';
+}
+
+.arrow-link:hover {
+gap: 0.3em;
+}
+
+.img-ph {
+width: 100%;
+background: #D8D1C5;
+display: block;
+}
+
+.img-ph--hero {
+aspect-ratio: 4 / 3;
+}
+
+.img-ph--card {
+aspect-ratio: 4 / 3;
+}
+
+.img-ph--wide {
+aspect-ratio: 16 / 9;
+}
+
+.img-ph--tall {
+aspect-ratio: 2 / 3;
+}
+
+.img-ph--square {
+aspect-ratio: 1;
+}
+
+hr {
+border: none;
+border-top: 1px solid var(--ink-10);
+}
+
+@keyframes fadeUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.page-enter {
+animation: fadeUp 0.75s ease both;
+}
+
+::-webkit-scrollbar {
+width: 4px;
+}
+
+::-webkit-scrollbar-track {
+background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+background: var(--ink-30);
+border-radius: 2px;
+}
