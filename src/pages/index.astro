@@ -1,0 +1,247 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const projects = [
+  {
+    slug: 'arbocala',
+    title: 'Una marca viva, pero con historia',
+    desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados',
+    img: '/images/projects/arbocala-cover.jpg',
+    imgAlt: 'Bodegas Arbocala — branding',
+  },
+  {
+    slug: 'fiambre',
+    title: 'El alma del terror cotidiano',
+    desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre',
+    img: '/images/projects/fiambre-cover.jpg',
+    imgAlt: 'Editorial Fiambre — branding',
+  },
+  {
+    slug: 'andaluce',
+    title: 'Música, arte y tradición',
+    desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾ (aún en proceso)',
+    img: '/images/projects/andaluce-cover.jpg',
+    imgAlt: 'Andaluçê yorá — ilustración',
+    wip: true,
+  },
+];
+---
+
+<Layout title="Rafael Hijano — Diseñador Visual">
+
+  <!-- ══ HERO ══════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="container hero__inner">
+
+      <!-- Imagen izquierda (2/3 desktop) -->
+      <div class="hero__img-wrap">
+        <!--
+          IMAGEN REAL: descomenta y borra el div.img-ph
+          <img
+            src="/images/hero.jpg"
+            alt="Rafael Hijano trabajando"
+            class="hero__img"
+          />
+        -->
+        <div class="img-ph img-ph--hero hero__img"></div>
+      </div>
+
+      <!-- Texto derecha -->
+      <div class="hero__text">
+        <h1 class="t-hero hero__title">
+          El diseñador de la historia visual de tu marca
+        </h1>
+        <p class="t-body hero__bio">
+          Me llamo Rafael Hijano. Soy un diseñador visual que crea espacios
+          donde cada marca cobra vida. Mi propósito es construir conexiones
+          con alma que aseguren que cada elemento tenga la profundidad
+          suficiente para contar su propia historia.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ PROYECTOS ═════════════════════════════════════ -->
+  <section class="projects">
+    <div class="container">
+
+      <h2 class="t-section projects__heading">Proyectos</h2>
+
+      <div class="projects__grid">
+        {projects.map((p) => (
+          <article class="project-card">
+            <a href={`/portfolio/${p.slug}`} class="project-card__img-link">
+              <!--
+                IMAGEN REAL: descomenta y borra el div.img-ph
+                <img src={p.img} alt={p.imgAlt} class="project-card__img" />
+              -->
+              <div class="img-ph img-ph--card project-card__img"></div>
+              {p.wip && <span class="project-card__wip t-label">En proceso</span>}
+            </a>
+            <div class="project-card__body">
+              <a href={`/portfolio/${p.slug}`}>
+                <h3 class="t-project-title project-card__title">{p.title}</h3>
+              </a>
+              <p class="t-body project-card__desc">{p.desc}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+  padding-top: var(--nav-h);
+}
+
+.hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+/* Desktop: imagen ocupa ~62%, texto el resto */
+@media (min-width: 860px) {
+  .hero__inner {
+    grid-template-columns: 62fr 38fr;
+    align-items: center;
+    min-height: calc(100vh - var(--nav-h));
+    gap: 0;
+  }
+}
+
+/* Imagen */
+.hero__img-wrap {
+  overflow: hidden;
+}
+
+.hero__img {
+  width: 100%;
+  display: block;
+}
+
+/* Mobile: imagen ratio 4:3; desktop: llena la altura */
+.hero__img.img-ph {
+  aspect-ratio: 4/3;
+}
+
+@media (min-width: 860px) {
+  .hero__img-wrap {
+    height: calc(100vh - var(--nav-h));
+  }
+  .hero__img {
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: unset;
+  }
+  /* Para placeholder sin img real */
+  .hero__img.img-ph {
+    height: 100%;
+    aspect-ratio: unset;
+  }
+}
+
+/* Texto */
+.hero__text {
+  padding: 2rem var(--pad-x) 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 860px) {
+  .hero__text {
+    padding: 3rem 3rem 3rem 3.5rem;
+    gap: 2rem;
+  }
+}
+
+.hero__title {
+  /* clamp ya definido en .t-hero */
+}
+
+.hero__bio {
+  max-width: 40ch;
+}
+
+/* ── Projects ─────────────────────────────────────── */
+.projects {
+  padding: 4rem 0 0;
+}
+
+.projects__heading {
+  margin-bottom: 2rem;
+}
+
+.projects__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .projects__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ── Project card ─────────────────────────────────── */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-card__img-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.project-card__img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.project-card__img-link:hover .project-card__img {
+  transform: scale(1.03);
+}
+
+.project-card__wip {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0.3em 0.75em;
+  font-size: 0.62rem;
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-card__title {
+  transition: opacity 0.15s;
+}
+.project-card__title:hover { opacity: 0.6; }
+
+.project-card__desc {
+  max-width: 38ch;
+}
+</style>
