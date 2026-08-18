@@ -1,30 +1,31 @@
 ---
+import { useStoryblokApi } from '@storyblok/astro';
 import Layout from '../layouts/Layout.astro';
 
-const projects = [
-  {
-    slug: 'arbocala',
-    title: 'Una marca viva, pero con historia',
-    desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados',
-    img: '/images/projects/arbocala-cover.jpg',
-    imgAlt: 'Bodegas Arbocala — branding',
-  },
-  {
-    slug: 'fiambre',
-    title: 'El alma del terror cotidiano',
-    desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre',
-    img: '/images/projects/fiambre-cover.jpg',
-    imgAlt: 'Editorial Fiambre — branding',
-  },
-  {
-    slug: 'andaluce',
-    title: 'Música, arte y tradición',
-    desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾ (aún en proceso)',
-    img: '/images/projects/andaluce-cover.jpg',
-    imgAlt: 'Andaluçê yorá — ilustración',
-    wip: true,
-  },
-];
+const storyblokApi = useStoryblokApi();
+
+// Hero + datos globales: story única "config"
+const { data: configData } = await storyblokApi.get('cdn/stories/config', {
+  version: 'draft',
+});
+const site = configData.story.content;
+
+// Proyectos: todas las stories dentro de la carpeta "portfolio/"
+const { data: portfolioData } = await storyblokApi.get('cdn/stories', {
+  starts_with: 'portfolio/',
+  version: 'draft',
+});
+
+const projects = portfolioData.stories
+  .sort((a, b) => a.content.order - b.content.order)
+  .map((story) => ({
+    slug: story.slug,
+    title: story.content.title,
+    desc: story.content.desc,
+    img: story.content.cover_image?.filename,
+    imgAlt: story.content.cover_alt,
+    wip: story.content.wip,
+  }));
 ---
 
 <Layout title="Rafael Hijano — Diseñador Visual">
@@ -35,27 +36,23 @@ const projects = [
 
       <!-- Imagen izquierda (2/3 desktop) -->
       <div class="hero__img-wrap">
-        <!--
-          IMAGEN REAL: descomenta y borra el div.img-ph
-          <img
-            src="/images/hero.jpg"
-            alt="Rafael Hijano trabajando"
-            class="hero__img"
-          />
-        -->
-        <div class="img-ph img-ph--hero hero__img"></div>
+        {site.hero_img?.filename
+          ? <img
+              src={site.hero_img.filename}
+              alt={site.hero_img_alt || 'Rafael Hijano trabajando'}
+              class="hero__img"
+            />
+          : <div class="img-ph img-ph--hero hero__img"></div>
+        }
       </div>
 
       <!-- Texto derecha -->
       <div class="hero__text">
         <h1 class="t-hero hero__title">
-          El diseñador de la historia visual de tu marca
+          {site.hero_title}
         </h1>
         <p class="t-body hero__bio">
-          Me llamo Rafael Hijano. Soy un diseñador visual que crea espacios
-          donde cada marca cobra vida. Mi propósito es construir conexiones
-          con alma que aseguren que cada elemento tenga la profundidad
-          suficiente para contar su propia historia.
+          {site.hero_bio}
         </p>
       </div>
 
@@ -72,11 +69,10 @@ const projects = [
         {projects.map((p) => (
           <article class="project-card">
             <a href={`/portfolio/${p.slug}`} class="project-card__img-link">
-              <!--
-                IMAGEN REAL: descomenta y borra el div.img-ph
-                <img src={p.img} alt={p.imgAlt} class="project-card__img" />
-              -->
-              <div class="img-ph img-ph--card project-card__img"></div>
+              {p.img
+                ? <img src={p.img} alt={p.imgAlt} class="project-card__img" />
+                : <div class="img-ph img-ph--card project-card__img"></div>
+              }
               {p.wip && <span class="project-card__wip t-label">En proceso</span>}
             </a>
             <div class="project-card__body">
@@ -162,10 +158,6 @@ const projects = [
   }
 }
 
-.hero__title {
-  /* clamp ya definido en .t-hero */
-}
-
 .hero__bio {
   max-width: 40ch;
 }
@@ -241,6 +233,10 @@ const projects = [
 }
 .project-card__title:hover { opacity: 0.6; }
 
+.project-card__desc {
+  max-width: 38ch;
+}
+</style>
 .project-card__desc {
   max-width: 38ch;
 }
