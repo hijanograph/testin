@@ -18,6 +18,9 @@ const externalLinks = [
     href: 'https://behance.net/rafaelhijano',
   },
 ];
+
+const isActiveHref = (href) =>
+  currentPath === (href.replace(/\/$/, '') || '/');
 ---
 
 <div class="navigation" transition:persist>
@@ -30,8 +33,7 @@ const externalLinks = [
         <ul class="nav__list">
           {
             navigation.map(({ label, href }) => {
-              const isActive =
-                currentPath === (href.replace(/\/$/, '') || '/');
+              const isActive = isActiveHref(href);
 
               return (
                 <li>
@@ -78,8 +80,7 @@ const externalLinks = [
         <ul class="nav-overlay__list">
           {
             navigation.map(({ label, href }) => {
-              const isActive =
-                currentPath === (href.replace(/\/$/, '') || '/');
+              const isActive = isActiveHref(href);
 
               return (
                 <li>
@@ -293,9 +294,8 @@ const externalLinks = [
     margin-left: 0.15em;
   }
 
-  :focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 4px;
+  :global(html) {
+    scrollbar-gutter: stable;
   }
 
   :global(body.menu-open) {
@@ -309,9 +309,6 @@ const externalLinks = [
 
     .nav__link {
       font-size: 1.2rem;
-      text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.15s ease;
     }
 
     .nav__desktop {
@@ -371,8 +368,6 @@ const externalLinks = [
 
       if (open) {
         firstLink?.focus();
-      } else {
-        toggle.focus();
       }
     };
 
@@ -383,16 +378,7 @@ const externalLinks = [
       setMenuState(!isOpen);
     });
 
-    overlay.addEventListener('click', (event) => {
-      if (!(event.target instanceof Element)) return;
-
-      const link = event.target.closest('a');
-
-      if (link) {
-        setMenuState(false);
-        return;
-      }
-
+    overlay.addEventListener('click', () => {
       setMenuState(false);
     });
 
@@ -443,7 +429,20 @@ const externalLinks = [
     setMenuState(false);
   };
 
-  document.addEventListener('astro:page-load', initNavigation);
+  const blurStaleToggle = () => {
+    if (
+      document.activeElement instanceof HTMLElement &&
+      document.activeElement.id === 'navToggle'
+    ) {
+      document.activeElement.blur();
+    }
+  };
+
+  document.addEventListener('astro:page-load', () => {
+    initNavigation();
+    blurStaleToggle();
+  });
 
   initNavigation();
+  blurStaleToggle();
 </script>
