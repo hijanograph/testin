@@ -57,7 +57,7 @@ html {
   text-size-adjust: 100%;
 }
 
-@media (min-width: 980px) {
+@media (min-width: 800px) {
   html {
     font-size: 20px;
   }
@@ -205,22 +205,20 @@ hr {
   }
 }
 
-@keyframes page-out {
+@keyframes page-fade-out {
   from {
     opacity: 1;
-    transform: translateY(0);
   }
 
   to {
     opacity: 0;
-    transform: translateY(-12px);
   }
 }
 
-@keyframes page-in {
+@keyframes page-fade-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(20px);
   }
 
   to {
@@ -233,17 +231,21 @@ hr {
   view-transition-name: page;
 }
 
+::view-transition {
+  background: var(--cream);
+}
+
 ::view-transition-old(page) {
-  animation: page-out 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation: page-fade-out 0.2s  ease-in both;
 }
 
 ::view-transition-new(page) {
-  animation: page-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: page-fade-in 0.2s ease-out 0.2s both;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .page-enter {
-    animation: fadeUp 0.75s ease both;
+    animation: fadeUp 0.2s ease both;
   }
 
   html {

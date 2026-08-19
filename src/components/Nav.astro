@@ -146,7 +146,7 @@ const externalLinks = [
   .nav__logo {
     flex-shrink: 0;
     color: var(--ink);
-    font-size: 1.33rem;
+    font-size: 1.2rem;
     font-weight: 500;
     letter-spacing: -0.03em;
     text-transform: uppercase;
@@ -298,10 +298,10 @@ const externalLinks = [
     overflow: hidden;
   }
 
-  @media (min-width: 980px) {
+  @media (min-width: 800px) {
    
   .nav__logo {
-    font-size: 1.2 rem;
+    font-size: 1.33 rem;
   }
    
 .nav__link {
@@ -416,7 +416,7 @@ const externalLinks = [
     updateScrolledState();
 
     const desktopMedia = window.matchMedia(
-      '(min-width: 980px)'
+      '(min-width: 800px)'
     );
 
     desktopMedia.addEventListener('change', (event) => {
