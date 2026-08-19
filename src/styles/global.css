@@ -41,6 +41,10 @@
   --nav-h: 86px;
   --max-w: 1440px;
   --pad-x: 47px;
+
+  /* Tokens de tipografía reutilizados por .t-* y .arrow-link */
+  --fw-medium: 500;
+  --tracking-tight: -0.03em;
 }
 
 *,
@@ -51,7 +55,6 @@
 
 html {
   font-size: 24px;
-  scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -106,26 +109,30 @@ button {
   padding-inline: var(--pad-x);
 }
 
+/* --- Tipografía --- */
+/* font-weight y letter-spacing centralizados via custom properties:
+   cambia --fw-medium / --tracking-tight una vez y se propaga a todo. */
+
 .t-hero {
   font-size: 4.8rem;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   line-height: 0.85;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--tracking-tight);
   margin: 0;
 }
 
 .t-section {
   font-size: 2.4rem;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--tracking-tight);
 }
 
 .t-project-title {
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: var(--fw-medium);
   line-height: 0.95;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--tracking-tight);
 }
 
 .t-body {
@@ -142,16 +149,32 @@ button {
 
 .t-nav {
   font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: -0.03em;
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-tight);
   text-transform: uppercase;
+}
+
+.t-label {
+  font-size: 0.7rem;
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-tight);
+  text-transform: uppercase;
+}
+
+/* Etiqueta tipo "chip" reutilizable (p. ej. estado "en proceso").
+   Los componentes solo deben añadir el posicionamiento (absolute/top/left...). */
+.badge {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 0.3em 0.8em;
+  font-size: 0.62rem;
 }
 
 .arrow-link {
   display: inline-flex;
   align-items: center;
-  font-weight: 500;
-  letter-spacing: -0.03em;
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--tracking-tight);
   text-transform: uppercase;
 }
 
@@ -164,6 +187,8 @@ button {
 .arrow-link:hover::after {
   transform: translateX(0.3em);
 }
+
+/* --- Placeholders de imagen --- */
 
 .img-ph {
   width: 100%;
@@ -192,6 +217,8 @@ hr {
   border: 0;
   border-top: 1px solid var(--ink-10);
 }
+
+/* --- Transiciones --- */
 
 @keyframes fadeUp {
   from {
@@ -236,31 +263,22 @@ hr {
 }
 
 ::view-transition-old(page) {
-  animation: page-fade-out 0.2s  ease-in both;
+  animation: page-fade-out 0.2s ease-in both;
 }
 
 ::view-transition-new(page) {
   animation: page-fade-in 0.2s ease-out 0.2s both;
 }
 
+/* Accesibilidad "safe by default": sin smooth-scroll ni animación
+   hasta que el usuario confirme que no le molesta el movimiento. */
 @media (prefers-reduced-motion: no-preference) {
-  .page-enter {
-    animation: fadeUp 0.2s ease both;
-  }
-
   html {
     scroll-behavior: smooth;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  ::view-transition-old(page),
-  ::view-transition-new(page) {
-    animation: none;
+  .page-enter {
+    animation: fadeUp 0.2s ease both;
   }
 }
 

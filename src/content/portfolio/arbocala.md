@@ -28,7 +28,5 @@ La marca contaba con unas profundas raíces históricas, tanto por su trayectori
 ## Solución y resultados
 
 Con los resultados de esta investigación, desarrollé una identidad de marca que fusiona una estética rústica y tradicional, inspirada en el arte rupestre, con un enfoque minimalista y moderno que reflejara la visión de Arbocala.
-
 Una vez aprobada la propuesta conceptual, apliqué esta nueva identidad a todos los elementos gráficos y soportes de la marca, desde la papelería y el merchandising hasta el diseño de sus espacios comerciales. También la extendí al diseño de su producto estrella, Soneto Gran Reserva, y me aseguré de que la nueva página web mantuviera una total coherencia visual.
-
 Gracias a mi trabajo, conseguí una interfaz que no solo tenía un gran aspecto, sino que también generaba un flujo de compra agradable para los clientes.
