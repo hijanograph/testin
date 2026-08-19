@@ -258,15 +258,21 @@ hr {
   view-transition-name: page;
 }
 
+.footer-transition {
+  view-transition-name: footer;
+}
+
 ::view-transition {
   background: var(--cream);
 }
 
-::view-transition-old(page) {
+::view-transition-old(page),
+::view-transition-old(footer) {
   animation: page-fade-out 0.2s ease-in both;
 }
 
-::view-transition-new(page) {
+::view-transition-new(page),
+::view-transition-new(footer) {
   animation: page-fade-in 0.2s ease-out 0.2s both;
 }
 

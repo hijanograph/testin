@@ -337,6 +337,16 @@ const isActiveHref = (href) =>
 </style>
 
 <script>
+  import { navigate } from 'astro:transitions/client';
+
+  const goTo = (href) => {
+    try {
+      navigate(href);
+    } catch {
+      window.location.assign(href);
+    }
+  };
+
   const initNavigation = () => {
     const toggle = document.getElementById('navToggle');
     const overlay = document.getElementById('navOverlay');
@@ -378,7 +388,47 @@ const isActiveHref = (href) =>
       setMenuState(!isOpen);
     });
 
-    overlay.addEventListener('click', () => {
+    const navigateAfterClose = (href) => {
+      const duration =
+        parseFloat(getComputedStyle(overlay).transitionDuration) *
+        1000;
+
+      setMenuState(false);
+
+      if (!duration) {
+        goTo(href);
+        return;
+      }
+
+      overlay.addEventListener(
+        'transitionend',
+        () => goTo(href),
+        { once: true }
+      );
+    };
+
+    overlay.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) {
+        setMenuState(false);
+        return;
+      }
+
+      const link = event.target.closest('a');
+
+      const isInternalLink =
+        link &&
+        link.target !== '_blank' &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey;
+
+      if (isInternalLink) {
+        event.preventDefault();
+        navigateAfterClose(link.href);
+        return;
+      }
+
       setMenuState(false);
     });
 
