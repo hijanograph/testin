@@ -20,102 +20,106 @@ const externalLinks = [
 ];
 ---
 
-<header class="nav" id="nav">
-  <div class="nav__inner">
-    <a href="/" class="nav__logo">RAFAEL HIJANO</a>
+<div class="navigation" transition:persist>
 
-    <nav class="nav__desktop" aria-label="Navegación principal">
-      <ul class="nav__list">
-        {
-          navigation.map(({ label, href }) => {
-            const isActive =
-              currentPath === (href.replace(/\/$/, '') || '/');
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">RAFAEL HIJANO</a>
 
-            return (
+      <nav class="nav__desktop" aria-label="Navegación principal">
+        <ul class="nav__list">
+          {
+            navigation.map(({ label, href }) => {
+              const isActive =
+                currentPath === (href.replace(/\/$/, '') || '/');
+
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class:list={[
+                      'nav__link',
+                      { 'nav__link--active': isActive },
+                    ]}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
+
+      <button
+        class="nav__toggle"
+        id="navToggle"
+        type="button"
+        aria-label="Abrir menú de navegación"
+        aria-expanded="false"
+        aria-controls="navOverlay"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <div
+    class="nav-overlay"
+    id="navOverlay"
+    aria-hidden="true"
+    inert
+  >
+    <div class="nav-overlay__inner">
+      <nav class="nav-overlay__nav" aria-label="Navegación móvil">
+        <ul class="nav-overlay__list">
+          {
+            navigation.map(({ label, href }) => {
+              const isActive =
+                currentPath === (href.replace(/\/$/, '') || '/');
+
+              return (
+                <li>
+                  <a
+                    href={href}
+                    class:list={[
+                      'nav__link',
+                      'nav-overlay__link',
+                      { 'nav__link--active': isActive },
+                    ]}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {label}
+                    <span aria-hidden="true">↘</span>
+                  </a>
+                </li>
+              );
+            })
+          }
+
+          {
+            externalLinks.map(({ label, href }) => (
               <li>
                 <a
                   href={href}
-                  class:list={[
-                    'nav__link',
-                    { 'nav__link--active': isActive },
-                  ]}
-                  aria-current={isActive ? 'page' : undefined}
-                >
-                  {label}
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
-    </nav>
-
-    <button
-      class="nav__toggle"
-      id="navToggle"
-      type="button"
-      aria-label="Abrir menú de navegación"
-      aria-expanded="false"
-      aria-controls="navOverlay"
-    >
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </button>
-  </div>
-</header>
-
-<div
-  class="nav-overlay"
-  id="navOverlay"
-  aria-hidden="true"
-  inert
->
-  <div class="nav-overlay__inner">
-    <nav class="nav-overlay__nav" aria-label="Navegación móvil">
-      <ul class="nav-overlay__list">
-        {
-          navigation.map(({ label, href }) => {
-            const isActive =
-              currentPath === (href.replace(/\/$/, '') || '/');
-
-            return (
-              <li>
-                <a
-                  href={href}
-                  class:list={[
-                    'nav__link',
-                    'nav-overlay__link',
-                    { 'nav__link--active': isActive },
-                  ]}
-                  aria-current={isActive ? 'page' : undefined}
+                  class="nav__link t-nav nav-overlay__link"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   {label}
                   <span aria-hidden="true">↘</span>
                 </a>
               </li>
-            );
-          })
-        }
-
-        {
-          externalLinks.map(({ label, href }) => (
-            <li>
-              <a
-                href={href}
-                class="nav__link t-nav nav-overlay__link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {label}
-                <span aria-hidden="true">↘</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
   </div>
+
 </div>
 
 <style>
@@ -171,18 +175,18 @@ const externalLinks = [
     gap: clamp(24px, 4vw, 64px);
   }
 
-.nav__link {
-  display: inline-block;
-  color: var(--ink-60);
-  font-size: 1.67rem;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  text-align: right;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.15s ease;
-}
+  .nav__link {
+    display: inline-block;
+    color: var(--ink-60);
+    font-size: 1.67rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-align: right;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.15s ease;
+  }
 
   .nav__link:hover,
   .nav__link:focus-visible,
@@ -299,17 +303,16 @@ const externalLinks = [
   }
 
   @media (min-width: 800px) {
-   
-  .nav__logo {
-    font-size: 1.33 rem;
-  }
-   
-.nav__link {
-  font-size: 1.2rem;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.15s ease;
-}
+    .nav__logo {
+      font-size: 1.33rem;
+    }
+
+    .nav__link {
+      font-size: 1.2rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.15s ease;
+    }
 
     .nav__desktop {
       display: block;
@@ -337,11 +340,17 @@ const externalLinks = [
 </style>
 
 <script>
-  const toggle = document.getElementById('navToggle');
-  const overlay = document.getElementById('navOverlay');
-  const nav = document.getElementById('nav');
+  const initNavigation = () => {
+    const toggle = document.getElementById('navToggle');
+    const overlay = document.getElementById('navOverlay');
+    const nav = document.getElementById('nav');
 
-  if (toggle && overlay && nav) {
+    if (!toggle || !overlay || !nav) return;
+
+    if (toggle.dataset.initialized === 'true') return;
+
+    toggle.dataset.initialized = 'true';
+
     const firstLink = overlay.querySelector('a');
 
     const setMenuState = (open) => {
@@ -350,6 +359,7 @@ const externalLinks = [
       overlay.inert = !open;
 
       toggle.setAttribute('aria-expanded', String(open));
+
       toggle.setAttribute(
         'aria-label',
         open
@@ -357,7 +367,7 @@ const externalLinks = [
           : 'Abrir menú de navegación'
       );
 
-    document.body.classList.toggle('menu-open', open);
+      document.body.classList.toggle('menu-open', open);
 
       if (open) {
         firstLink?.focus();
@@ -376,9 +386,14 @@ const externalLinks = [
     overlay.addEventListener('click', (event) => {
       if (!(event.target instanceof Element)) return;
 
-      if (!event.target.closest('a')) {
+      const link = event.target.closest('a');
+
+      if (link) {
         setMenuState(false);
+        return;
       }
+
+      setMenuState(false);
     });
 
     document.addEventListener('keydown', (event) => {
@@ -424,5 +439,11 @@ const externalLinks = [
         setMenuState(false);
       }
     });
-  }
+
+    setMenuState(false);
+  };
+
+  document.addEventListener('astro:page-load', initNavigation);
+
+  initNavigation();
 </script>
