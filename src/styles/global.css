@@ -40,7 +40,7 @@
   --font: "Overused Grotesk", sans-serif;
   --nav-h: 86px;
   --max-w: 1440px;
-  --pad-x: clamp(1.25rem, 4vw, 3rem);
+  --pad-x: 47px;
 }
 
 *,
@@ -53,6 +53,8 @@ html {
   font-size: 24px;
   scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 @media (min-width: 980px) {
@@ -103,8 +105,6 @@ button {
   margin-inline: auto;
   padding-inline: var(--pad-x);
 }
-
-/* Typography */
 
 .t-hero {
   font-size: 4.8rem;
@@ -205,6 +205,42 @@ hr {
   }
 }
 
+@keyframes page-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  view-transition-name: page;
+}
+
+::view-transition-old(page) {
+  animation: page-out 0.35s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+::view-transition-new(page) {
+  animation: page-in 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .page-enter {
     animation: fadeUp 0.75s ease both;
@@ -218,6 +254,11 @@ hr {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  ::view-transition-old(page),
+  ::view-transition-new(page) {
+    animation: none;
   }
 }
 

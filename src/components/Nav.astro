@@ -1,315 +1,339 @@
 ---
-const path = Astro.url.pathname;
-const links = [
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const navigation = [
   { label: 'Inicio', href: '/' },
   { label: 'Sobre mí', href: '/sobre-mi' },
   { label: 'Currículum', href: '/curriculum' },
   { label: 'Portfolio', href: '/portfolio' },
 ];
+
+const externalLinks = [
+  {
+    label: 'LinkedIn',
+    href: 'https://linkedin.com/in/rafaelhijano',
+  },
+  {
+    label: 'Behance',
+    href: 'https://behance.net/rafaelhijano',
+  },
+];
 ---
 
 <header class="nav" id="nav">
   <div class="nav__inner">
-    <div class="nav__box">
-      <a href="/" class="nav__logo">RAFAEL HIJANO</a>
-    </div>
+    <a href="/" class="nav__logo">RAFAEL HIJANO</a>
 
-    <div class="nav__box nav__box--empty"></div>
+    <nav class="nav__desktop" aria-label="Navegación principal">
+      <ul class="nav__list">
+        {
+          navigation.map(({ label, href }) => {
+            const isActive =
+              currentPath === (href.replace(/\/$/, '') || '/');
 
-    <nav class="nav__links">
-      <div class="nav__box">
-        <a
-          href="/"
-          class:list={[
-            'nav__link t-nav',
-            { 'nav__link--active': path === '/' }
-          ]}
-        >
-          Inicio
-        </a>
-      </div>
-
-      <div class="nav__box">
-        <a
-          href="/sobre-mi"
-          class:list={[
-            'nav__link t-nav',
-            { 'nav__link--active': path === '/sobre-mi' }
-          ]}
-        >
-          Sobre mí
-        </a>
-      </div>
-
-      <div class="nav__box">
-        <a
-          href="/curriculum"
-          class:list={[
-            'nav__link t-nav',
-            { 'nav__link--active': path === '/curriculum' }
-          ]}
-        >
-          Currículum
-        </a>
-      </div>
-
-      <div class="nav__box">
-        <a
-          href="/portfolio"
-          class:list={[
-            'nav__link t-nav',
-            { 'nav__link--active': path === '/portfolio' }
-          ]}
-        >
-          Portfolio
-        </a>
-      </div>
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={[
+                    'nav__link',
+                    { 'nav__link--active': isActive },
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
     </nav>
 
-    <!-- ÚNICO BOTÓN: hamburguesa / X -->
     <button
       class="nav__toggle"
       id="navToggle"
-      aria-label="Abrir menú"
+      type="button"
+      aria-label="Abrir menú de navegación"
       aria-expanded="false"
+      aria-controls="navOverlay"
     >
-      <span></span>
-      <span></span>
-      <span></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     </button>
   </div>
 </header>
 
-<div class="nav-overlay" id="navOverlay" aria-hidden="true">
-  <nav class="nav-overlay__links">
-    {[
-      ...links,
-      {
-        label: 'LinkedIn',
-        href: 'https://linkedin.com/in/rafaelhijano',
-        ext: true
-      },
-      {
-        label: 'Behance',
-        href: 'https://behance.net/rafaelhijano',
-        ext: true
-      },
-    ].map(l => (
-      <a
-        href={l.href}
-        class="nav__link t-nav nav-overlay__link"
-        target={l.ext ? '_blank' : undefined}
-        rel={l.ext ? 'noopener noreferrer' : undefined}
-      >
-        {l.label} <span>↘</span>
-      </a>
-    ))}
-  </nav>
+<div
+  class="nav-overlay"
+  id="navOverlay"
+  aria-hidden="true"
+  inert
+>
+  <div class="nav-overlay__inner">
+    <nav class="nav-overlay__nav" aria-label="Navegación móvil">
+      <ul class="nav-overlay__list">
+        {
+          navigation.map(({ label, href }) => {
+            const isActive =
+              currentPath === (href.replace(/\/$/, '') || '/');
+
+            return (
+              <li>
+                <a
+                  href={href}
+                  class:list={[
+                    'nav__link',
+                    'nav-overlay__link',
+                    { 'nav__link--active': isActive },
+                  ]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {label}
+                  <span aria-hidden="true">↘</span>
+                </a>
+              </li>
+            );
+          })
+        }
+
+        {
+          externalLinks.map(({ label, href }) => (
+            <li>
+              <a
+                href={href}
+                class="nav__link t-nav nav-overlay__link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {label}
+                <span aria-hidden="true">↘</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
 </div>
 
 <style>
-.nav {
-  position: fixed;
-  inset: 0 0 auto 0;
-  z-index: 100;
-  height: var(--nav-h);
-  width: 100%;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s;
-}
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    width: 100%;
+    height: var(--nav-h);
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
 
-.nav.scrolled {
-  border-color: var(--ink-10);
-}
+  .nav.scrolled {
+    border-color: var(--ink-10);
+  }
 
-.nav__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  padding: 28px 47px;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.nav__logo {
-  font-size: 1.33rem;
-  font-weight: 500;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  flex-shrink: 0;
-  font-variant-ligatures: common-ligatures;
-  font-kerning: normal;
-  font-feature-settings: "kern" 1, "ss05" 1, "ss06" 1, "ss07" 1;
-  hanging-punctuation: first last;
-  text-decoration: none;
-}
-
-.nav__box {
-  display: none;
-}
-
-.nav__inner > .nav__box:nth-child(1) {
-  display: flex;
-  flex: 1;
-  justify-content: flex-start;
-}
-
-.nav__links {
-  display: none;
-}
-
-/* =========================
-   BOTÓN HAMBURGUESA / X
-   ========================= */
-
-.nav__toggle {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-
-  width: auto;
-  background: none;
-  border: none;
-  padding: 6px;
-  margin-left: auto;
-
-  cursor: pointer;
-  position: relative;
-}
-
-.nav__toggle span {
-  display: block;
-  width: 24px;
-  height: 2.4px;
-  background: var(--ink);
-
-  transform-origin: center;
-  transition:
-    transform 0.3s ease,
-    opacity 0.2s ease;
-}
-
-/* =========================
-   ESTADO ABIERTO → X
-   ========================= */
-
-.nav__toggle[aria-expanded="true"] span:nth-child(1) {
-  transform: translateY(6.4px) rotate(45deg);
-}
-
-.nav__toggle[aria-expanded="true"] span:nth-child(2) {
-  opacity: 0;
-}
-
-.nav__toggle[aria-expanded="true"] span:nth-child(3) {
-  transform: translateY(-6.4px) rotate(-45deg);
-}
-
-/* =========================
-   DESKTOP
-   ========================= */
-
-@media (min-width: 980px) {
-  .nav__links {
+  .nav__inner {
     display: flex;
-    flex: 4;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding-inline: var(--pad-x);
+    box-sizing: border-box;
   }
 
-  .nav__box {
+  .nav__logo {
+    flex-shrink: 0;
+    color: var(--ink);
+    font-size: 1.33rem;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav__desktop {
+    display: none;
+  }
+
+  .nav__list,
+  .nav-overlay__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav__desktop .nav__list {
     display: flex;
-    flex: 1;
+    align-items: center;
     justify-content: flex-end;
+    gap: clamp(24px, 4vw, 64px);
   }
 
-  .nav__box--empty {
-    flex: 1;
+.nav__link {
+  display: inline-block;
+  color: var(--ink-60);
+  font-size: 1.67rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-align: right;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
+}
+
+  .nav__link:hover,
+  .nav__link:focus-visible,
+  .nav__link--active {
+    color: var(--ink);
+    text-decoration: none;
   }
 
   .nav__toggle {
-    display: none;
+    flex: 0 0 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    width: 36px;
+    height: 36px;
+    margin: 0;
+    padding: 6px;
+    box-sizing: border-box;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
   }
-}
 
+  .nav__toggle span {
+    display: block;
+    width: 24px;
+    height: 3px;
+    background: var(--ink);
+    transform-origin: center center;
+    transition:
+      transform 0.3s ease,
+      opacity 0.2s ease;
+  }
+
+  .nav__toggle[aria-expanded='true'] span:nth-child(1) {
+    transform: translateY(6.4px) rotate(45deg);
+  }
+
+  .nav__toggle[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav__toggle[aria-expanded='true'] span:nth-child(3) {
+    transform: translateY(-6.4px) rotate(-45deg);
+  }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding-top: var(--nav-h);
+    padding-inline: var(--pad-x);
+    background: color-mix(
+      in srgb,
+      var(--cream) 75%,
+      transparent
+    );
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.35s ease,
+      visibility 0.35s ease;
+  }
+
+  .nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav-overlay__inner {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 3rem;
+    box-sizing: border-box;
+  }
+
+  .nav-overlay__nav {
+    width: 100%;
+  }
+
+  .nav-overlay__list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    gap: 36px;
+  }
+
+  .nav-overlay__link {
+    color: var(--ink);
+  }
+
+  .nav-overlay__link span {
+    margin-left: 0.15em;
+  }
+
+  :focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+  }
+
+  :global(body.menu-open) {
+    overflow: hidden;
+  }
+
+  @media (min-width: 980px) {
+   
+  .nav__logo {
+    font-size: 1.2 rem;
+  }
+   
 .nav__link {
-  color: var(--ink-60);
-  transition: color 0.15s;
-  text-align: right;
-}
-
-.nav__item {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav__link:hover,
-.nav__link--active {
-  color: var(--ink);
+  font-size: 1.2rem;
   text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.15s ease;
 }
 
-/* =========================
-   OVERLAY DEL MENÚ MOBILE
-   ========================= */
+    .nav__desktop {
+      display: block;
+      flex: 1;
+    }
 
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 99;
+    .nav__toggle,
+    .nav-overlay {
+      display: none;
+    }
 
-  background: color-mix(in srgb, var(--cream) 75%, transparent);
+    .nav__inner {
+      gap: 0;
+    }
+  }
 
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-
-  display: flex;
-  flex-direction: column;
-
-  padding: var(--nav-h) 47px 3rem;
-  box-sizing: border-box;
-
-  opacity: 0;
-  visibility: hidden;
-
-  transition:
-    opacity 0.35s ease,
-    visibility 0.35s ease;
-}
-
-.nav-overlay.open {
-  opacity: 1;
-  visibility: visible;
-}
-
-.nav-overlay__links {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  margin-top: auto;
-
-  gap: 36px;
-  padding-bottom: 0;
-}
-
-.nav-overlay__link {
-  text-align: right;
-  color: var(--ink);
-  font-size: 1.67rem;
-}
-
-.nav-overlay__link span {
-  opacity: 1;
-}
-
-.nav-overlay__link:hover {
-  opacity: 1;
-}
+  @media (prefers-reduced-motion: reduce) {
+    .nav,
+    .nav__link,
+    .nav__toggle span,
+    .nav-overlay {
+      transition: none;
+    }
+  }
 </style>
 
 <script>
@@ -317,52 +341,88 @@ const links = [
   const overlay = document.getElementById('navOverlay');
   const nav = document.getElementById('nav');
 
-  const openMenu = () => {
-    overlay?.classList.add('open');
-    overlay?.setAttribute('aria-hidden', 'false');
+  if (toggle && overlay && nav) {
+    const firstLink = overlay.querySelector('a');
 
-    toggle?.setAttribute('aria-expanded', 'true');
-    toggle?.setAttribute('aria-label', 'Cerrar menú');
+    const setMenuState = (open) => {
+      overlay.classList.toggle('open', open);
+      overlay.setAttribute('aria-hidden', String(!open));
+      overlay.inert = !open;
 
-    document.body.style.overflow = 'hidden';
-  };
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute(
+        'aria-label',
+        open
+          ? 'Cerrar menú de navegación'
+          : 'Abrir menú de navegación'
+      );
 
-  const closeMenu = () => {
-    overlay?.classList.remove('open');
-    overlay?.setAttribute('aria-hidden', 'true');
+    document.body.classList.toggle('menu-open', open);
 
-    toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Abrir menú');
+      if (open) {
+        firstLink?.focus();
+      } else {
+        toggle.focus();
+      }
+    };
 
-    document.body.style.overflow = '';
-  };
+    toggle.addEventListener('click', () => {
+      const isOpen =
+        toggle.getAttribute('aria-expanded') === 'true';
 
-  toggle?.addEventListener('click', () => {
-    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setMenuState(!isOpen);
+    });
 
-    if (isOpen) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  });
+    overlay.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
 
-  // Cerrar al tocar cualquier zona del overlay
-  // que no sea un enlace
-  overlay?.addEventListener('click', (event) => {
-    if (!(event.target instanceof Element)) return;
+      if (!event.target.closest('a')) {
+        setMenuState(false);
+      }
+    });
 
-    if (!event.target.closest('a')) {
-      closeMenu();
-    }
-  });
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
 
-  // Cerrar al tocar un enlace
-  overlay?.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', closeMenu);
-  });
+      const isOpen =
+        toggle.getAttribute('aria-expanded') === 'true';
 
-  window.addEventListener('scroll', () => {
-    nav?.classList.toggle('scrolled', window.scrollY > 4);
-  });
+      if (isOpen) {
+        setMenuState(false);
+      }
+    });
+
+    const updateScrolledState = () => {
+      nav.classList.toggle('scrolled', window.scrollY > 4);
+    };
+
+    let ticking = false;
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+
+        ticking = true;
+
+        requestAnimationFrame(() => {
+          updateScrolledState();
+          ticking = false;
+        });
+      },
+      { passive: true }
+    );
+
+    updateScrolledState();
+
+    const desktopMedia = window.matchMedia(
+      '(min-width: 980px)'
+    );
+
+    desktopMedia.addEventListener('change', (event) => {
+      if (event.matches) {
+        setMenuState(false);
+      }
+    });
+  }
 </script>
