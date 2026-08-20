@@ -36,13 +36,10 @@
   --ink-60: rgb(60 58 54 / 60%);
   --ink-30: rgb(60 58 54 / 30%);
   --ink-10: rgb(60 58 54 / 10%);
-
   --font: "Overused Grotesk", sans-serif;
   --nav-h: 86px;
   --max-w: 1440px;
-  --pad-x: 47px;
-
-  /* Tokens de tipografía reutilizados por .t-* y .arrow-link */
+  --pad-x: 30px;
   --fw-medium: 500;
   --tracking-tight: -0.03em;
 }
@@ -54,16 +51,10 @@
 }
 
 html {
-  font-size: 24px;
+  font-size: 20px;
   scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-}
-
-@media (min-width: 800px) {
-  html {
-    font-size: 20px;
-  }
 }
 
 body {
@@ -109,15 +100,12 @@ button {
   padding-inline: var(--pad-x);
 }
 
-/* --- Tipografía --- */
-/* font-weight y letter-spacing centralizados via custom properties:
-   cambia --fw-medium / --tracking-tight una vez y se propaga a todo. */
-
 .t-hero {
-  font-size: 4.8rem;
+  font-size: clamp(40px, 7vw, 96px);
   font-weight: var(--fw-medium);
   line-height: 0.85;
   letter-spacing: var(--tracking-tight);
+  overflow-wrap: break-word;
   margin: 0;
 }
 
@@ -161,8 +149,6 @@ button {
   text-transform: uppercase;
 }
 
-/* Etiqueta tipo "chip" reutilizable (p. ej. estado "en proceso").
-   Los componentes solo deben añadir el posicionamiento (absolute/top/left...). */
 .badge {
   background: var(--ink);
   color: var(--cream);
@@ -187,8 +173,6 @@ button {
 .arrow-link:hover::after {
   transform: translateX(0.3em);
 }
-
-/* --- Placeholders de imagen --- */
 
 .img-ph {
   width: 100%;
@@ -217,8 +201,6 @@ hr {
   border: 0;
   border-top: 1px solid var(--ink-10);
 }
-
-/* --- Transiciones --- */
 
 @keyframes fadeUp {
   from {
@@ -258,26 +240,18 @@ hr {
   view-transition-name: page;
 }
 
-.footer-transition {
-  view-transition-name: footer;
-}
-
 ::view-transition {
   background: var(--cream);
 }
 
-::view-transition-old(page),
-::view-transition-old(footer) {
+::view-transition-old(page) {
   animation: page-fade-out 0.2s ease-in both;
 }
 
-::view-transition-new(page),
-::view-transition-new(footer) {
+::view-transition-new(page) {
   animation: page-fade-in 0.2s ease-out 0.2s both;
 }
 
-/* Accesibilidad "safe by default": sin smooth-scroll ni animación
-   hasta que el usuario confirme que no le molesta el movimiento. */
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

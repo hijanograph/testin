@@ -74,7 +74,7 @@ const education = [
             </p>
             <p class="t-body">
               Soy graduado de la Universidad de Málaga en Comunicación Audiovisual y cuento con
-              un Máster en Diseño Visual de La Gauss. Mi interés por el diseño nació de forma
+              un Máster en Diseño Visual de La X Gauss. Mi interés por el diseño nació de forma
               natural: de niño me fascinaban los sistemas interactivos y el arte visual en los
               videojuegos y los ordenadores, lo que me llevó a querer estudiar informática.
               Aunque sabía que mi hábitat se encontraba entre interfaces, algo dentro de mí me
@@ -101,25 +101,33 @@ const education = [
 
       <hr />
 
+      <div class="cv-cta">
+        <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+          Descargar CV ↓
+        </a>
+      </div>
+
       <!-- ── Experiencia ── -->
       <section class="section">
-        <h2 class="t-section section__title">Experiencia</h2>
-        <div class="timeline">
-          {experience.map((item) => (
-            <div class="timeline__item">
-              <div class="timeline__head">
-                <div>
-                  <p class="timeline__role">{item.role}</p>
-                  <p class="t-label timeline__company">{item.company}</p>
-                </div>
-                <span class="t-label timeline__period">{item.period}</span>
-              </div>
-              <p class="t-body timeline__desc">{item.companyDesc}</p>
-              <ul class="timeline__tasks">
-                {item.tasks.map(t => <li class="t-body">{t}</li>)}
-              </ul>
+        <h2 class="cv-section-label t-label">Experiencia</h2>
+
+        {experience.map((item) => (
+          <div class="cv-entry">
+            <div class="cv-entry__head">
+              <div><strong>{item.role}</strong><span class="cv-company">{item.company}</span></div>
+              <span class="t-label">{item.period}</span>
             </div>
-          ))}
+            <p class="t-body cv-entry__desc">{item.companyDesc}</p>
+            <ul class="cv-tasks">
+              {item.tasks.map((t) => <li class="t-body">{t}</li>)}
+            </ul>
+          </div>
+        ))}
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
         </div>
       </section>
 
@@ -127,15 +135,21 @@ const education = [
 
       <!-- ── Educación ── -->
       <section class="section">
-        <h2 class="t-section section__title">Educación</h2>
-        <div class="edu-grid">
-          {education.map((e) => (
-            <div class="edu-item">
-              <p class="t-label">{e.period}</p>
-              <p class="edu-item__title">{e.title}</p>
-              <p class="t-label edu-item__inst">{e.institution}</p>
+        <h2 class="cv-section-label t-label">Educación</h2>
+
+        {education.map((e) => (
+          <div class="cv-entry">
+            <div class="cv-entry__head">
+              <div><strong>{e.title}</strong><span class="cv-company">{e.institution}</span></div>
+              <span class="t-label">{e.period}</span>
             </div>
-          ))}
+          </div>
+        ))}
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
         </div>
       </section>
 
@@ -146,6 +160,12 @@ const education = [
         <h2 class="t-section section__title">Habilidades</h2>
         <div class="skills">
           {skills.map(s => <span class="skill t-label">{s}</span>)}
+        </div>
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
         </div>
       </section>
 
@@ -169,7 +189,7 @@ const education = [
   gap: 2rem;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 800px) {
   .intro__grid {
     grid-template-columns: 340px 1fr;
     gap: 4rem;
@@ -194,79 +214,86 @@ const education = [
 
 hr { margin: 0; }
 
-/* ── Timeline ── */
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+/* ── Experiencia / Educación (estilo Currículum) ── */
+.cv-section-label {
+  margin-bottom: 1.5rem;
+  display: block;
 }
 
-.timeline__head {
+.cv-entry {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--ink-10);
+}
+.cv-entry:last-child { border-bottom: none; }
+
+.cv-entry__head {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: baseline;
   flex-wrap: wrap;
   gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cv-entry__head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cv-entry__head strong {
+  font-size: 0.95rem;
+  font-weight: var(--fw-medium);
+}
+
+.cv-company {
+  font-size: 0.75rem;
+  color: var(--ink-60);
+  font-weight: 400;
+}
+
+.cv-entry__desc {
   margin-bottom: 1rem;
+  max-width: 68ch;
 }
 
-.timeline__role {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.timeline__company { margin-top: 0.2rem; }
-
-.timeline__period { white-space: nowrap; }
-
-.timeline__desc {
-  margin-bottom: 1rem;
-  max-width: 70ch;
-}
-
-.timeline__tasks {
+.cv-tasks {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.4rem;
 }
 
-.timeline__tasks li {
-  padding-left: 1.25rem;
+.cv-tasks li {
+  padding-left: 1.2rem;
   position: relative;
-  max-width: 70ch;
+  max-width: 68ch;
 }
 
-.timeline__tasks li::before {
+.cv-tasks li::before {
   content: '—';
   position: absolute;
   left: 0;
   color: var(--ink-30);
 }
 
-/* ── Education ── */
-.edu-grid {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 640px) {
-  .edu-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-.edu-item {
+/* ── Botón descarga CV ── */
+.cv-cta {
   display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+  justify-content: center;
+  margin-top: 2rem;
 }
 
-.edu-item__title {
-  font-size: 0.95rem;
-  font-weight: 600;
+.download-btn {
+  border: 1px solid var(--ink);
+  padding: 0.65em 1.4em;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
 }
-
-.edu-item__inst { margin-top: 0.1rem; }
+.download-btn:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
 
 /* ── Skills ── */
 .skills {
