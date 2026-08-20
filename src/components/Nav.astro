@@ -480,6 +480,32 @@ const isActiveHref = (href) =>
     setMenuState(false);
   };
 
+const updateActiveLink = () => {
+  const currentPath =
+    window.location.pathname.replace(/\/$/, '') || '/';
+
+  document.querySelectorAll('.nav__link[href]').forEach((link) => {
+    if (!(link instanceof HTMLAnchorElement)) return;
+
+    const url = new URL(link.href, window.location.origin);
+
+    if (url.origin !== window.location.origin) return;
+
+    const linkPath =
+      url.pathname.replace(/\/$/, '') || '/';
+
+    const isActive = currentPath === linkPath;
+
+    link.classList.toggle('nav__link--active', isActive);
+
+    if (isActive) {
+      link.setAttribute('aria-current', 'page');
+    } else {
+      link.removeAttribute('aria-current');
+    }
+  });
+};
+
   const blurStaleToggle = () => {
     if (
       document.activeElement instanceof HTMLElement &&
@@ -489,11 +515,14 @@ const isActiveHref = (href) =>
     }
   };
 
-  document.addEventListener('astro:page-load', () => {
-    initNavigation();
-    blurStaleToggle();
-  });
-
+document.addEventListener('astro:page-load', () => {
   initNavigation();
+  updateActiveLink();
   blurStaleToggle();
+});
+
+initNavigation();
+updateActiveLink();
+blurStaleToggle();
+
 </script>

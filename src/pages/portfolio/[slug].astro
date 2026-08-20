@@ -60,7 +60,7 @@ const d = project.data;
 </Layout>
 
 <style>
-/* ── WIP block ── */
+
 .wip-block {
   display: flex;
   align-items: flex-start;
@@ -74,7 +74,6 @@ const d = project.data;
 .wip-text { display: flex; flex-direction: column; gap: 0.75rem; }
 .wip-tag { margin-bottom: 0.25rem; }
 
-/* ── Prose del proyecto (renderizado desde Markdown) ── */
 .project-body {
   display: flex;
   flex-direction: column;
@@ -82,7 +81,6 @@ const d = project.data;
   max-width: 72ch;
 }
 
-/* Astro renderiza el markdown con etiquetas estándar; las estilamos aquí */
 .project-body :global(h2) {
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
