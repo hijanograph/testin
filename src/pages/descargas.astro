@@ -1,0 +1,167 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Descargas — Rafael Hijano"
+  description="Descarga el currículum y el portfolio de Rafael Hijano, Diseñador Visual."
+>
+  <main class="page">
+    <div class="container">
+
+      <header class="downloads-header">
+        <h1 class="t-hero">Descargas</h1>
+        <p class="t-body downloads-subtitle">
+          Accede y descarga directamente mi currículum actualizado y mi portfolio profesional.
+        </p>
+      </header>
+
+      <!-- ── Seccion CV ── -->
+      <section class="download-section">
+        <div class="section-title-wrap">
+          <h2 class="t-section">Currículum</h2>
+          <span class="t-label">PDF — Actualizado</span>
+        </div>
+
+        <div class="pdf-viewer">
+          <iframe
+            src="https://drive.google.com/file/d/16K_kHrIxXQuXzdytIGrX46_dsheItNwA/preview"
+            title="Currículum de Rafael Hijano"
+            allow="autoplay"
+          ></iframe>
+        </div>
+
+        <div class="cv-cta">
+          <a
+            href="https://drive.google.com/uc?export=download&id=16K_kHrIxXQuXzdytIGrX46_dsheItNwA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download-btn t-label"
+          >
+            Descargar Currículum (PDF) ↓
+          </a>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+
+      <!-- ── Seccion Portfolio ── -->
+      <section class="download-section">
+        <div class="section-title-wrap">
+          <h2 class="t-section">Portfolio</h2>
+          <span class="t-label">PDF — Proyectos seleccionados</span>
+        </div>
+
+        <div class="pdf-viewer">
+          <!-- Nota: Reemplaza el ID de Google Drive por el de tu portfolio si es diferente -->
+          <iframe
+            src="https://drive.google.com/file/d/TU_ID_DE_PORTFOLIO_EN_DRIVE/preview"
+            title="Portfolio de Rafael Hijano"
+            allow="autoplay"
+          ></iframe>
+        </div>
+
+        <div class="cv-cta">
+          <!-- Nota: Reemplaza también el ID en el enlace de descarga -->
+          <a
+            href="https://drive.google.com/uc?export=download&id=TU_ID_DE_PORTFOLIO_EN_DRIVE"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download-btn t-label"
+          >
+            Descargar Portfolio (PDF) ↓
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+.page {
+  padding-top: calc(var(--nav-h) + 3rem);
+  padding-bottom: 4rem;
+}
+
+.downloads-header {
+  margin-bottom: 3.5rem;
+}
+
+.downloads-subtitle {
+  margin-top: 1rem;
+  color: var(--ink-60);
+  max-width: 60ch;
+}
+
+.download-section {
+  margin-bottom: 4rem;
+}
+
+.section-title-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.section-title-wrap .t-label {
+  color: var(--ink-60);
+  font-size: 0.75rem;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--ink-10);
+  margin: 4rem 0;
+}
+
+/* ── Visor PDF ── */
+.pdf-viewer {
+  width: 100%;
+  height: 85vh;
+  margin-inline: auto;
+  overflow: hidden;
+  border: 1px solid var(--ink-10);
+  background: var(--cream);
+}
+
+.pdf-viewer iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ── Botones CTA ── */
+.cv-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.download-btn {
+  border: 1px solid var(--ink);
+  padding: 0.65em 1.4em;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.download-btn:hover {
+  background: var(--ink);
+  color: var(--cream);
+}
+
+@media (max-width: 800px) {
+  .page {
+    padding-top: calc(var(--nav-h) + 2rem);
+  }
+
+  .pdf-viewer {
+    height: 65vh;
+  }
+}
+</style>

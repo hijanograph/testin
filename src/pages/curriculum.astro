@@ -1,39 +1,169 @@
 ---
 import Layout from '../layouts/Layout.astro';
+
+const skills = [
+  'Adobe Illustrator', 'Adobe Photoshop', 'Adobe InDesign',
+  'Adobe After Effects', 'Adobe Premiere Pro',
+  'Figma', 'WordPress', 'HTML5',
+];
+
+const experience = [
+  {
+    role: 'Diseñador Visual',
+    company: 'Batterylight',
+    period: 'Feb 2025 — presente',
+    companyDesc: 'Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centrado en la eficiencia energética y la sostenibilidad en la industria de la iluminación proyectada.',
+    tasks: [
+      'Gestión del departamento de marketing, diseño de packaging y edición de catálogos, asegurando la coherencia visual y el cumplimiento de las guías de marca.',
+      'Optimización de materiales de venta en formatos editables, garantizando su alineación con los estándares visuales y de marca de la empresa.',
+    ],
+  },
+  {
+    role: 'Diseñador de Marca',
+    company: 'Freepik',
+    period: 'Feb 2024',
+    companyDesc: 'Freepik Company S.L. es una plataforma líder de contenido digital que ofrece una amplia gama de recursos gráficos gratuitos y premium, incluyendo fotos, vectores e ilustraciones.',
+    tasks: [
+      'Participación en el proyecto Neighborhood Design, centrado en la creación de identidad de marca y aplicaciones para un negocio urbano, incluyendo la gestión del rebranding y la coordinación con producción e impresión.',
+      'Asistencia en la creación de recursos de marca y materiales de marketing para distintas plataformas, con el objetivo de mejorar la visibilidad y el engagement.',
+    ],
+  },
+  {
+    role: 'Marketing Specialist',
+    company: 'Ertheo',
+    period: 'Feb 2019 — Abr 2020',
+    companyDesc: 'Ertheo es una plataforma de cursos deportivos internacionales que conecta jóvenes talentos con academias de élite.',
+    tasks: [
+      'Gestión de campañas de marketing digital en múltiples mercados europeos.',
+      'Creación de materiales de comunicación y coordinación con el equipo de diseño.',
+    ],
+  },
+];
+
+const education = [
+  { title: 'Máster en Diseño Visual', institution: 'La X Gauss', period: '2021 — 2023' },
+  { title: 'Máster en Dirección y Liderazgo', institution: 'GADE Business School', period: '2020' },
+  { title: 'Grado en Comunicación Audiovisual', institution: 'Universidad de Málaga', period: '2015 — 2019' },
+];
 ---
 
-<Layout
-  title="Currículum — Rafael Hijano"
-  description="Currículum en PDF de Rafael Hijano, Diseñador Visual."
->
-  <main class="page">
+<Layout title="Currículum — Rafael Hijano" description="Currículum y trayectoria profesional de Rafael Hijano, Diseñador Visual.">
+  <div class="page">
     <div class="container">
 
-      <header class="cv-header">
-        <h1 class="t-hero">Currículum</h1>
-      </header>
+      <!-- ── Intro (Sin descripción narrativa) ── -->
+      <section class="intro">
+        <h1 class="t-hero intro__title">Currículum</h1>
 
-      <div class="pdf-viewer">
-        <iframe
-          src="https://drive.google.com/file/d/16K_kHrIxXQuXzdytIGrX46_dsheItNwA/preview"
-          title="Currículum de Rafael Hijano"
-          allow="autoplay"
-        ></iframe>
-      </div>
+        <div class="intro__grid">
+          <!-- Foto -->
+          <div class="intro__photo-wrap">
+            <!--
+              IMAGEN REAL: descomenta y borra el div
+              <img src="/images/rafael.jpg" alt="Rafael Hijano" class="intro__photo" />
+            -->
+            <div class="img-ph img-ph--tall intro__photo"></div>
+          </div>
+        </div>
+      </section>
+
+      <hr />
 
       <div class="cv-cta">
-        <a
-          href="https://drive.google.com/uc?export=download&id=16K_kHrIxXQuXzdytIGrX46_dsheItNwA"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="download-btn t-label"
-        >
-          Descargar PDF ↓
+        <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+          Descargar CV ↓
         </a>
       </div>
 
+      <!-- ── Experiencia ── -->
+      <section class="section">
+        <h2 class="cv-section-label t-label">Experiencia</h2>
+
+        {experience.map((item) => (
+          <div class="cv-entry">
+            <div class="cv-entry__head">
+              <div><strong>{item.role}</strong><span class="cv-company">{item.company}</span></div>
+              <span class="t-label">{item.period}</span>
+            </div>
+            <p class="t-body cv-entry__desc">{item.companyDesc}</p>
+            <ul class="cv-tasks">
+              {item.tasks.map((t) => <li class="t-body">{t}</li>)}
+            </ul>
+          </div>
+        ))}
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
+        </div>
+      </section>
+
+      <hr />
+
+      <!-- ── Educación ── -->
+      <section class="section">
+        <h2 class="cv-section-label t-label">Educación</h2>
+
+        {education.map((e) => (
+          <div class="cv-entry">
+            <div class="cv-entry__head">
+              <div><strong>{e.title}</strong><span class="cv-company">{e.institution}</span></div>
+              <span class="t-label">{e.period}</span>
+            </div>
+          </div>
+        ))}
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
+        </div>
+      </section>
+
+      <hr />
+
+      <!-- ── Habilidades ── -->
+      <section class="section">
+        <h2 class="t-section section__title">Habilidades</h2>
+        <div class="skills">
+          {skills.map(s => <span class="skill t-label">{s}</span>)}
+        </div>
+
+        <div class="cv-cta">
+          <a href="/cv-rafael-hijano.pdf" download class="download-btn t-label">
+            Descargar CV ↓
+          </a>
+        </div>
+      </section>
+
+      <hr />
+
+      <!-- ── Visor PDF de Google Drive al final ── -->
+      <section class="section">
+        
+        <div class="pdf-viewer">
+          <iframe
+            src="https://drive.google.com/file/d/16K_kHrIxXQuXzdytIGrX46_dsheItNwA/preview"
+            title="Currículum de Rafael Hijano"
+            allow="autoplay"
+          ></iframe>
+        </div>
+
+        <div class="cv-cta">
+          <a
+            href="https://drive.google.com/uc?export=download&id=16K_kHrIxXQuXzdytIGrX46_dsheItNwA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download-btn t-label"
+          >
+            Descargar PDF de Drive ↓
+          </a>
+        </div>
+      </section>
+
     </div>
-  </main>
+  </div>
 </Layout>
 
 <style>
@@ -42,14 +172,103 @@ import Layout from '../layouts/Layout.astro';
   padding-bottom: 3rem;
 }
 
-.cv-header {
-  margin-bottom: 2rem;
+/* ── Intro ── */
+.intro { margin-bottom: 4rem; }
+
+.intro__title { margin-bottom: 3rem; }
+
+.intro__grid {
+  display: grid;
+  gap: 2rem;
 }
 
+@media (min-width: 800px) {
+  .intro__grid {
+    grid-template-columns: 340px 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+}
+
+.intro__photo {
+  width: 100%;
+}
+
+/* ── Sections ── */
+.section { padding: 3.5rem 0; }
+
+.section__title { margin-bottom: 2.5rem; }
+
+hr { margin: 0; }
+
+/* ── Experiencia / Educación (estilo Currículum) ── */
+.cv-section-label {
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.cv-entry {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--ink-10);
+}
+.cv-entry:last-child { border-bottom: none; }
+
+.cv-entry__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.cv-entry__head > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.cv-entry__head strong {
+  font-size: 0.95rem;
+  font-weight: var(--fw-medium);
+}
+
+.cv-company {
+  font-size: 0.75rem;
+  color: var(--ink-60);
+  font-weight: 400;
+}
+
+.cv-entry__desc {
+  margin-bottom: 1rem;
+  max-width: 68ch;
+}
+
+.cv-tasks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cv-tasks li {
+  padding-left: 1.2rem;
+  position: relative;
+  max-width: 68ch;
+}
+
+.cv-tasks li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-30);
+}
+
+/* ── Botón descarga CV ── */
 .cv-cta {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .download-btn {
@@ -58,12 +277,25 @@ import Layout from '../layouts/Layout.astro';
   transition: background 0.2s, color 0.2s;
   white-space: nowrap;
 }
-
 .download-btn:hover {
   background: var(--ink);
   color: var(--cream);
 }
 
+/* ── Skills ── */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skill {
+  border: 1px solid var(--ink-30);
+  padding: 0.45em 1em;
+  color: var(--ink-60);
+}
+
+/* ── PDF Viewer ── */
 .pdf-viewer {
   width: 100%;
   height: 90vh;
