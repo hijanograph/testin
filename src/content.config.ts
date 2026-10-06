@@ -9,6 +9,8 @@ const portfolio = defineCollection({
     subtitle:  z.string().optional(),
     tagline:   z.string(),
     desc:      z.string(),
+    loader: glob({ pattern: '**/*.md', base: './content/portfolio' }),
+    loader: glob({ pattern: '**/*.md', base: './content/config' })
     area:      z.string(),
     rol:       z.string(),
     software:  z.string(),
