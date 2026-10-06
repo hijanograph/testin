@@ -19,7 +19,7 @@ const externalLinks = [
   },
 ];
 
-const isActiveHref = (href) =>
+const isActiveHref = (href: string) =>
   currentPath === (href.replace(/\/$/, '') || '/');
 ---
 
@@ -340,7 +340,7 @@ const isActiveHref = (href) =>
 <script>
   import { navigate } from 'astro:transitions/client';
 
-  const goTo = (href) => {
+  const goTo = (href: string) => {
     try {
       navigate(href);
     } catch {
@@ -361,7 +361,7 @@ const isActiveHref = (href) =>
 
     const firstLink = overlay.querySelector('a');
 
-    const setMenuState = (open) => {
+    const setMenuState = (open: boolean) => {
       overlay.classList.toggle('open', open);
       overlay.setAttribute('aria-hidden', String(!open));
       overlay.inert = !open;
@@ -389,7 +389,7 @@ const isActiveHref = (href) =>
       setMenuState(!isOpen);
     });
 
-    const navigateAfterClose = (href) => {
+    const navigateAfterClose = (href: string) => {
       const duration =
         parseFloat(getComputedStyle(overlay).transitionDuration) *
         1000;
