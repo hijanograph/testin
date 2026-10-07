@@ -30,6 +30,48 @@
   font-display: preload;
 }
 
+/* --- Project card --- */
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-card__img-link {
+  position: relative;
+  display: block;
+  overflow: hidden;
+}
+
+.project-card__img {
+  width: 100%;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.project-card__img-link:hover .project-card__img {
+  transform: scale(1.03);
+}
+
+.project-card__wip {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+}
+
+.project-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.project-card__title {
+  transition: opacity 0.15s;
+}
+
+.project-card__title:hover {
+  opacity: 0.6;
+}
 :root {
   --cream: #fff5e9;
   --ink: #3c3a26;
