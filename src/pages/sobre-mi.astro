@@ -51,21 +51,14 @@ const education = [
   <div class="page">
     <div class="container">
 
-      <!-- ── Intro ── -->
       <section class="intro">
         <h1 class="t-hero intro__title">Sobre mí</h1>
 
         <div class="intro__grid">
-          <!-- Foto -->
           <div class="intro__photo-wrap">
-            <!--
-              IMAGEN REAL: descomenta y borra el div
-              <img src="/images/rafael.jpg" alt="Rafael Hijano" class="intro__photo" />
-            -->
-            <div class="img-ph img-ph--tall intro__photo"></div>
+            <div class="img-ph intro__photo"></div>
           </div>
 
-          <!-- Bio -->
           <div class="intro__bio">
             <p class="t-body">
               Soy Rafael, un Diseñador Visual que vive y trabaja en el área de Málaga.
@@ -107,7 +100,6 @@ const education = [
         </a>
       </div>
 
-      <!-- ── Experiencia ── -->
       <section class="section">
         <h2 class="cv-section-label t-label">Experiencia</h2>
 
@@ -133,7 +125,6 @@ const education = [
 
       <hr />
 
-      <!-- ── Educación ── -->
       <section class="section">
         <h2 class="cv-section-label t-label">Educación</h2>
 
@@ -155,11 +146,10 @@ const education = [
 
       <hr />
 
-      <!-- ── Habilidades ── -->
       <section class="section">
         <h2 class="t-section section__title">Habilidades</h2>
         <div class="skills">
-          {skills.map(s => <span class="skill t-label">{s}</span>)}
+          {skills.map((s) => <span class="skill t-label">{s}</span>)}
         </div>
 
         <div class="cv-cta">
@@ -172,139 +162,3 @@ const education = [
     </div>
   </div>
 </Layout>
-
-<style>
-.page {
-  padding-top: calc(var(--nav-h) + 3rem);
-  padding-bottom: 2rem;
-}
-
-/* ── Intro ── */
-.intro { margin-bottom: 4rem; }
-
-.intro__title { margin-bottom: 3rem; }
-
-.intro__grid {
-  display: grid;
-  gap: 2rem;
-}
-
-@media (min-width: 800px) {
-  .intro__grid {
-    grid-template-columns: 340px 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-}
-
-.intro__photo {
-  width: 100%;
-}
-
-.intro__bio {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-/* ── Sections ── */
-.section { padding: 3.5rem 0; }
-
-.section__title { margin-bottom: 2.5rem; }
-
-hr { margin: 0; }
-
-/* ── Experiencia / Educación (estilo Currículum) ── */
-.cv-section-label {
-  margin-bottom: 1.5rem;
-  display: block;
-}
-
-.cv-entry {
-  padding: 1.25rem 0;
-  border-bottom: 1px solid var(--ink-10);
-}
-.cv-entry:last-child { border-bottom: none; }
-
-.cv-entry__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.cv-entry__head > div {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-}
-
-.cv-entry__head strong {
-  font-size: 0.95rem;
-  font-weight: var(--fw-medium);
-}
-
-.cv-company {
-  font-size: 0.75rem;
-  color: var(--ink-60);
-  font-weight: 400;
-}
-
-.cv-entry__desc {
-  margin-bottom: 1rem;
-  max-width: 68ch;
-}
-
-.cv-tasks {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.cv-tasks li {
-  padding-left: 1.2rem;
-  position: relative;
-  max-width: 68ch;
-}
-
-.cv-tasks li::before {
-  content: '—';
-  position: absolute;
-  left: 0;
-  color: var(--ink-30);
-}
-
-/* ── Botón descarga CV ── */
-.cv-cta {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-
-.download-btn {
-  border: 1px solid var(--ink);
-  padding: 0.65em 1.4em;
-  transition: background 0.2s, color 0.2s;
-  white-space: nowrap;
-}
-.download-btn:hover {
-  background: var(--ink);
-  color: var(--cream);
-}
-
-/* ── Skills ── */
-.skills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-}
-
-.skill {
-  border: 1px solid var(--ink-30);
-  padding: 0.45em 1em;
-  color: var(--ink-60);
-}
-</style>
