@@ -35,7 +35,7 @@ const d = project.data;
     nextLabel={d.nextLabel}
     wip={d.wip}
   >
-    {d.wip && (
+    {d.wip ? (
       <div class="wip-block">
         <div class="wip-figure" aria-hidden="true">
           <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg" width="80">
@@ -50,58 +50,10 @@ const d = project.data;
           <Content />
         </div>
       </div>
-    )}
-
-    {!d.wip && (
+    ) : (
       <div class="project-body">
         <Content />
       </div>
     )}
   </ProjectLayout>
 </Layout>
-
-<style>
-
-.wip-block {
-  display: flex;
-  align-items: flex-start;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 2.5rem;
-  border: 1px solid var(--ink-10);
-  max-width: 72ch;
-}
-.wip-figure { color: var(--ink); flex-shrink: 0; opacity: 0.5; }
-.wip-text { display: flex; flex-direction: column; gap: 0.75rem; }
-.wip-tag { margin-bottom: 0.25rem; }
-
-.project-body {
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-  max-width: 72ch;
-}
-
-.project-body :global(h2) {
-  font-size: clamp(1.5rem, 3vw, 2.2rem);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.1;
-  margin-bottom: 1rem;
-}
-.project-body :global(p) {
-  font-size: clamp(0.875rem, 1.4vw, 0.95rem);
-  font-weight: 400;
-  line-height: 1.7;
-  color: var(--ink-60);
-  max-width: 70ch;
-}
-.project-body :global(p + p) { margin-top: 1rem; }
-
-/* Imágenes dentro del markdown */
-.project-body :global(img) {
-  width: 100%;
-  display: block;
-  margin: 1rem 0;
-}
-</style>

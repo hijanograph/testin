@@ -1,25 +1,31 @@
+---
+const links = [
+  { label: 'Behance', href: 'https://behance.net/rafaelhijano', external: true },
+  { label: 'Inicio', href: '/' },
+  { label: 'Sobre mí', href: '/sobre-mi' },
+  { label: 'Currículum', href: '/curriculum' },
+  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano', external: true },
+];
+---
+
 <footer class="footer">
   <div class="container">
     <hr class="footer__hr" />
 
     <div class="footer__grid">
 
-      <div class="footer__col footer__col--copy">
+      <div class="footer__col">
         <p class="t-label footer__copy">
           TODOS LOS DERECHOS RESERVADOS<br />
-          2025 ®
+          2026 ®
         </p>
       </div>
 
       <div class="footer__col footer__col--email">
-        <p class="t-label footer__contact-label">
-          Puedes tutearme en
-        </p>
+        <p class="t-label">Puedes tutearme en</p>
 
-        <a
-          href="mailto:hey@rafaelhijano.work"
-          class="footer__email"
-        >
+        <a href="mailto:hey@rafaelhijano.work" class="footer__email">
           hey@<br />
           rafaelhijano.work
         </a>
@@ -27,169 +33,19 @@
 
       <div class="footer__col footer__col--links">
         <nav class="footer__nav">
-          <a
-            href="https://behance.net/rafaelhijano"
-            target="_blank"
-            rel="noopener"
-            class="footer__nav-link arrow-link"
-          >
-            Behance
-          </a>
-
-          <a
-            href="/"
-            class="footer__nav-link arrow-link"
-          >
-            Inicio
-          </a>
-
-          <a
-            href="/sobre-mi"
-            class="footer__nav-link arrow-link"
-          >
-            Sobre mí
-          </a>
-
-          <a
-            href="/curriculum"
-            class="footer__nav-link arrow-link"
-          >
-            Currículum
-          </a>
-
-          <a
-            href="/portfolio"
-            class="footer__nav-link arrow-link"
-          >
-            Portfolio
-          </a>
-
-          <a
-            href="https://linkedin.com/in/rafaelhijano"
-            target="_blank"
-            rel="noopener"
-            class="footer__nav-link arrow-link"
-          >
-            LinkedIn
-          </a>
+          {links.map(({ label, href, external }) => (
+            <a
+              href={href}
+              class="footer__nav-link arrow-link"
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener' : undefined}
+            >
+              {label}
+            </a>
+          ))}
         </nav>
       </div>
 
     </div>
   </div>
 </footer>
-
-<style>
-  .footer {
-    padding: 2rem 0 2.5rem;
-  }
-
-  .footer__hr {
-    margin: 0 0 1rem;
-  }
-
-  .footer__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    align-items: end;
-  }
-
-  .footer__col--copy {
-    min-width: 0;
-  }
-
-  .footer__copy {
-    line-height: 1.6;
-  }
-
-  .footer__col--email {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-width: 0;
-  }
-
-  .footer__contact-label {
-  }
-
-  .footer__email {
-    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
-    font-weight: var(--fw-medium);
-    letter-spacing: var(--tracking-tight);
-    line-height: 1.05;
-    transition: opacity 0.2s;
-  }
-
-  .footer__email:hover {
-    opacity: 0.6;
-  }
-
-  .footer__col--links {
-    min-width: 0;
-  }
-
-  .footer__nav {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.6rem;
-  }
-
-  .footer__nav-link {
-    white-space: nowrap;
-  }
-
-  @media (min-width: 800px) {
-    .footer__grid {
-      grid-template-columns: 2fr 2fr 2fr;
-      gap: 0;
-      align-items: end;
-    }
-
-    .footer__col--copy {
-      grid-column: 1;
-      justify-self: start;
-      align-self: end;
-    }
-
-    .footer__col--email {
-      grid-column: 2;
-      justify-self: end;
-      align-self: end;
-      text-align: right;
-      align-items: flex-end;
-    }
-
-    .footer__col--links {
-      grid-column: 3;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      align-self: end;
-    }
-
-    .footer__nav {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem 2rem;
-      justify-items: end;
-      align-items: end;
-    }
-  }
-
-  @media (max-width: 800px) {
-    .footer__col--email {
-      text-align: left;
-      align-items: flex-start;
-    }
-
-    .footer__col--links {
-      display: block;
-    }
-
-    .footer__nav {
-      grid-template-columns: 1fr 1fr;
-      gap: 0.6rem 2rem;
-    }
-  }
-</style>

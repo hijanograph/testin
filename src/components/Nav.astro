@@ -9,14 +9,8 @@ const navigation = [
 ];
 
 const externalLinks = [
-  {
-    label: 'LinkedIn',
-    href: 'https://linkedin.com/in/rafaelhijano',
-  },
-  {
-    label: 'Behance',
-    href: 'https://behance.net/rafaelhijano',
-  },
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano' },
+  { label: 'Behance', href: 'https://behance.net/rafaelhijano' },
 ];
 
 const isActiveHref = (href: string) =>
@@ -27,7 +21,7 @@ const isActiveHref = (href: string) =>
 
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="/" class="nav__logo">RAFAEL HIJANO</a>
+      <a href="/" class="nav__logo t-nav">RAFAEL HIJANO</a>
 
       <nav class="nav__desktop" aria-label="Navegación principal">
         <ul class="nav__list">
@@ -39,10 +33,7 @@ const isActiveHref = (href: string) =>
                 <li>
                   <a
                     href={href}
-                    class:list={[
-                      'nav__link',
-                      { 'nav__link--active': isActive },
-                    ]}
+                    class:list={['nav__link', 't-nav', { 'nav__link--active': isActive }]}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {label}
@@ -69,12 +60,7 @@ const isActiveHref = (href: string) =>
     </div>
   </header>
 
-  <div
-    class="nav-overlay"
-    id="navOverlay"
-    aria-hidden="true"
-    inert
-  >
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true" inert>
     <div class="nav-overlay__inner">
       <nav class="nav-overlay__nav" aria-label="Navegación móvil">
         <ul class="nav-overlay__list">
@@ -86,11 +72,7 @@ const isActiveHref = (href: string) =>
                 <li>
                   <a
                     href={href}
-                    class:list={[
-                      'nav__link',
-                      'nav-overlay__link',
-                      { 'nav__link--active': isActive },
-                    ]}
+                    class:list={['nav__link', 't-nav', 'nav-overlay__link', { 'nav__link--active': isActive }]}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {label}
@@ -123,220 +105,6 @@ const isActiveHref = (href: string) =>
 
 </div>
 
-<style>
-  .nav {
-    position: fixed;
-    inset: 0 0 auto;
-    z-index: 100;
-    width: 100%;
-    height: var(--nav-h);
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-
-  .nav.scrolled {
-    border-color: var(--ink-10);
-  }
-
-  .nav__inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    padding-inline: var(--pad-x);
-    box-sizing: border-box;
-  }
-
-  .nav__logo {
-    flex-shrink: 0;
-    color: var(--ink);
-    font-size: 1.2rem;
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    text-transform: uppercase;
-    text-decoration: none;
-  }
-
-  .nav__desktop {
-    display: none;
-  }
-
-  .nav__list,
-  .nav-overlay__list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .nav__desktop .nav__list {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: clamp(24px, 4vw, 64px);
-  }
-
-  .nav__link {
-    display: inline-block;
-    color: var(--ink-60);
-    font-size: 1.67rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    text-align: right;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: color 0.15s ease;
-  }
-
-  .nav__link:hover,
-  .nav__link:focus-visible,
-  .nav__link--active {
-    color: var(--ink);
-    text-decoration: none;
-  }
-
-  .nav__toggle {
-    flex: 0 0 36px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-    align-items: flex-end;
-    width: 36px;
-    height: 36px;
-    margin: 0px;
-    padding: 6px;
-    box-sizing: border-box;
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-  }
-
-  .nav__toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: var(--ink);
-    transform-origin: center center;
-    transition:
-      transform 0.3s ease,
-      opacity 0.2s ease;
-  }
-
-  .nav__toggle[aria-expanded='true'] span:nth-child(1) {
-    transform: translateY(6.4px) rotate(45deg);
-  }
-
-  .nav__toggle[aria-expanded='true'] span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .nav__toggle[aria-expanded='true'] span:nth-child(3) {
-    transform: translateY(-6.4px) rotate(-45deg);
-  }
-
-  .nav-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 99;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding-top: var(--nav-h);
-    padding-inline: var(--pad-x);
-    background: color-mix(
-      in srgb,
-      var(--cream) 75%,
-      transparent
-    );
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition:
-      opacity 0.35s ease,
-      visibility 0.35s ease;
-  }
-
-  .nav-overlay.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-
-  .nav-overlay__inner {
-    display: flex;
-    align-items: flex-end;
-    width: 100%;
-    height: 100%;
-    padding-bottom: 3rem;
-    box-sizing: border-box;
-  }
-
-  .nav-overlay__nav {
-    width: 100%;
-  }
-
-  .nav-overlay__list {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    width: 100%;
-    gap: 36px;
-  }
-
-  .nav-overlay__link {
-    color: var(--ink);
-  }
-
-  .nav-overlay__link span {
-    margin-left: 0.15em;
-  }
-
-  :global(html) {
-    scrollbar-gutter: stable;
-  }
-
-  :global(body.menu-open) {
-    overflow: hidden;
-  }
-
-  @media (min-width: 800px) {
-    .nav__logo {
-      font-size: 1.33rem;
-    }
-
-    .nav__link {
-      font-size: 1.2rem;
-    }
-
-    .nav__desktop {
-      display: block;
-      flex: 1;
-    }
-
-    .nav__toggle,
-    .nav-overlay {
-      display: none;
-    }
-
-    .nav__inner {
-      gap: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .nav,
-    .nav__link,
-    .nav__toggle span,
-    .nav-overlay {
-      transition: none;
-    }
-  }
-</style>
-
 <script>
   import { navigate } from 'astro:transitions/client';
 
@@ -354,7 +122,6 @@ const isActiveHref = (href: string) =>
     const nav = document.getElementById('nav');
 
     if (!toggle || !overlay || !nav) return;
-
     if (toggle.dataset.initialized === 'true') return;
 
     toggle.dataset.initialized = 'true';
@@ -367,12 +134,9 @@ const isActiveHref = (href: string) =>
       overlay.inert = !open;
 
       toggle.setAttribute('aria-expanded', String(open));
-
       toggle.setAttribute(
         'aria-label',
-        open
-          ? 'Cerrar menú de navegación'
-          : 'Abrir menú de navegación'
+        open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'
       );
 
       document.body.classList.toggle('menu-open', open);
@@ -383,16 +147,13 @@ const isActiveHref = (href: string) =>
     };
 
     toggle.addEventListener('click', () => {
-      const isOpen =
-        toggle.getAttribute('aria-expanded') === 'true';
-
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
       setMenuState(!isOpen);
     });
 
     const navigateAfterClose = (href: string) => {
       const duration =
-        parseFloat(getComputedStyle(overlay).transitionDuration) *
-        1000;
+        parseFloat(getComputedStyle(overlay).transitionDuration) * 1000;
 
       setMenuState(false);
 
@@ -401,11 +162,7 @@ const isActiveHref = (href: string) =>
         return;
       }
 
-      overlay.addEventListener(
-        'transitionend',
-        () => goTo(href),
-        { once: true }
-      );
+      overlay.addEventListener('transitionend', () => goTo(href), { once: true });
     };
 
     overlay.addEventListener('click', (event) => {
@@ -436,10 +193,7 @@ const isActiveHref = (href: string) =>
     document.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
 
-      const isOpen =
-        toggle.getAttribute('aria-expanded') === 'true';
-
-      if (isOpen) {
+      if (toggle.getAttribute('aria-expanded') === 'true') {
         setMenuState(false);
       }
     });
@@ -467,9 +221,7 @@ const isActiveHref = (href: string) =>
 
     updateScrolledState();
 
-    const desktopMedia = window.matchMedia(
-      '(min-width: 800px)'
-    );
+    const desktopMedia = window.matchMedia('(min-width: 860px)');
 
     desktopMedia.addEventListener('change', (event) => {
       if (event.matches) {
@@ -480,31 +232,28 @@ const isActiveHref = (href: string) =>
     setMenuState(false);
   };
 
-const updateActiveLink = () => {
-  const currentPath =
-    window.location.pathname.replace(/\/$/, '') || '/';
+  const updateActiveLink = () => {
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
 
-  document.querySelectorAll('.nav__link[href]').forEach((link) => {
-    if (!(link instanceof HTMLAnchorElement)) return;
+    document.querySelectorAll('.nav__link[href]').forEach((link) => {
+      if (!(link instanceof HTMLAnchorElement)) return;
 
-    const url = new URL(link.href, window.location.origin);
+      const url = new URL(link.href, window.location.origin);
 
-    if (url.origin !== window.location.origin) return;
+      if (url.origin !== window.location.origin) return;
 
-    const linkPath =
-      url.pathname.replace(/\/$/, '') || '/';
+      const linkPath = url.pathname.replace(/\/$/, '') || '/';
+      const isActive = currentPath === linkPath;
 
-    const isActive = currentPath === linkPath;
+      link.classList.toggle('nav__link--active', isActive);
 
-    link.classList.toggle('nav__link--active', isActive);
-
-    if (isActive) {
-      link.setAttribute('aria-current', 'page');
-    } else {
-      link.removeAttribute('aria-current');
-    }
-  });
-};
+      if (isActive) {
+        link.setAttribute('aria-current', 'page');
+      } else {
+        link.removeAttribute('aria-current');
+      }
+    });
+  };
 
   const blurStaleToggle = () => {
     if (
@@ -515,14 +264,12 @@ const updateActiveLink = () => {
     }
   };
 
-document.addEventListener('astro:page-load', () => {
-  initNavigation();
-  updateActiveLink();
-  blurStaleToggle();
-});
+  const init = () => {
+    initNavigation();
+    updateActiveLink();
+    blurStaleToggle();
+  };
 
-initNavigation();
-updateActiveLink();
-blurStaleToggle();
-
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>
