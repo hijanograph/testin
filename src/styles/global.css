@@ -31,8 +31,8 @@
 }
 
 :root {
-  --cream: #fff5e9;
-  --ink: #3c3a26;
+  --cream: #fcf3ed;
+  --ink: #3f3a3a;
   --ink-60: color-mix(in srgb, var(--ink) 60%, transparent);
   --ink-30: color-mix(in srgb, var(--ink) 30%, transparent);
   --ink-10: color-mix(in srgb, var(--ink) 10%, transparent);
@@ -55,6 +55,7 @@
   --s-4: 2rem;
   --s-5: 3rem;
   --s-6: 4rem;
+  --s-7: 8rem;
 
   --nav-h: 86px;
   --max-w: 1440px;
@@ -248,7 +249,7 @@ button:focus-visible {
 .t-hero {
   font-size: var(--fs-4);
   line-height: 0.85;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 .t-section,
@@ -503,15 +504,8 @@ body.menu-open {
 .project-card__wip,
 .wip-badge {
   position: absolute;
-  left: var(--s-2);
-}
-
-.project-card__wip {
+  right: var(--s-2);
   bottom: var(--s-2);
-}
-
-.wip-badge {
-  top: var(--s-2);
 }
 
 .hero {
@@ -520,12 +514,14 @@ body.menu-open {
 
 .hero__inner {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .hero__text {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
   gap: var(--s-3);
-  padding: var(--s-4) var(--pad-x);
 }
 
 .projects {
@@ -534,7 +530,7 @@ body.menu-open {
 
 .projects__grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-4);
 }
 
@@ -625,6 +621,7 @@ body.menu-open {
 
 .intro__grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-4);
 }
 
@@ -741,6 +738,7 @@ body.menu-open {
 
 .project-hero {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--s-4);
   margin-bottom: var(--s-5);
 }
@@ -816,18 +814,26 @@ body.menu-open {
 }
 
 .footer {
-  padding: var(--s-4) 0;
+  padding: var(--s-6) 0 var(--s-4);
 }
 
 .footer__hr {
-  margin-bottom: var(--s-2);
+  display: none;
+}
+
+.footer__copy,
+.footer__copy * {
+  text-transform: none;
+}
+
+.footer__copy {
+  color: var(--ink-60);
 }
 
 .footer__grid {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column-reverse;
   gap: var(--s-4);
-  align-items: end;
 }
 
 .footer__col {
@@ -835,6 +841,7 @@ body.menu-open {
 }
 
 .footer__col--email {
+  order: 1;
   align-items: flex-start;
 }
 
@@ -924,13 +931,43 @@ body.menu-open {
   border-radius: 2px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .projects__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page {
+    padding-top: calc(var(--nav-h) + var(--s-5));
+  }
+
+  .page--error {
+    padding-top: calc(var(--nav-h) + var(--s-6));
+  }
+
+  .pdf-viewer {
+    height: 90vh;
+  }
+
+  .pdf-viewer--compact {
+    height: 85vh;
+  }
+
+  .intro__grid {
+    grid-template-columns: 280px minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .project-hero {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .footer {
+    padding-top: var(--s-7);
   }
 }
 
-@media (min-width: 860px) {
+@media (min-width: 1072px) {
   .t-hero {
     font-size: var(--fs-5);
   }
@@ -967,40 +1004,28 @@ body.menu-open {
     padding: var(--s-5);
   }
 
-  .page {
-    padding-top: calc(var(--nav-h) + var(--s-5));
-  }
-
-  .page--error {
-    padding-top: calc(var(--nav-h) + var(--s-6));
-  }
-
-  .pdf-viewer {
-    height: 90vh;
-  }
-
-  .pdf-viewer--compact {
-    height: 85vh;
+  .projects__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .intro__grid {
-    grid-template-columns: 340px 1fr;
+    grid-template-columns: 340px minmax(0, 1fr);
     gap: var(--s-6);
-    align-items: start;
   }
 
   .project-hero {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
     gap: var(--s-5);
   }
 
   .footer__grid {
-    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
     gap: 0;
   }
 
   .footer__col--email {
+    order: 0;
     justify-self: end;
     align-items: flex-end;
     text-align: right;
@@ -1013,23 +1038,5 @@ body.menu-open {
 
   .footer__nav {
     justify-items: end;
-  }
-}
-
-@media (min-width: 960px) {
-  .projects__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1140px) {
-  .footer__email {
-    font-size: var(--fs-4);
-  }
-}
-
-@media (min-width: 1340px) {
-  .project-body h2 {
-    font-size: var(--fs-4);
   }
 }
