@@ -6,9 +6,9 @@ area: "Branding — Editorial — Motion Graphics — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseñador gráfico — Motion grapher"
 software: "Illustrator — InDesign — After Effects — Figma"
 order: 2
-heroImg: "/images/projects/fiambre-hero.jpg"
+heroImg: "${base}images/projects/fiambre-hero.png"
 heroAlt: "Editorial Fiambre — identidad visual"
-coverImg: "/images/projects/fiambre-cover.jpg"
+coverImg: "${base}images/projects/fiambre-cover.png"
 coverAlt: "Editorial Fiambre branding"
 wip: false
 prevSlug: "arbocala"

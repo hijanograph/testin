@@ -11,7 +11,6 @@ interface Props {
   prevLabel?: string;
   nextHref?: string;
   nextLabel?: string;
-  wip?: boolean;
 }
 
 const {
@@ -19,8 +18,11 @@ const {
   heroImg, heroAlt,
   prevHref, prevLabel,
   nextHref, nextLabel,
-  wip = false,
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 
 const meta = [
   { label: 'Área', value: area },
@@ -38,7 +40,6 @@ const meta = [
           ? <img src={heroImg} alt={heroAlt || title} class="project-hero__img" />
           : <div class="img-ph img-ph--wide project-hero__img"></div>
         }
-        {wip && <span class="wip-badge badge t-label">Proyecto en proceso</span>}
       </div>
 
       <div class="project-hero__info">
@@ -64,16 +65,15 @@ const meta = [
       <slot />
     </div>
 
-    <nav class="project-nav">
-      {prevHref
-        ? <a href={prevHref} class="arrow-link">← {prevLabel ?? 'Anterior'}</a>
-        : <span></span>
-      }
-      <a href="/portfolio" class="project-nav__back t-label">↩ Portfolio</a>
-      {nextHref
-        ? <a href={nextHref} class="arrow-link">{nextLabel ?? 'Siguiente'} →</a>
-        : <span></span>
-      }
+    <nav class="project-nav" aria-label="Navegación del proyecto">
+      <a href={`${base}portfolio`} class="project-nav__back t-label">Portfolio</a>
+
+      {(prevHref || nextHref) && (
+        <div class="project-nav__links">
+          {prevHref && <a href={prevHref} class="arrow-link">{prevLabel ?? 'Anterior'}</a>}
+          {nextHref && <a href={nextHref} class="arrow-link">{nextLabel ?? 'Siguiente'}</a>}
+        </div>
+      )}
     </nav>
 
   </div>

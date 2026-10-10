@@ -1,6 +1,10 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { skills, experience, education, cvDownloadUrl } from '../data/cv';
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <Layout title="Sobre mí — Rafael Hijano" description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual.">
@@ -12,7 +16,11 @@ import { skills, experience, education, cvDownloadUrl } from '../data/cv';
 
         <div class="intro__grid">
           <div class="intro__photo-wrap">
-            <div class="img-ph intro__photo"></div>
+            <img
+              src={`${base}images/about/about-profile.png`}
+              alt="Rafael Hijano"
+              class="intro__photo"
+            />
           </div>
 
           <div class="intro__bio">

@@ -15,6 +15,17 @@ export async function getStaticPaths() {
 const { project }: { project: CollectionEntry<'portfolio'> } = Astro.props;
 const { Content } = await render(project);
 const d = project.data;
+
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const asset = (path?: string) => {
+  if (!path) return undefined;
+  const clean = path.replace('${base}', '').replace(/^\/?public\//, '');
+  if (clean.startsWith(base)) return clean;
+  return `${base}${clean.replace(/^\/+/, '')}`;
+};
 ---
 
 <Layout
@@ -27,29 +38,25 @@ const d = project.data;
     area={d.area}
     rol={d.rol}
     software={d.software}
-    heroImg={d.heroImg}
+    heroImg={asset(d.heroImg)}
     heroAlt={d.heroAlt}
-    prevHref={d.prevSlug ? `/portfolio/${d.prevSlug}` : undefined}
+    prevHref={d.prevSlug ? `${base}portfolio/${d.prevSlug}` : undefined}
     prevLabel={d.prevLabel}
-    nextHref={d.nextSlug ? `/portfolio/${d.nextSlug}` : undefined}
+    nextHref={d.nextSlug ? `${base}portfolio/${d.nextSlug}` : undefined}
     nextLabel={d.nextLabel}
-    wip={d.wip}
   >
     {d.wip ? (
-      <div class="wip-block">
-        <div class="wip-figure" aria-hidden="true">
-          <svg viewBox="0 0 100 140" xmlns="http://www.w3.org/2000/svg" width="80">
-            <circle cx="50" cy="22" r="16" fill="currentColor" opacity="0.18"/>
-            <path d="M22 140 Q35 88 50 68 Q65 88 78 140" fill="currentColor" opacity="0.14"/>
-            <path d="M20 78 Q10 100 16 118" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.1"/>
-            <path d="M80 78 Q90 100 84 118" stroke="currentColor" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.1"/>
-          </svg>
-        </div>
+      <>
+        <img
+          src={`${base}images/projects/andaluce-wip.gif`}
+          alt={`${d.title} — en proceso`}
+          class="wip-figure"
+        />
         <div class="wip-text">
           <p class="t-label wip-tag">Proyecto bajo construcción</p>
           <Content />
         </div>
-      </div>
+      </>
     ) : (
       <div class="project-body">
         <Content />

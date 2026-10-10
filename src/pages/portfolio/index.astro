@@ -1,6 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 const projects = [
   {
     slug: 'arbocala',
@@ -8,7 +12,7 @@ const projects = [
     tagline: 'Una marca viva, pero con historia',
     desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados',
     area: 'Branding — Editorial — UX/UI',
-    img: '/images/projects/arbocala-cover.jpg',
+    img: `${base}images/index/arbocala-cover.png`,
     imgAlt: 'Bodegas Arbocala branding',
   },
   {
@@ -17,7 +21,7 @@ const projects = [
     tagline: 'El alma del terror cotidiano',
     desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre',
     area: 'Branding — Editorial — Motion',
-    img: '/images/projects/fiambre-cover.jpg',
+    img: `${base}images/index/fiambre-cover.png`,
     imgAlt: 'Editorial Fiambre branding',
   },
   {
@@ -26,7 +30,7 @@ const projects = [
     tagline: 'Música, arte y tradición',
     desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾',
     area: 'Ilustración — Motion Graphics',
-    img: '/images/projects/andaluce-cover.jpg',
+    img: `${base}images/index/andaluce-cover.gif`,
     imgAlt: 'Andaluçê yorá ilustración',
     wip: true,
   },
@@ -42,13 +46,13 @@ const projects = [
       <div class="projects__grid">
         {projects.map((p, i) => (
           <article class="project-card">
-            <a href={`/portfolio/${p.slug}`} class="project-card__img-link">
-              <div class="img-ph project-card__img"></div>
+            <a href={`${base}portfolio/${p.slug}`} class="project-card__img-link">
+              <img src={p.img} alt={p.imgAlt} class="project-card__img" />
               {p.wip && <span class="project-card__wip badge t-label">En proceso</span>}
             </a>
             <div class="project-card__body">
               <span class="t-label project-card__num">{String(i + 1).padStart(2, '0')}</span>
-              <a href={`/portfolio/${p.slug}`}>
+              <a href={`${base}portfolio/${p.slug}`}>
                 <h2 class="t-project-title project-card__title">{p.title}</h2>
               </a>
               <p class="t-body project-card__desc">{p.desc}</p>
