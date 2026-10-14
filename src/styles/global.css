@@ -58,11 +58,23 @@
   --s-7: 8rem;
 
   --nav-h: 86px;
-  --max-w: 1440px;
-  --pad-x: var(--s-3);
-  --measure-sm: 40ch;
+  --pad-x: var(--margin);
   --measure-md: 68ch;
   --ease: 0.2s ease;
+
+  --cols: 4;
+  --margin: 36px;
+  --gutter: 24px;
+  --grid: repeat(var(--cols), minmax(0, 1fr));
+
+  @media (min-width: 768px) {
+    --cols: 8;
+  }
+
+  @media (min-width: 1072px) {
+    --cols: 12;
+    --margin: 48px;
+  }
 }
 
 *,
@@ -197,9 +209,7 @@ button {
 
 .container {
   width: 100%;
-  max-width: var(--max-w);
-  margin-inline: auto;
-  padding-inline: var(--pad-x);
+  padding-inline: var(--margin);
 }
 
 .stack,
@@ -214,7 +224,6 @@ button {
 .project-hero__info,
 .project-meta,
 .project-meta__item,
-.project-content,
 .wip-text,
 .project-body,
 .nav__toggle,
@@ -229,20 +238,9 @@ button {
   gap: var(--s-3);
 }
 
-.hero__bio,
-.error-text,
-.project-card__desc,
-.project-hero__subtitle {
-  max-width: var(--measure-sm);
-}
-
-.cv-entry__desc,
-.cv-tasks li,
 .contact-content,
 .downloads-subtitle,
-.project-body,
-.project-body p,
-.wip-text {
+.error-text {
   max-width: var(--measure-md);
 }
 
@@ -406,12 +404,22 @@ button {
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    padding-inline: var(--pad-x);
+    padding-inline: var(--margin);
+
+    @media (min-width: 1072px) {
+      display: grid;
+      grid-template-columns: var(--grid);
+      column-gap: var(--gutter);
+    }
   }
 
   .nav__logo {
     flex-shrink: 0;
     line-height: 1;
+
+    @media (min-width: 1072px) {
+      grid-column: 1 / span 4;
+    }
 
     &::after {
       content: none;
@@ -426,22 +434,27 @@ button {
     display: none;
 
     @media (min-width: 1072px) {
-      display: block;
-      flex: 1;
+      display: grid;
+      grid-column: 5 / -1;
+      grid-template-columns: subgrid;
     }
   }
 
   .nav__list {
-    display: flex;
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: subgrid;
     align-items: center;
-    justify-content: flex-end;
-    gap: clamp(24px, 4vw, 64px);
+
+    & > * {
+      grid-column: span 2;
+    }
   }
 
   .nav__link {
     display: inline-block;
     line-height: 1;
-    text-align: right;
+    text-align: left;
 
     &::after {
       content: none;
@@ -567,28 +580,23 @@ button {
 }
 
 .hero {
-  padding-top: var(--nav-h);
-
   .hero__inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    width: 100%;
-    max-width: none;
-    margin-inline: 0;
-    padding-inline: 0;
-
-    @media (min-width: 1072px) {
-      grid-template-columns: 62fr 38fr;
-      align-items: center;
-      min-height: calc(100vh - var(--nav-h));
-      min-height: calc(100dvh - var(--nav-h));
-    }
+    grid-template-columns: var(--grid);
+    column-gap: var(--gutter);
+    padding-inline: var(--margin);
   }
 
   .hero__img-wrap {
+    grid-column: 1 / -1;
+    margin-inline: calc(-1 * var(--margin));
+
     @media (min-width: 1072px) {
-      height: calc(100vh - var(--nav-h));
-      height: calc(100dvh - var(--nav-h));
+      grid-column: 1 / span 8;
+      grid-row: 1;
+      margin-right: 0;
+      height: calc(100vh - 40px);
+      height: calc(100dvh - 40px);
     }
   }
 
@@ -602,14 +610,21 @@ button {
   }
 
   .hero__text {
+    grid-column: 1 / -1;
     min-width: 0;
     margin: 0;
-    padding: var(--s-4) var(--pad-x);
-    gap: var(--s-3);
+    padding: var(--s-4) 0;
+    gap: var(--s-2);
+
+    @media (min-width: 768px) {
+      grid-column: 1 / span 6;
+    }
 
     @media (min-width: 1072px) {
-      gap: var(--s-4);
-      padding: var(--s-5);
+      grid-column: 9 / -1;
+      grid-row: 1;
+      align-self: end;
+      padding: 0 0 var(--fs-1);
     }
   }
 }
@@ -619,20 +634,14 @@ button {
 
   .projects__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
-
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (min-width: 1072px) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    grid-template-columns: var(--grid);
+    column-gap: var(--gutter);
+    row-gap: var(--s-5);
   }
 }
 
 .project-card {
+  grid-column: span 4;
   gap: var(--s-2);
 
   .project-card__img-link {
@@ -729,17 +738,21 @@ button {
 
   .intro__grid {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--s-4);
+    grid-template-columns: var(--grid);
+    column-gap: var(--gutter);
+    row-gap: var(--s-4);
+    align-items: start;
+  }
+
+  .intro__photo-wrap {
+    grid-column: 1 / -1;
 
     @media (min-width: 768px) {
-      grid-template-columns: 280px minmax(0, 1fr);
-      align-items: start;
+      grid-column: 1 / span 3;
     }
 
     @media (min-width: 1072px) {
-      grid-template-columns: 340px minmax(0, 1fr);
-      gap: var(--s-6);
+      grid-column: 1 / span 4;
     }
   }
 
@@ -748,7 +761,16 @@ button {
   }
 
   .intro__bio {
+    grid-column: 1 / -1;
     gap: var(--s-2);
+
+    @media (min-width: 768px) {
+      grid-column: 4 / -1;
+    }
+
+    @media (min-width: 1072px) {
+      grid-column: 6 / -1;
+    }
   }
 }
 
@@ -761,6 +783,10 @@ button {
 }
 
 .cv-entry {
+  display: grid;
+  grid-template-columns: var(--grid);
+  column-gap: var(--gutter);
+  row-gap: var(--s-2);
   padding: var(--s-2) 0;
   border-bottom: var(--border);
 
@@ -769,7 +795,16 @@ button {
   }
 
   .cv-entry__head {
-    margin-bottom: var(--s-1);
+    grid-column: 1 / -1;
+
+    @media (min-width: 768px) {
+      grid-column: 1 / span 3;
+      grid-row: 1 / span 2;
+    }
+
+    @media (min-width: 1072px) {
+      grid-column: 1 / span 4;
+    }
 
     & > div {
       gap: var(--s-0);
@@ -781,8 +816,17 @@ button {
     }
   }
 
-  .cv-entry__desc {
-    margin-bottom: var(--s-2);
+  .cv-entry__desc,
+  .cv-tasks {
+    grid-column: 1 / -1;
+
+    @media (min-width: 768px) {
+      grid-column: 4 / -1;
+    }
+
+    @media (min-width: 1072px) {
+      grid-column: 5 / -1;
+    }
   }
 }
 
@@ -833,25 +877,36 @@ button {
 
 .project-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--s-4);
+  grid-template-columns: var(--grid);
+  column-gap: var(--gutter);
+  row-gap: var(--s-4);
+  align-items: start;
   margin-bottom: var(--s-5);
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    align-items: start;
-  }
-
-  @media (min-width: 1072px) {
-    gap: var(--s-5);
-  }
-
   .project-hero__img-wrap {
+    grid-column: 1 / -1;
     position: relative;
+
+    @media (min-width: 768px) {
+      grid-column: 1 / span 4;
+    }
+
+    @media (min-width: 1072px) {
+      grid-column: 1 / span 7;
+    }
   }
 
   .project-hero__info {
+    grid-column: 1 / -1;
     gap: var(--s-4);
+
+    @media (min-width: 768px) {
+      grid-column: 5 / -1;
+    }
+
+    @media (min-width: 1072px) {
+      grid-column: 9 / -1;
+    }
   }
 
   .project-hero__title {
@@ -868,9 +923,20 @@ button {
 }
 
 .project-content {
-  gap: var(--s-6);
+  display: grid;
+  grid-template-columns: var(--grid);
+  column-gap: var(--gutter);
+  row-gap: var(--s-6);
   padding: var(--s-5) 0;
   background: var(--cream);
+
+  & > * {
+    grid-column: 1 / -1;
+
+    @media (min-width: 1072px) {
+      grid-column: 3 / 11;
+    }
+  }
 }
 
 .project-nav {
@@ -909,7 +975,7 @@ button {
 }
 
 .wip-figure {
-  align-self: center;
+  justify-self: center;
   max-width: 100%;
   mix-blend-mode: multiply;
 }
@@ -981,15 +1047,21 @@ button {
 
     @media (min-width: 1072px) {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: var(--grid);
+      column-gap: var(--gutter);
+      row-gap: 0;
       align-items: end;
-      gap: 0;
       text-align: left;
     }
   }
 
   .footer__col {
     min-width: 0;
+
+    @media (min-width: 1072px) {
+      grid-row: 1;
+      grid-column: 1 / span 4;
+    }
 
     &.footer__col--email {
       order: 1;
@@ -998,6 +1070,7 @@ button {
 
       @media (min-width: 1072px) {
         order: 0;
+        grid-column: 5 / span 4;
         justify-self: end;
         text-align: right;
       }
@@ -1007,6 +1080,7 @@ button {
       align-self: stretch;
 
       @media (min-width: 1072px) {
+        grid-column: 9 / -1;
         justify-self: end;
         align-self: start;
       }
