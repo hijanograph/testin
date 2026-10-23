@@ -1,19 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { cvDriveId, portfolioDriveId } from '../data/cv';
 
-const driveView = (id) => `https://drive.google.com/file/d/${id}/preview`;
-const driveDownload = (id) => `https://drive.google.com/uc?export=download&id=${id}`;
+const driveView = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
+const driveDownload = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
 
 const documents = [
   {
-    id: '16K_kHrIxXQuXzdytIGrX46_dsheItNwA',
+    id: cvDriveId,
     title: 'Currículum',
     meta: 'PDF — Actualizado',
     iframeTitle: 'Currículum de Rafael Hijano',
     cta: 'Descargar Currículum (PDF) ↓',
   },
   {
-    id: 'TU_ID_DE_PORTFOLIO_EN_DRIVE',
+    id: portfolioDriveId,
     title: 'Portfolio',
     meta: 'PDF — Proyectos seleccionados',
     iframeTitle: 'Portfolio de Rafael Hijano',
@@ -26,7 +27,7 @@ const documents = [
   title="Descargas — Rafael Hijano"
   description="Descarga el currículum y el portfolio de Rafael Hijano, Diseñador Visual."
 >
-  <main class="page">
+  <div class="page">
     <div class="container">
 
       <header class="downloads-header">
@@ -65,5 +66,5 @@ const documents = [
       ))}
 
     </div>
-  </main>
+  </div>
 </Layout>

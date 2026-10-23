@@ -1,10 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { base } from '../utils/base';
 import { skills, experience, education, cvDownloadUrl } from '../data/cv';
 
-const base = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <Layout title="Sobre mí — Rafael Hijano" description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual.">

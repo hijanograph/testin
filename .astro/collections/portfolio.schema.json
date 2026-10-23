@@ -42,6 +42,9 @@
       "default": false,
       "type": "boolean"
     },
+    "musicId": {
+      "type": "string"
+    },
     "prevSlug": {
       "type": "string"
     },

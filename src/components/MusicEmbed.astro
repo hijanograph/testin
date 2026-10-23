@@ -1,0 +1,40 @@
+---
+interface Props {
+  videoId: string;
+  title?: string;
+}
+
+const { videoId, title = 'Música de fondo — reproductor de YouTube' } = Astro.props;
+
+const params = new URLSearchParams({
+  controls: '1',
+  playsinline: '1',
+  loop: '1',
+  playlist: videoId,
+  rel: '0',
+  modestbranding: '1',
+});
+---
+
+<div class="music-embed">
+  <iframe
+    src={`https://www.youtube-nocookie.com/embed/${videoId}?${params}`}
+    title={title}
+    loading="lazy"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+</div>
+
+<style>
+  .music-embed {
+    width: min(100%, 356px);
+  }
+
+  .music-embed iframe {
+    display: block;
+    width: 100%;
+    height: 200px;
+    border: 0;
+  }
+</style>

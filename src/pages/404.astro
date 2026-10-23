@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { withBase } from '../utils/base';
 ---
 <Layout title="404 — Rafael Hijano">
   <div class="page page--error">
@@ -7,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
       <p class="t-label">Error 404</p>
       <h1 class="t-hero">Página no encontrada</h1>
       <p class="t-body error-text">Esta página no existe o ha sido movida.</p>
-      <a href="/" class="arrow-link">Volver al inicio</a>
+      <a href={withBase()} class="arrow-link">Volver al inicio</a>
     </div>
   </div>
 </Layout>

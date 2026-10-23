@@ -1,4 +1,5 @@
 export const cvDriveId = '16K_kHrIxXQuXzdytIGrX46_dsheItNwA';
+export const portfolioDriveId = '1p5WQXuLPW-kFGgMLAzbrCEaSUpG7zqYD';
 export const cvDownloadUrl = `https://drive.google.com/uc?export=download&id=${cvDriveId}`;
 export const cvPreviewUrl = `https://drive.google.com/file/d/${cvDriveId}/preview`;
 

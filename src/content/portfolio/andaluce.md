@@ -7,11 +7,12 @@ area: "Ilustración — Motion Graphics"
 rol: "Director creativo — Motion grapher"
 software: "Illustrator — After Effects"
 order: 3
-heroImg: "public/images/projects/andaluce-hero.gif"
+heroImg: "images/projects/andaluce-hero.gif"
 heroAlt: "Andaluçê yorá — ilustración"
-coverImg: "public/images/projects/andaluce-cover.gif"
+coverImg: "images/projects/andaluce-cover.gif"
 coverAlt: "Andaluçê yorá ilustración"
 wip: true
+musicId: "4zbzei-ihy4"
 prevSlug: "fiambre"
 prevLabel: "Editorial Fiambre"
 ---

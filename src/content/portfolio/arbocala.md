@@ -6,9 +6,9 @@ area: "Branding — Editorial — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseño gráfico"
 software: "Illustrator — InDesign — After Effects — Figma"
 order: 1
-heroImg: "${base}images/projects/arbocala-hero.png"
+heroImg: "images/projects/arbocala-hero.png"
 heroAlt: "Bodegas Arbocala — identidad visual"
-coverImg: "${base}images/projects/arbocala-cover.png"
+coverImg: "images/projects/arbocala-cover.png"
 coverAlt: "Bodegas Arbocala branding"
 wip: false
 nextSlug: "fiambre"

@@ -1,10 +1,12 @@
 ---
+import { withBase } from '../utils/base';
+
 const links = [
   { label: 'Behance', href: 'https://behance.net/rafaelhijano', external: true },
-  { label: 'Inicio', href: '/' },
-  { label: 'Sobre mí', href: '/sobre-mi' },
-  { label: 'Currículum', href: '/curriculum' },
-  { label: 'Portfolio', href: '/portfolio' },
+  { label: 'Inicio', href: withBase() },
+  { label: 'Sobre mí', href: withBase('sobre-mi') },
+  { label: 'Currículum', href: withBase('curriculum') },
+  { label: 'Portfolio', href: withBase('portfolio') },
   { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano', external: true },
 ];
 ---

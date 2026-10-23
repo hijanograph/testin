@@ -507,9 +507,9 @@ button {
   z-index: 99;
   padding-top: var(--nav-h);
   padding-inline: var(--pad-x);
-  background: color-mix(in srgb, var(--cream) 50%, transparent);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: color-mix(in srgb, var(--cream) 75%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.35s ease, visibility 0.35s ease;
@@ -535,27 +535,8 @@ button {
   }
 
   .nav-overlay__list {
-    display: grid;
-    grid-template-columns: var(--grid);
-    grid-auto-flow: row dense;
-    align-items: start;
-    column-gap: var(--gutter);
-    row-gap: var(--s-4);
-
-    & > * {
-      grid-column: 1 / span 2;
-      justify-self: end;
-      text-align: right;
-    }
-
-    & > :is(
-        [href^="http"],
-        [target="_blank"],
-        :has(> [href^="http"]),
-        :has(> [target="_blank"])
-      ) {
-      grid-column: 3 / span 2;
-    }
+    align-items: flex-end;
+    gap: var(--s-4);
   }
 
   .nav-overlay__link {
@@ -677,16 +658,8 @@ button {
   }
 
   .project-card__img {
-    height: 328px;
+    aspect-ratio: 4 / 3;
     transition: transform 0.5s ease;
-
-    @media (min-width: 768px) {
-      height: 340px;
-    }
-
-    @media (min-width: 1072px) {
-      height: 354px;
-    }
   }
 
   .project-card__body {
@@ -1001,8 +974,14 @@ button {
   }
 }
 
+.wip-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+}
+
 .wip-figure {
-  justify-self: center;
   max-width: 100%;
   mix-blend-mode: multiply;
 }
@@ -1108,6 +1087,7 @@ button {
 
       @media (min-width: 1072px) {
         grid-column: 9 / -1;
+        justify-self: end;
         align-self: start;
       }
     }
@@ -1127,23 +1107,11 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: var(--s-1) var(--gutter);
+    gap: var(--s-1) var(--s-4);
     width: 100%;
-
-    @media (min-width: 768px) {
-      width: calc((100% - var(--gutter)) / 2);
-      margin-left: auto;
-    }
-
-    @media (min-width: 1072px) {
-      width: 100%;
-      margin-left: 0;
-    }
   }
 
   .footer__nav-link {
-    flex: 0 0 calc((100% - var(--gutter)) / 2);
-    text-align: right;
     white-space: nowrap;
   }
 }

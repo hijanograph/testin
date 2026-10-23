@@ -2,6 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectLayout from '../../components/ProjectLayout.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import MusicEmbed from '../../components/MusicEmbed.astro';
+import { withBase } from '../../utils/base';
 
 export async function getStaticPaths() {
   const projects = await getCollection('portfolio');
@@ -16,16 +18,7 @@ const { project }: { project: CollectionEntry<'portfolio'> } = Astro.props;
 const { Content } = await render(project);
 const d = project.data;
 
-const base = import.meta.env.BASE_URL.endsWith('/')
-  ? import.meta.env.BASE_URL
-  : `${import.meta.env.BASE_URL}/`;
-
-const asset = (path?: string) => {
-  if (!path) return undefined;
-  const clean = path.replace('${base}', '').replace(/^\/?public\//, '');
-  if (clean.startsWith(base)) return clean;
-  return `${base}${clean.replace(/^\/+/, '')}`;
-};
+const asset = (path?: string) => (path ? withBase(path) : undefined);
 ---
 
 <Layout
@@ -40,18 +33,21 @@ const asset = (path?: string) => {
     software={d.software}
     heroImg={asset(d.heroImg)}
     heroAlt={d.heroAlt}
-    prevHref={d.prevSlug ? `${base}portfolio/${d.prevSlug}` : undefined}
+    prevHref={d.prevSlug ? withBase(`portfolio/${d.prevSlug}`) : undefined}
     prevLabel={d.prevLabel}
-    nextHref={d.nextSlug ? `${base}portfolio/${d.nextSlug}` : undefined}
+    nextHref={d.nextSlug ? withBase(`portfolio/${d.nextSlug}`) : undefined}
     nextLabel={d.nextLabel}
   >
     {d.wip ? (
       <>
-        <img
-          src={`${base}images/projects/andaluce-wip.gif`}
-          alt={`${d.title} — en proceso`}
-          class="wip-figure"
-        />
+        <div class="wip-media">
+          <img
+            src={withBase('images/projects/andaluce-wip.gif')}
+            alt={`${d.title} — en proceso`}
+            class="wip-figure"
+          />
+          {d.musicId && <MusicEmbed videoId={d.musicId} />}
+        </div>
         <div class="wip-text">
           <p class="t-label wip-tag">Proyecto bajo construcción</p>
           <Content />

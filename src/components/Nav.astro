@@ -1,11 +1,13 @@
 ---
+import { withBase } from '../utils/base';
+
 const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const navigation = [
-  { label: 'Inicio', href: '/' },
-  { label: 'Sobre mí', href: '/sobre-mi' },
-  { label: 'Descargas', href: '/descargas' },
-  { label: 'Contacto', href: '/contacto' },
+  { label: 'Inicio', href: withBase() },
+  { label: 'Sobre mí', href: withBase('sobre-mi') },
+  { label: 'Descargas', href: withBase('descargas') },
+  { label: 'Contacto', href: withBase('contacto') },
 ];
 
 const externalLinks = [
@@ -21,7 +23,7 @@ const isActiveHref = (href: string) =>
 
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="/" class="nav__logo t-nav">RAFAEL HIJANO</a>
+      <a href={withBase()} class="nav__logo t-nav">RAFAEL HIJANO</a>
 
       <nav class="nav__desktop" aria-label="Navegación principal">
         <ul class="nav__list">
@@ -76,7 +78,6 @@ const isActiveHref = (href: string) =>
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {label}
-                    <span aria-hidden="true">↘</span>
                   </a>
                 </li>
               );
@@ -93,7 +94,6 @@ const isActiveHref = (href: string) =>
                   rel="noopener noreferrer"
                 >
                   {label}
-                  <span aria-hidden="true">↘</span>
                 </a>
               </li>
             ))
@@ -221,7 +221,7 @@ const isActiveHref = (href: string) =>
 
     updateScrolledState();
 
-    const desktopMedia = window.matchMedia('(min-width: 860px)');
+    const desktopMedia = window.matchMedia('(min-width: 1072px)');
 
     desktopMedia.addEventListener('change', (event) => {
       if (event.matches) {
