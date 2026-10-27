@@ -24,7 +24,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: '22.12'
+          node-version-file: '.nvmrc'
+          check-latest: true
           cache: npm
 
       - name: Install dependencies
@@ -34,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
