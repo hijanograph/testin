@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # Agrupa los PRs para no inundar tu repositorio y mantener orden
+    groups:
+      astro-ecosystem:
+        patterns:
+          - "astro"
+          - "@astrojs/*"
+      development:
+        patterns:
+          - "*eslint*"
+          - "*prettier*"
+          - "typescript"
+          - "@types/*"
+
+    # ignore:
+    #   - dependency-name: "astro"
+    #     update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
