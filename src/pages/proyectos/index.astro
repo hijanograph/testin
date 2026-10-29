@@ -22,18 +22,31 @@ const projects = await getProyectos();
 
           return (
             <li class="project-row">
-              <span class="project-row__year t-label">{p.data.year}</span>
-
-              <a href={href} class="project-row__title">
-                <h2 class="t-project-title">{p.data.title}</h2>
+              <a href={href} class="project-row__thumb" tabindex="-1" aria-hidden="true">
+                {p.data.coverImg
+                  ? <img src={withBase(p.data.coverImg)} alt="" loading="lazy" />
+                  : <div class="img-ph"></div>
+                }
               </a>
 
-              <p class="project-row__area t-label">{p.data.area}</p>
+              <div class="project-row__info">
+                <div class="project-row__meta">
+                  <span class="project-row__year t-label">{p.data.year}</span>
 
-              <p class="project-row__tags">
-                <span class="tag t-label">{capitalize(p.data.tipo)}</span>
-                {p.data.wip && <span class="tag t-label">En proceso</span>}
-              </p>
+                  <p class="project-row__tags">
+                    <span class="tag t-label">{capitalize(p.data.tipo)}</span>
+                    {p.data.wip && <span class="tag t-label">En proceso</span>}
+                  </p>
+                </div>
+
+                <a href={href} class="project-row__title">
+                  <h2 class="t-project-title">{p.data.title}</h2>
+                </a>
+
+                <p class="project-row__desc t-body">{p.data.desc}</p>
+
+                <p class="project-row__area t-label">{p.data.area}</p>
+              </div>
             </li>
           );
         })}
