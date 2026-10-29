@@ -1,14 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { withBase } from '../utils/base';
+import { email } from '../utils/links';
+
+const links = [
+  { label: 'Inicio', href: withBase() },
+  { label: 'Proyectos', href: withBase('proyectos') },
+  { label: 'Sobre mí', href: withBase('sobre-mi') },
+  { label: 'Contacto', href: withBase('contacto') },
+];
 ---
-<Layout title="404 — Rafael Hijano">
+
+<Layout title="404 — Página no encontrada" description="Esta página no existe o ha sido movida.">
   <div class="page page--error">
     <div class="container stack">
       <p class="t-label">Error 404</p>
-      <h1 class="t-hero">Página no encontrada</h1>
-      <p class="t-body error-text">Esta página no existe o ha sido movida.</p>
-      <a href={withBase()} class="arrow-link">Volver al inicio</a>
+      <p class="error-code" aria-hidden="true">404</p>
+      <h1 class="t-section">Esta página no existe</h1>
+      <p class="t-body error-text">
+        Puede que el enlace esté roto o que la página se haya movido. Prueba con alguno de estos caminos:
+      </p>
+
+      <nav class="error-links" aria-label="Páginas principales">
+        {links.map((l) => <a href={l.href} class="arrow-link">{l.label}</a>)}
+      </nav>
+
+      <p class="t-body error-text">
+        ¿Seguro que debería estar aquí? <a href={`mailto:${email}`} class="contact-link">Avísame</a>.
+      </p>
     </div>
   </div>
 </Layout>

@@ -14,6 +14,54 @@
     "desc": {
       "type": "string"
     },
+    "intro": {
+      "type": "string"
+    },
+    "blocks": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "image": {
+            "type": "string"
+          },
+          "alt": {
+            "type": "string"
+          },
+          "side": {
+            "default": "left",
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "sections": {
+            "default": [],
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "paragraphs": {
+                  "default": [],
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "image"
+        ]
+      }
+    },
     "area": {
       "type": "string"
     },

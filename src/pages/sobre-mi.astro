@@ -1,11 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { base } from '../utils/base';
-import { skills, experience, education, cvDownloadUrl } from '../data/cv';
-
+import { Content as CvContent } from '../data/cv.md';
+import { withBase } from '../utils/base';
+import { servicios, proceso } from '../data/servicios';
+import { ahora, ahoraActualizado } from '../data/ahora';
+import { recomendaciones } from '../data/recomendaciones';
+import { cvDownloadUrl } from '../data/cv';
 ---
 
-<Layout title="Sobre mí — Rafael Hijano" description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual.">
+<Layout
+  title="Sobre mí — Rafael Hijano"
+  description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual."
+>
   <div class="page">
     <div class="container">
 
@@ -15,13 +21,18 @@ import { skills, experience, education, cvDownloadUrl } from '../data/cv';
         <div class="intro__grid">
           <div class="intro__photo-wrap">
             <img
-              src={`${base}images/about/about-profile.png`}
+              src={withBase('images/about/about-profile.png')}
               alt="Rafael Hijano"
               class="intro__photo"
             />
           </div>
 
           <div class="intro__bio">
+            <!-- Propuesta de valor -->
+            <p class="lead">
+              Diseño identidades visuales con alma para marcas que quieren contar bien su historia, desde la idea hasta el último soporte.
+            </p>
+
             <p class="t-body">
               Soy Rafael, un Diseñador Visual que vive y trabaja en el área de Málaga.
               Me apasiona crear espacios donde las marcas cobran vida y construir proyectos
@@ -56,68 +67,109 @@ import { skills, experience, education, cvDownloadUrl } from '../data/cv';
 
       <hr />
 
-      <div class="cv-cta">
-        <a href={cvDownloadUrl} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
-          Descargar CV ↓
-        </a>
-      </div>
+      <!-- Servicios en detalle -->
+      <section class="section" id="servicios">
+        <h2 class="t-section section__title">Servicios</h2>
 
-      <section class="section">
-        <h2 class="cv-section-label t-label">Experiencia</h2>
-
-        {experience.map((item) => (
-          <div class="cv-entry">
-            <div class="cv-entry__head">
-              <div><strong>{item.role}</strong><span class="cv-company">{item.company}</span></div>
-              <span class="t-label">{item.period}</span>
+        {servicios.map((s) => (
+          <article class="split">
+            <div class="split__head">
+              <h3 class="t-project-title">{s.title}</h3>
             </div>
-            <p class="t-body cv-entry__desc">{item.companyDesc}</p>
-            <ul class="cv-tasks">
-              {item.tasks.map((t) => <li class="t-body">{t}</li>)}
-            </ul>
-          </div>
+            <div class="split__body">
+              <p class="t-body">{s.detail}</p>
+              <ul class="tag-list">
+                {s.items.map((item) => <li class="tag t-label">{item}</li>)}
+              </ul>
+            </div>
+          </article>
         ))}
-
-        <div class="cv-cta">
-          <a href={cvDownloadUrl} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
-            Descargar CV ↓
-          </a>
-        </div>
       </section>
 
       <hr />
 
-      <section class="section">
-        <h2 class="cv-section-label t-label">Educación</h2>
+      <!-- Proceso -->
+      <section class="section" id="proceso">
+        <h2 class="t-section section__title">Proceso</h2>
 
-        {education.map((e) => (
-          <div class="cv-entry">
-            <div class="cv-entry__head">
-              <div><strong>{e.title}</strong><span class="cv-company">{e.institution}</span></div>
-              <span class="t-label">{e.period}</span>
+        {proceso.map((step, i) => (
+          <article class="split">
+            <div class="split__head">
+              <span class="t-label text-muted">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="t-project-title">{step.title}</h3>
             </div>
-          </div>
+            <div class="split__body">
+              <p class="t-body">{step.text}</p>
+            </div>
+          </article>
         ))}
-
-        <div class="cv-cta">
-          <a href={cvDownloadUrl} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
-            Descargar CV ↓
-          </a>
-        </div>
       </section>
 
       <hr />
 
-      <section class="section">
-        <h2 class="t-section section__title">Habilidades</h2>
-        <div class="skills">
-          {skills.map((s) => <span class="skill t-label">{s}</span>)}
-        </div>
-
-        <div class="cv-cta">
-          <a href={cvDownloadUrl} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
+      <!-- CV generado desde src/data/cv.md -->
+      <section class="section" id="cv">
+        <div class="section-head">
+          <h2 class="t-section">Currículum</h2>
+          <a
+            href={cvDownloadUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="download-btn t-label"
+          >
             Descargar CV ↓
           </a>
+        </div>
+
+        <div class="cv-md">
+          <CvContent />
+        </div>
+      </section>
+
+      {recomendaciones.length > 0 && (
+        <>
+          <hr />
+
+          <section class="section" id="recomendaciones">
+            <h2 class="t-section section__title">Recomendaciones</h2>
+
+            {recomendaciones.map((r) => (
+              <figure class="split">
+                <figcaption class="split__head">
+                  <strong>{r.name}</strong>
+                  <span class="t-label text-muted">{r.role}</span>
+                </figcaption>
+                <blockquote class="split__body quote">
+                  <p class="t-body">{r.quote}</p>
+                </blockquote>
+              </figure>
+            ))}
+          </section>
+        </>
+      )}
+
+      <hr />
+
+      <!-- Ahora mismo -->
+      <section class="section" id="ahora">
+        <div class="section-head">
+          <h2 class="t-section">Ahora mismo</h2>
+          <p class="t-label text-muted">Actualizado: {ahoraActualizado}</p>
+        </div>
+
+        {ahora.map((item) => (
+          <article class="split">
+            <div class="split__head">
+              <span class="t-label">{item.label}</span>
+            </div>
+            <div class="split__body">
+              <p class="t-body">{item.text}</p>
+            </div>
+          </article>
+        ))}
+
+        <div class="cv-cta cv-cta--start">
+          <a href={withBase('contacto')} class="download-btn t-label">Hablemos</a>
         </div>
       </section>
 

@@ -1,0 +1,56 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getProyectos, capitalize } from '../../utils/proyectos';
+import { withBase } from '../../utils/base';
+import { social } from '../../utils/links';
+
+const projects = await getProyectos();
+---
+
+<Layout
+  title="Proyectos — Rafael Hijano"
+  description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics."
+>
+  <div class="page">
+    <div class="container">
+
+      <h1 class="t-hero page-title">Proyectos</h1>
+
+      <ul class="project-index">
+        {projects.map((p) => {
+          const href = withBase(`proyectos/${p.id}`);
+
+          return (
+            <li class="project-row">
+              <span class="project-row__year t-label">{p.data.year}</span>
+
+              <a href={href} class="project-row__title">
+                <h2 class="t-project-title">{p.data.title}</h2>
+              </a>
+
+              <p class="project-row__area t-label">{p.data.area}</p>
+
+              <p class="project-row__tags">
+                <span class="tag t-label">{capitalize(p.data.tipo)}</span>
+                {p.data.wip && <span class="tag t-label">En proceso</span>}
+              </p>
+            </li>
+          );
+        })}
+      </ul>
+
+      <section class="behance-band">
+        <p class="t-label">Más trabajo</p>
+        <a
+          href={social.behance}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="t-section behance-band__link"
+        >
+          Todo mi portfolio en Behance
+        </a>
+      </section>
+
+    </div>
+  </div>
+</Layout>

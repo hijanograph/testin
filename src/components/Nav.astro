@@ -1,22 +1,30 @@
 ---
 import { withBase } from '../utils/base';
+import { social } from '../utils/links';
 
-const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+const normalize = (path: string) => path.replace(/\/$/, '') || '/';
+
+const homePath = normalize(withBase());
+const currentPath = normalize(Astro.url.pathname);
 
 const navigation = [
   { label: 'Inicio', href: withBase() },
+  { label: 'Proyectos', href: withBase('proyectos') },
   { label: 'Sobre mí', href: withBase('sobre-mi') },
-  { label: 'Descargas', href: withBase('descargas') },
   { label: 'Contacto', href: withBase('contacto') },
 ];
 
 const externalLinks = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano' },
-  { label: 'Behance', href: 'https://behance.net/rafaelhijano' },
+  { label: 'LinkedIn', href: social.linkedin },
+  { label: 'Behance', href: social.behance },
 ];
 
-const isActiveHref = (href: string) =>
-  currentPath === (href.replace(/\/$/, '') || '/');
+// "Proyectos" también queda activo en /proyectos/nombre-del-caso
+const isActiveHref = (href: string) => {
+  const target = normalize(href);
+  if (target === homePath) return currentPath === target;
+  return currentPath === target || currentPath.startsWith(`${target}/`);
+};
 ---
 
 <div class="navigation" transition:persist>
@@ -232,8 +240,12 @@ const isActiveHref = (href: string) =>
     setMenuState(false);
   };
 
+  const normalize = (path: string) => path.replace(/\/$/, '') || '/';
+
   const updateActiveLink = () => {
-    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    const logo = document.querySelector<HTMLAnchorElement>('.nav__logo');
+    const homePath = logo ? normalize(new URL(logo.href).pathname) : '/';
+    const currentPath = normalize(window.location.pathname);
 
     document.querySelectorAll('.nav__link[href]').forEach((link) => {
       if (!(link instanceof HTMLAnchorElement)) return;
@@ -242,8 +254,11 @@ const isActiveHref = (href: string) =>
 
       if (url.origin !== window.location.origin) return;
 
-      const linkPath = url.pathname.replace(/\/$/, '') || '/';
-      const isActive = currentPath === linkPath;
+      const linkPath = normalize(url.pathname);
+      const isActive =
+        linkPath === homePath
+          ? currentPath === linkPath
+          : currentPath === linkPath || currentPath.startsWith(`${linkPath}/`);
 
       link.classList.toggle('nav__link--active', isActive);
 

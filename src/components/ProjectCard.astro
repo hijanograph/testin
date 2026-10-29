@@ -1,0 +1,29 @@
+---
+import { withBase } from '../utils/base';
+import type { Proyecto } from '../utils/proyectos';
+
+interface Props {
+  project: Proyecto;
+}
+
+const { project } = Astro.props;
+const d = project.data;
+const href = withBase(`proyectos/${project.id}`);
+---
+
+<article class="project-card">
+  <a href={href} class="project-card__img-link" aria-label={d.title}>
+    {d.coverImg
+      ? <img src={withBase(d.coverImg)} alt={d.coverAlt ?? d.title} class="project-card__img" loading="lazy" />
+      : <div class="img-ph project-card__img"></div>
+    }
+    {d.wip && <span class="project-card__wip badge t-label">En proceso</span>}
+  </a>
+
+  <div class="project-card__body">
+    <a href={href}>
+      <h3 class="t-project-title project-card__title">{d.title}</h3>
+    </a>
+    <p class="t-body project-card__desc">{d.desc}</p>
+  </div>
+</article>

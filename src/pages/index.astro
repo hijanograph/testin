@@ -1,75 +1,76 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { base } from '../utils/base';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProyectos } from '../utils/proyectos';
+import { servicios } from '../data/servicios';
+import { withBase } from '../utils/base';
+import { email } from '../utils/links';
 
-const projects = [
-  {
-    slug: 'arbocala',
-    title: 'Bodegas Arbocala',
-    desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados. Una marca viva, pero con historia.',
-    img: `${base}images/index/arbocala-cover.png`,
-    imgAlt: 'Bodegas Arbocala — branding',
-  },
-  {
-    slug: 'fiambre',
-    title: 'Editorial Fiambre',
-    desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre, que busca ser «el alma del terror cotidiano».',
-    img: `${base}images/index/fiambre-cover.png`,
-    imgAlt: 'Editorial Fiambre — branding',
-  },
-  {
-    slug: 'andaluce',
-    title: 'Andaluçê yorá',
-    desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾. Una mezcla de música, arte y tradición con toques de actualidad.',
-    img: `${base}images/index/andaluce-cover.gif`,
-    imgAlt: 'Andaluçê yorá — ilustración',
-    wip: true,
-  },
-];
+const [user, domain] = email.split('@');
+const featured = (await getProyectos()).filter((p) => p.data.featured);
 ---
 
 <Layout title="Rafael Hijano — Diseñador Visual">
 
   <section class="hero">
-  <div class="hero__inner">
+    <div class="hero__inner">
 
-    <div class="hero__img-wrap">
-      <img
-        src={`${base}images/index/hero-profile.png`}
-        alt="Rafael Hijano"
-        class="hero__img"
-      />
+      <div class="hero__img-wrap">
+        <img
+          src={withBase('images/index/hero-profile.png')}
+          alt="Rafael Hijano"
+          class="hero__img"
+        />
+      </div>
+
+      <div class="hero__text">
+        <p class="t-label text-muted">Diseñador visual — Branding, editorial y motion</p>
+        <h1 class="t-hero">Hola, soy Rafael Hijano</h1>
+        <p class="t-body hero__bio">
+          Diseño identidades visuales que tienen algo que decir. Creo en los detalles que importan, en las historias bien contadas y en el diseño que perdura.
+          Si estás buscando a alguien para tu proyecto, creo que tenemos algo de qué hablar.
+        </p>
+
+        <div class="hero__cta">
+          <p class="t-label">¿Hablamos?</p>
+          <a href={`mailto:${email}`} class="big-email">
+            {user}@<br />
+            {domain}
+          </a>
+        </div>
+      </div>
+
     </div>
-
-    <div class="hero__text">
-      <h1 class="t-hero">Hola, soy Rafael Hijano</h1>
-      <p class="t-body hero__bio">
-        Diseño identidades visuales que tienen algo que decir. Creo en los detalles que importan, en las historias bien contadas y en el diseño que perdura.
-        Si estás buscando a alguien para tu proyecto, creo que tenemos algo de qué hablar.
-      </p>
-    </div>
-
-  </div>
-</section>
+  </section>
 
   <section class="projects">
     <div class="container">
 
-      <h2 class="t-section projects__heading">Algunos de mis proyectos:</h2>
+      <div class="section-head">
+        <h2 class="t-section">Proyectos seleccionados</h2>
+        <a href={withBase('proyectos')} class="arrow-link">Ver todos</a>
+      </div>
 
       <div class="projects__grid">
-        {projects.map((p) => (
-          <article class="project-card">
-            <a href={`${base}portfolio/${p.slug}`} class="project-card__img-link">
-              <img src={p.img} alt={p.imgAlt} class="project-card__img" />
-              {p.wip && <span class="project-card__wip badge t-label">En proceso</span>}
-            </a>
-            <div class="project-card__body">
-              <a href={`${base}portfolio/${p.slug}`}>
-                <h3 class="t-project-title project-card__title">{p.title}</h3>
-              </a>
-              <p class="t-body project-card__desc">{p.desc}</p>
-            </div>
+        {featured.map((project) => <ProjectCard project={project} />)}
+      </div>
+
+    </div>
+  </section>
+
+  <section class="services">
+    <div class="container">
+
+      <div class="section-head">
+        <h2 class="t-section">Servicios</h2>
+        <a href={withBase('sobre-mi#servicios')} class="arrow-link">En detalle</a>
+      </div>
+
+      <div class="services__grid">
+        {servicios.map((s) => (
+          <article class="service">
+            <h3 class="t-project-title">{s.title}</h3>
+            <p class="t-body">{s.summary}</p>
           </article>
         ))}
       </div>

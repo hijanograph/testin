@@ -1,12 +1,17 @@
 ---
-import { base } from '../utils/base';
+import { withBase } from '../utils/base';
+import { email } from '../utils/links';
+import { capitalize } from '../utils/proyectos';
 
+// Plantilla común de los casos de estudio (/proyectos/nombre-del-caso).
 interface Props {
   title: string;
   subtitle?: string;
+  tipo: string;
+  year: string;
   area: string;
   rol: string;
-  software: string;
+  software?: string;
   heroImg?: string;
   heroAlt?: string;
   prevHref?: string;
@@ -16,17 +21,19 @@ interface Props {
 }
 
 const {
-  title, subtitle, area, rol, software,
+  title, subtitle, tipo, year, area, rol, software,
   heroImg, heroAlt,
   prevHref, prevLabel,
   nextHref, nextLabel,
 } = Astro.props;
 
 const meta = [
+  { label: 'Tipo', value: capitalize(tipo) },
+  { label: 'Año', value: year },
   { label: 'Área', value: area },
   { label: 'Rol', value: rol },
   { label: 'Software', value: software },
-];
+].filter((m) => m.value);
 ---
 
 <div class="page">
@@ -63,8 +70,13 @@ const meta = [
       <slot />
     </div>
 
+    <aside class="project-cta">
+      <p class="t-label">¿Tienes un proyecto en mente?</p>
+      <a href={`mailto:${email}`} class="t-section project-cta__link">{email}</a>
+    </aside>
+
     <nav class="project-nav" aria-label="Navegación del proyecto">
-      <a href={`${base}portfolio`} class="project-nav__back t-label">Portfolio</a>
+      <a href={withBase('proyectos')} class="project-nav__back t-label">Proyectos</a>
 
       {(prevHref || nextHref) && (
         <div class="project-nav__links">

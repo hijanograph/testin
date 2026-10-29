@@ -1,0 +1,110 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectLayout from '../../components/ProjectLayout.astro';
+import MusicEmbed from '../../components/MusicEmbed.astro';
+import { render } from 'astro:content';
+import { getProyectos, type Proyecto } from '../../utils/proyectos';
+import { withBase } from '../../utils/base';
+
+export async function getStaticPaths() {
+  const projects = await getProyectos();
+
+  return projects.map((project, i) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: projects[i - 1],
+      next: projects[i + 1],
+    },
+  }));
+}
+
+interface Props {
+  project: Proyecto;
+  prev?: Proyecto;
+  next?: Proyecto;
+}
+
+const { project, prev, next } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+
+const asset = (path?: string) => (path ? withBase(path) : undefined);
+const caseHref = (p?: Proyecto) => (p ? withBase(`proyectos/${p.id}`) : undefined);
+---
+
+<Layout
+  title={`${d.title} — Rafael Hijano`}
+  description={d.desc}
+>
+  <ProjectLayout
+    title={d.title}
+    subtitle={d.subtitle}
+    tipo={d.tipo}
+    year={d.year}
+    area={d.area}
+    rol={d.rol}
+    software={d.software}
+    heroImg={asset(d.heroImg)}
+    heroAlt={d.heroAlt}
+    prevHref={caseHref(prev)}
+    prevLabel={prev?.data.title}
+    nextHref={caseHref(next)}
+    nextLabel={next?.data.title}
+  >
+    {d.wip ? (
+      <>
+        <div class="wip-media">
+          <img
+            src={withBase('images/projects/andaluce-wip.gif')}
+            alt={`${d.title} — en proceso`}
+            class="wip-figure"
+          />
+          {d.musicId && <MusicEmbed videoId={d.musicId} />}
+        </div>
+
+        <div class="wip-text">
+          <p class="t-label wip-tag">Proyecto bajo construcción</p>
+          <Content />
+        </div>
+      </>
+    ) : d.blocks.length > 0 ? (
+      <div class="project-body">
+        {d.intro && (
+          <p class="project-intro">{d.intro}</p>
+        )}
+
+        {d.blocks.map((block) => (
+          <section class:list={['project-block', block.side]}>
+            <div class="project-block-image">
+              <img
+                src={asset(block.image)}
+                alt={block.alt ?? ''}
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+
+            <div class="project-block-text">
+              {block.sections.map((section) => (
+                <div class="project-block-section">
+                  {section.title && (
+                    <h2>{section.title}</h2>
+                  )}
+
+                  {section.paragraphs.map((paragraph) => (
+                    <p>{paragraph}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <div class="project-body">
+        <Content />
+      </div>
+    )}
+  </ProjectLayout>
+</Layout>

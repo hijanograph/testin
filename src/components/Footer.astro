@@ -1,14 +1,19 @@
 ---
 import { withBase } from '../utils/base';
+import { email, social } from '../utils/links';
 
+// Se lee en dos columnas: impares a la izquierda, pares a la derecha.
 const links = [
-  { label: 'Behance', href: 'https://behance.net/rafaelhijano', external: true },
   { label: 'Inicio', href: withBase() },
+  { label: 'Behance', href: social.behance, external: true },
+  { label: 'Proyectos', href: withBase('proyectos') },
+  { label: 'LinkedIn', href: social.linkedin, external: true },
   { label: 'Sobre mí', href: withBase('sobre-mi') },
-  { label: 'Currículum', href: withBase('curriculum') },
-  { label: 'Portfolio', href: withBase('portfolio') },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano', external: true },
+  { label: 'Instagram', href: social.instagram, external: true },
+  { label: 'Contacto', href: withBase('contacto') },
 ];
+
+const [user, domain] = email.split('@');
 ---
 
 <footer class="footer">
@@ -25,22 +30,20 @@ const links = [
       </div>
 
       <div class="footer__col footer__col--email">
-        <!--<p class="t-label">Puedes tutearme en</p>-->
-
-        <a href="mailto:hey@rafaelhijano.work" class="footer__email">
-          hey@<br />
-          rafaelhijano.work
+        <a href={`mailto:${email}`} class="footer__email">
+          {user}@<br />
+          {domain}
         </a>
       </div>
 
       <div class="footer__col footer__col--links">
-        <nav class="footer__nav">
+        <nav class="footer__nav" aria-label="Enlaces del pie">
           {links.map(({ label, href, external }) => (
             <a
               href={href}
               class="footer__nav-link arrow-link"
               target={external ? '_blank' : undefined}
-              rel={external ? 'noopener' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
             >
               {label}
             </a>

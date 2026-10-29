@@ -1,10 +1,21 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { email, social } from '../utils/links';
+import { cvDownloadUrl, portfolioDownloadUrl } from '../data/cv';
+
+// Formulario opcional: solo se muestra si defines PUBLIC_FORM_ENDPOINT
+// (por ejemplo, la URL de un formulario de Formspree o Web3Forms).
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
 
 const socials = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano' },
-  { label: 'Behance', href: 'https://behance.net/rafaelhijano' },
-  { label: 'Instagram', href: 'https://www.instagram.com/rafaelhijano.work' },
+  { label: 'LinkedIn', href: social.linkedin },
+  { label: 'Behance', href: social.behance },
+  { label: 'Instagram', href: social.instagram },
+];
+
+const downloads = [
+  { title: 'Currículum', meta: 'PDF', cta: 'Descargar CV ↓', href: cvDownloadUrl },
+  { title: 'Portfolio', meta: 'PDF — Proyectos seleccionados', cta: 'Descargar portfolio ↓', href: portfolioDownloadUrl },
 ];
 ---
 
@@ -22,34 +33,76 @@ const socials = [
       <section class="contact-content">
         <p class="t-body contact-intro">
           ¿Tienes algún proyecto en mente, una propuesta o simplemente quieres saludar?
-          No dudes en escribirme. Siempre tengo ganas de hablar sobre diseño visual, nuevas ideas y oportunidades de colaboración.
+          Escríbeme: siempre tengo ganas de hablar sobre diseño visual, nuevas ideas y oportunidades de colaboración.
         </p>
+      </section>
 
-        <div class="contact-methods">
-          <div class="contact-item">
-            <span class="t-label contact-label">Correo electrónico</span>
-            <a href="mailto:hey@rafaelhijano.work" class="contact-link t-body">
-              hey@rafaelhijano.work
-            </a>
-          </div>
+      <section class="contact-main">
+        <span class="t-label contact-label">Correo electrónico</span>
+        <a href={`mailto:${email}`} class="big-email">{email}</a>
+      </section>
 
-          <div class="contact-item">
-            <span class="t-label contact-label">Redes</span>
-            <div class="social-links">
-              {socials.map((s) => (
+      <section class="contact-methods">
+        <div class="contact-item">
+          <span class="t-label contact-label">Redes</span>
+          <ul class="social-links">
+            {socials.map((s) => (
+              <li>
                 <a href={s.href} target="_blank" rel="noopener noreferrer" class="contact-link t-body">
                   {s.label}
                 </a>
-              ))}
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
+      </section>
 
-        <div class="cv-cta cv-cta--start">
-          <a href="mailto:hey@rafaelhijano.work" class="download-btn t-label">
-            Envía un mensaje
-          </a>
-        </div>
+      {formEndpoint && (
+        <section class="section" id="formulario">
+          <h2 class="t-section section__title">O déjame un mensaje</h2>
+
+          <form class="form" action={formEndpoint} method="POST" data-astro-reload>
+            <label class="form__field">
+              <span class="t-label">Nombre</span>
+              <input class="form__input" type="text" name="name" autocomplete="name" required />
+            </label>
+
+            <label class="form__field">
+              <span class="t-label">Correo electrónico</span>
+              <input class="form__input" type="email" name="email" autocomplete="email" required />
+            </label>
+
+            <label class="form__field">
+              <span class="t-label">Mensaje</span>
+              <textarea class="form__input" name="message" rows="6" required></textarea>
+            </label>
+
+            <!-- Anti-spam: los bots lo rellenan, las personas no lo ven -->
+            <input class="form__hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+            <button type="submit" class="download-btn t-label">Enviar mensaje</button>
+          </form>
+        </section>
+      )}
+
+      <hr />
+
+      <section class="section" id="descargas">
+        <h2 class="t-section section__title">Descargas</h2>
+
+        {downloads.map((d) => (
+          <article class="split">
+            <div class="split__head">
+              <h3 class="t-project-title">{d.title}</h3>
+              <span class="t-label text-muted">{d.meta}</span>
+            </div>
+            <div class="split__body">
+              <a href={d.href} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
+                {d.cta}
+              </a>
+            </div>
+          </article>
+        ))}
       </section>
 
     </div>
