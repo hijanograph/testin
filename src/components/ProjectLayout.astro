@@ -1,19 +1,18 @@
 ---
-import { withBase } from '../utils/base';
-import { email } from '../utils/links';
-import { capitalize } from '../utils/proyectos';
+import { base } from '../utils/base';
 
-// Plantilla común de los casos de estudio (/proyectos/nombre-del-caso).
 interface Props {
   title: string;
   subtitle?: string;
-  tipo: string;
-  year: string;
+  intro?: string;
   area: string;
   rol: string;
-  software?: string;
+  software: string;
   heroImg?: string;
   heroAlt?: string;
+  heroVideo?: string;
+  heroWidth?: number;
+  heroHeight?: number;
   prevHref?: string;
   prevLabel?: string;
   nextHref?: string;
@@ -21,19 +20,17 @@ interface Props {
 }
 
 const {
-  title, subtitle, tipo, year, area, rol, software,
-  heroImg, heroAlt,
+  title, subtitle, intro, area, rol, software,
+  heroImg, heroAlt, heroVideo, heroWidth, heroHeight,
   prevHref, prevLabel,
   nextHref, nextLabel,
 } = Astro.props;
 
 const meta = [
-  { label: 'Tipo', value: capitalize(tipo) },
-  { label: 'Año', value: year },
   { label: 'Área', value: area },
   { label: 'Rol', value: rol },
   { label: 'Software', value: software },
-].filter((m) => m.value);
+];
 ---
 
 <div class="page">
@@ -41,10 +38,35 @@ const meta = [
 
     <section class="project-hero">
       <div class="project-hero__img-wrap">
-        {heroImg
-          ? <img src={heroImg} alt={heroAlt || title} class="project-hero__img" />
-          : <div class="img-ph img-ph--wide project-hero__img"></div>
-        }
+        {heroVideo ? (
+          <video
+            class="project-hero__img"
+            poster={heroImg}
+            width={heroWidth}
+            height={heroHeight}
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            aria-label={heroAlt || title}
+          >
+            <source src={`${heroVideo}.webm`} type="video/webm" />
+            <source src={`${heroVideo}.mp4`} type="video/mp4" />
+          </video>
+        ) : heroImg ? (
+          <img
+            src={heroImg}
+            alt={heroAlt || title}
+            width={heroWidth}
+            height={heroHeight}
+            fetchpriority="high"
+            decoding="async"
+            class="project-hero__img"
+          />
+        ) : (
+          <div class="img-ph img-ph--wide project-hero__img"></div>
+        )}
       </div>
 
       <div class="project-hero__info">
@@ -52,6 +74,8 @@ const meta = [
           <h1 class="t-hero project-hero__title">{title}</h1>
           {subtitle && <p class="project-hero__subtitle t-body">{subtitle}</p>}
         </div>
+
+        {intro && <p class="project-hero__intro t-body">{intro}</p>}
 
         <div class="project-meta">
           {meta.map((m) => (
@@ -64,19 +88,12 @@ const meta = [
       </div>
     </section>
 
-    <hr />
-
     <div class="project-content">
       <slot />
     </div>
 
-    <aside class="project-cta">
-      <p class="t-label">¿Tienes un proyecto en mente?</p>
-      <a href={`mailto:${email}`} class="t-section project-cta__link">{email}</a>
-    </aside>
-
     <nav class="project-nav" aria-label="Navegación del proyecto">
-      <a href={withBase('proyectos')} class="project-nav__back t-label">Proyectos</a>
+      <a href={`${base}portfolio`} class="project-nav__back t-label">Portfolio</a>
 
       {(prevHref || nextHref) && (
         <div class="project-nav__links">
