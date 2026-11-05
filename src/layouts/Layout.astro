@@ -38,12 +38,31 @@ const {
   </head>
 
   <body>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
+
     <Nav />
 
-    <main class="page-transition">
+    <main id="contenido" tabindex="-1" class="page-transition">
       <slot />
     </main>
 
     <Footer />
+
+    <script>
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      const syncVideos = () => {
+        document.querySelectorAll<HTMLVideoElement>('video[autoplay]').forEach((video) => {
+          if (reduceMotion.matches) {
+            video.pause();
+          } else {
+            video.play().catch(() => {});
+          }
+        });
+      };
+
+      document.addEventListener('astro:page-load', syncVideos);
+      reduceMotion.addEventListener('change', syncVideos);
+    </script>
   </body>
 </html>
