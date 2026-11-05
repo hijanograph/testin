@@ -2,49 +2,44 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const blockSectionSchema = z.object({
+// ── Bloques de contenido de un proyecto ────────────────────────────────────
+const section = z.object({
   title: z.string().optional(),
-  paragraphs: z.array(z.string()).default([]),
+  paragraphs: z.array(z.string()).min(1),
 });
 
-const blockSchema = z.object({
+const block = z.object({
   image: z.string(),
-  alt: z.string().optional(),
-  side: z.enum(['left', 'right']).default('left'),
-  sections: z.array(blockSectionSchema).default([]),
+  alt: z.string().default(''),
+  side: z.enum(['left', 'right']).optional(),
+  sections: z.array(section).min(1),
 });
 
-const proyectos = defineCollection({
+// ── Portfolio ──────────────────────────────────────────────────────────────
+const portfolio = defineCollection({
   loader: glob({
     pattern: '**/*.md',
-    base: './src/content/proyectos',
+    base: './src/content/portfolio',
   }),
 
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
+    intro: z.string().optional(),
     tagline: z.string(),
     desc: z.string(),
 
-    // Etiqueta y año: se muestran en el índice (/proyectos) y en la ficha.
-    tipo: z.enum(['profesional', 'académico', 'personal']),
-    year: z.string(),
-
-    // Aparece en la selección de la home.
-    featured: z.boolean().default(false),
-
-    intro: z.string().optional(),
-    blocks: z.array(blockSchema).default([]),
-
     area: z.string(),
     rol: z.string(),
-    software: z.string().optional(),
+    software: z.string(),
 
-    // Orden en el índice y en la navegación anterior/siguiente.
     order: z.number(),
 
     heroImg: z.string().optional(),
     heroAlt: z.string().optional(),
+    heroVideo: z.string().optional(),
+
+    blocks: z.array(block).default([]),
 
     coverImg: z.string().optional(),
     coverAlt: z.string().optional(),
@@ -52,9 +47,15 @@ const proyectos = defineCollection({
     wip: z.boolean().optional().default(false),
 
     musicId: z.string().optional(),
+
+    prevSlug: z.string().optional(),
+    prevLabel: z.string().optional(),
+
+    nextSlug: z.string().optional(),
+    nextLabel: z.string().optional(),
   }),
 });
 
 export const collections = {
-  proyectos,
+  portfolio,
 };
