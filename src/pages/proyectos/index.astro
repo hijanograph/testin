@@ -1,77 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { base } from '../../utils/base';
-import CardMedia from '../../components/CardMedia.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
 
-type Project = {
-  slug: string;
-  title: string;
-  desc: string;
-  tagline: string;
-  area: string;
-  img: string;
-  imgAlt: string;
-  video?: string;
-  wip?: boolean;
-};
-
-const projects: Project[] = [
-  {
-    slug: 'arbocala',
-    title: 'Bodegas Arbocala',
-    tagline: 'Una marca viva, pero con historia',
-    desc: 'Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados',
-    area: 'Branding — Editorial — UX/UI',
-    img: `${base}images/index/arbocala-cover.png`,
-    imgAlt: 'Bodegas Arbocala, identidad visual',
-  },
-  {
-    slug: 'fiambre',
-    title: 'Editorial Fiambre',
-    tagline: 'El alma del terror cotidiano',
-    desc: 'Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre',
-    area: 'Branding — Editorial — Motion',
-    img: `${base}images/index/fiambre-cover.png`,
-    imgAlt: 'Editorial Fiambre, identidad visual',
-  },
-  {
-    slug: 'andaluce',
-    title: 'Andaluçê yorá',
-    tagline: 'Música, arte y tradición',
-    desc: 'Tributo a «ANDALUÇÊ YORÁ», de Califato ¾',
-    area: 'Ilustración — Motion Graphics',
-    img: `${base}images/index/andaluce-cover.gif`,
-    imgAlt: 'Andaluçê yorá, ilustración',
-    wip: true,
-  },
-];
+const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<Layout title="Portfolio — Rafael Hijano" description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics.">
+<Layout title="Proyectos — Rafael Hijano" description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics.">
   <div class="page">
     <div class="container">
-
-      <h1 class="t-hero page-title">Portfolio</h1>
-
+      <h1 class="t-hero page-title">Proyectos</h1>
       <div class="projects__grid">
-        {projects.map((p, i) => (
-          <article class="project-card">
-            <a href={`${base}portfolio/${p.slug}`} class="project-card__img-link">
-              <CardMedia src={p.img} alt={p.imgAlt} video={p.video} />
-              {p.wip && <span class="project-card__wip badge t-label">En proceso</span>}
-            </a>
-            <div class="project-card__body">
-              <span class="t-label project-card__num">{String(i + 1).padStart(2, '0')}</span>
-              <a href={`${base}portfolio/${p.slug}`}>
-                <h2 class="t-project-title project-card__title">{p.title}</h2>
-              </a>
-              <p class="t-body project-card__desc">{p.desc}</p>
-              <p class="t-label project-card__area">{p.area}</p>
-            </div>
-          </article>
-        ))}
+        {projects.map((project, i) => <ProjectCard project={project} index={i} />)}
       </div>
-
     </div>
   </div>
 </Layout>

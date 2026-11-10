@@ -1,50 +1,40 @@
 ---
-import { withBase } from '../utils/base';
-import { social } from '../utils/links';
+import { pages, social } from '../site';
 
 const normalize = (path: string) => path.replace(/\/$/, '') || '/';
+const home = normalize(pages[0].href);
+const current = normalize(Astro.url.pathname);
 
-const homePath = normalize(withBase());
-const currentPath = normalize(Astro.url.pathname);
-
-const navigation = [
-  { label: 'Inicio', href: withBase() },
-  { label: 'Proyectos', href: withBase('proyectos') },
-  { label: 'Sobre mí', href: withBase('sobre-mi') },
-  { label: 'Contacto', href: withBase('contacto') },
-];
+// "Proyectos" también queda activo en /proyectos/nombre-del-caso
+const isActive = (href: string) => {
+  const target = normalize(href);
+  return target === home ? current === target : current === target || current.startsWith(`${target}/`);
+};
 
 const externalLinks = [
   { label: 'LinkedIn', href: social.linkedin },
   { label: 'Behance', href: social.behance },
 ];
-
-// "Proyectos" también queda activo en /proyectos/nombre-del-caso
-const isActiveHref = (href: string) => {
-  const target = normalize(href);
-  if (target === homePath) return currentPath === target;
-  return currentPath === target || currentPath.startsWith(`${target}/`);
-};
 ---
 
 <div class="navigation" transition:persist>
 
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href={withBase()} class="nav__logo t-nav">RAFAEL HIJANO</a>
+      <a href={pages[0].href} class="nav__logo t-nav">RAFAEL HIJANO</a>
 
       <nav class="nav__desktop" aria-label="Navegación principal">
         <ul class="nav__list">
           {
-            navigation.map(({ label, href }) => {
-              const isActive = isActiveHref(href);
+            pages.map(({ label, href }) => {
+              const active = isActive(href);
 
               return (
                 <li>
                   <a
                     href={href}
-                    class:list={['nav__link', 't-nav', { 'nav__link--active': isActive }]}
-                    aria-current={isActive ? 'page' : undefined}
+                    class:list={['nav__link', 't-nav', { 'nav__link--active': active }]}
+                    aria-current={active ? 'page' : undefined}
                   >
                     {label}
                   </a>
@@ -75,15 +65,15 @@ const isActiveHref = (href: string) => {
       <nav class="nav-overlay__nav" aria-label="Navegación móvil">
         <ul class="nav-overlay__list">
           {
-            navigation.map(({ label, href }) => {
-              const isActive = isActiveHref(href);
+            pages.map(({ label, href }) => {
+              const active = isActive(href);
 
               return (
                 <li>
                   <a
                     href={href}
-                    class:list={['nav__link', 't-nav', 'nav-overlay__link', { 'nav__link--active': isActive }]}
-                    aria-current={isActive ? 'page' : undefined}
+                    class:list={['nav__link', 't-nav', 'nav-overlay__link', { 'nav__link--active': active }]}
+                    aria-current={active ? 'page' : undefined}
                   >
                     {label}
                   </a>
@@ -114,177 +104,50 @@ const isActiveHref = (href: string) => {
 </div>
 
 <script>
-  import { navigate } from 'astro:transitions/client';
+  const normalize = (path: string) => path.replace(/\/$/, '') || '/';
 
-  const goTo = (href: string) => {
-    try {
-      navigate(href);
-    } catch {
-      window.location.assign(href);
-    }
-  };
-
-  const initNavigation = () => {
+  const init = () => {
     const toggle = document.getElementById('navToggle');
     const overlay = document.getElementById('navOverlay');
     const nav = document.getElementById('nav');
-
     if (!toggle || !overlay || !nav) return;
-    if (toggle.dataset.initialized === 'true') return;
 
+    // El nav persiste entre páginas (transition:persist): hay que refrescar el enlace activo.
+    const home = normalize(new URL(document.querySelector<HTMLAnchorElement>('.nav__logo')!.href).pathname);
+    const current = normalize(location.pathname);
+    document.querySelectorAll<HTMLAnchorElement>('.nav__link[href]').forEach((link) => {
+      if (link.origin !== location.origin) return;
+      const path = normalize(link.pathname);
+      const active = path === home ? current === path : current === path || current.startsWith(`${path}/`);
+      link.classList.toggle('nav__link--active', active);
+      active ? link.setAttribute('aria-current', 'page') : link.removeAttribute('aria-current');
+    });
+
+    if (document.activeElement === toggle) toggle.blur();
+    if (toggle.dataset.initialized) return;
     toggle.dataset.initialized = 'true';
 
-    const firstLink = overlay.querySelector('a');
-
-    const setMenuState = (open: boolean) => {
+    const setOpen = (open: boolean) => {
       overlay.classList.toggle('open', open);
       overlay.setAttribute('aria-hidden', String(!open));
       overlay.inert = !open;
-
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute(
-        'aria-label',
-        open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación'
-      );
-
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
       document.body.classList.toggle('menu-open', open);
-
-      if (open) {
-        firstLink?.focus();
-      }
+      if (open) overlay.querySelector('a')?.focus();
     };
 
-    toggle.addEventListener('click', () => {
-      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
-      setMenuState(!isOpen);
-    });
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    // Cualquier clic dentro del overlay lo cierra; los enlaces internos los navega el ClientRouter.
+    overlay.addEventListener('click', () => setOpen(false));
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+    matchMedia('(min-width: 1072px)').addEventListener('change', (e) => e.matches && setOpen(false));
 
-    const navigateAfterClose = (href: string) => {
-      const duration =
-        parseFloat(getComputedStyle(overlay).transitionDuration) * 1000;
-
-      setMenuState(false);
-
-      if (!duration) {
-        goTo(href);
-        return;
-      }
-
-      overlay.addEventListener('transitionend', () => goTo(href), { once: true });
-    };
-
-    overlay.addEventListener('click', (event) => {
-      if (!(event.target instanceof Element)) {
-        setMenuState(false);
-        return;
-      }
-
-      const link = event.target.closest('a');
-
-      const isInternalLink =
-        link &&
-        link.target !== '_blank' &&
-        !event.metaKey &&
-        !event.ctrlKey &&
-        !event.shiftKey &&
-        !event.altKey;
-
-      if (isInternalLink) {
-        event.preventDefault();
-        navigateAfterClose(link.href);
-        return;
-      }
-
-      setMenuState(false);
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-
-      if (toggle.getAttribute('aria-expanded') === 'true') {
-        setMenuState(false);
-      }
-    });
-
-    const updateScrolledState = () => {
-      nav.classList.toggle('scrolled', window.scrollY > 4);
-    };
-
-    let ticking = false;
-
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (ticking) return;
-
-        ticking = true;
-
-        requestAnimationFrame(() => {
-          updateScrolledState();
-          ticking = false;
-        });
-      },
-      { passive: true }
-    );
-
-    updateScrolledState();
-
-    const desktopMedia = window.matchMedia('(min-width: 1072px)');
-
-    desktopMedia.addEventListener('change', (event) => {
-      if (event.matches) {
-        setMenuState(false);
-      }
-    });
-
-    setMenuState(false);
-  };
-
-  const normalize = (path: string) => path.replace(/\/$/, '') || '/';
-
-  const updateActiveLink = () => {
-    const logo = document.querySelector<HTMLAnchorElement>('.nav__logo');
-    const homePath = logo ? normalize(new URL(logo.href).pathname) : '/';
-    const currentPath = normalize(window.location.pathname);
-
-    document.querySelectorAll('.nav__link[href]').forEach((link) => {
-      if (!(link instanceof HTMLAnchorElement)) return;
-
-      const url = new URL(link.href, window.location.origin);
-
-      if (url.origin !== window.location.origin) return;
-
-      const linkPath = normalize(url.pathname);
-      const isActive =
-        linkPath === homePath
-          ? currentPath === linkPath
-          : currentPath === linkPath || currentPath.startsWith(`${linkPath}/`);
-
-      link.classList.toggle('nav__link--active', isActive);
-
-      if (isActive) {
-        link.setAttribute('aria-current', 'page');
-      } else {
-        link.removeAttribute('aria-current');
-      }
-    });
-  };
-
-  const blurStaleToggle = () => {
-    if (
-      document.activeElement instanceof HTMLElement &&
-      document.activeElement.id === 'navToggle'
-    ) {
-      document.activeElement.blur();
-    }
-  };
-
-  const init = () => {
-    initNavigation();
-    updateActiveLink();
-    blurStaleToggle();
+    const onScroll = () => nav.classList.toggle('scrolled', scrollY > 4);
+    addEventListener('scroll', onScroll, { passive: true }); // el navegador ya agrupa por frame
+    onScroll();
+    setOpen(false);
   };
 
   document.addEventListener('astro:page-load', init);
-  init();
 </script>

@@ -16,6 +16,7 @@ heroAlt: "Andaluçê yorá — ilustración"
 coverImg: "images/index/andaluce-cover.gif"
 coverAlt: "Andaluçê yorá ilustración"
 wip: true
+wipImg: "images/projects/andaluce-wip.gif"
 musicId: "4zbzei-ihy4"
 ---
 

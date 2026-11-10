@@ -1,29 +1,31 @@
 ---
-import { withBase } from '../utils/base';
-import type { Proyecto } from '../utils/proyectos';
+import { withBase } from '../site';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  project: Proyecto;
+  project: CollectionEntry<'portfolio'>;
+  index?: number; // si se pasa, se muestra la versión detallada (listado)
 }
 
-const { project } = Astro.props;
+const { project, index } = Astro.props;
 const d = project.data;
 const href = withBase(`proyectos/${project.id}`);
+const detailed = index !== undefined;
+const Title = detailed ? 'h2' : 'h3';
 ---
 
 <article class="project-card">
   <a href={href} class="project-card__img-link" aria-label={d.title}>
     {d.coverImg
       ? <img src={withBase(d.coverImg)} alt={d.coverAlt ?? d.title} class="project-card__img" loading="lazy" />
-      : <div class="img-ph project-card__img"></div>
-    }
+      : <div class="img-ph project-card__img"></div>}
     {d.wip && <span class="project-card__wip badge t-label">En proceso</span>}
   </a>
 
   <div class="project-card__body">
-    <a href={href}>
-      <h3 class="t-project-title project-card__title">{d.title}</h3>
-    </a>
-    <p class="t-body project-card__desc">{d.desc}</p>
+    {detailed && <span class="t-label text-muted">{String(index + 1).padStart(2, '0')}</span>}
+    <a href={href}><Title class="t-project-title">{d.title}</Title></a>
+    <p class="t-body">{d.desc}</p>
+    {detailed && <p class="t-label text-muted">{d.area}</p>}
   </div>
 </article>

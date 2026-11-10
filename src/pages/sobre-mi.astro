@@ -1,11 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { Content as CvContent } from '../data/cv.md';
-import { withBase } from '../utils/base';
-import { servicios, proceso } from '../data/servicios';
-import { ahora, ahoraActualizado } from '../data/ahora';
-import { recomendaciones } from '../data/recomendaciones';
-import { cvDownloadUrl } from '../data/cv';
+import { withBase, cvUrl } from '../site';
+import { servicios, proceso, ahora, ahoraActualizado, recomendaciones } from '../data/about';
 ---
 
 <Layout
@@ -112,7 +109,7 @@ import { cvDownloadUrl } from '../data/cv';
         <div class="section-head">
           <h2 class="t-section">Currículum</h2>
           <a
-            href={cvDownloadUrl}
+            href={cvUrl}
             target="_blank"
             rel="noopener noreferrer"
             class="download-btn t-label"

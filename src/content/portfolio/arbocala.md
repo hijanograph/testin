@@ -15,7 +15,7 @@ heroAlt: "Bodegas Arbocala — identidad visual"
 coverImg: "images/index/arbocala-cover.png"
 coverAlt: "Bodegas Arbocala branding"
 wip: false
-intro: "Bodegas Arbocala, una empresa que fusiona tradición e innovación, necesitaba un sistema visual sofisticado que unificara todas sus facetas: posicionar su vino premium en mercados internacionales, comunicar su rol como distribuidora y establecer una presencia digital coherente."
+intro: "Un ecosistema visual completo para una bodega con raíces profundas: identidad de marca, papelería, merchandising, espacios comerciales, packaging de su vino estrella y una tienda online coherente con todo ello."
 
 blocks:
   - image: "images/projects/arbocala-01.png"

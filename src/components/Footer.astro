@@ -1,16 +1,13 @@
 ---
-import { withBase } from '../utils/base';
-import { email, social } from '../utils/links';
+import { email, social, pages } from '../site';
 
 // Se lee en dos columnas: impares a la izquierda, pares a la derecha.
+const [inicio, proyectos, sobreMi, contacto] = pages;
 const links = [
-  { label: 'Inicio', href: withBase() },
-  { label: 'Behance', href: social.behance, external: true },
-  { label: 'Proyectos', href: withBase('proyectos') },
-  { label: 'LinkedIn', href: social.linkedin, external: true },
-  { label: 'Sobre mí', href: withBase('sobre-mi') },
-  { label: 'Instagram', href: social.instagram, external: true },
-  { label: 'Contacto', href: withBase('contacto') },
+  inicio, { label: 'Behance', href: social.behance, external: true },
+  proyectos, { label: 'LinkedIn', href: social.linkedin, external: true },
+  sobreMi, { label: 'Instagram', href: social.instagram, external: true },
+  contacto,
 ];
 
 const [user, domain] = email.split('@');

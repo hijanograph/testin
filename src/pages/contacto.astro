@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { email, social } from '../utils/links';
-import { cvDownloadUrl, portfolioDownloadUrl } from '../data/cv';
+import { email, social, cvUrl, portfolioUrl } from '../site';
 
 // Formulario opcional: solo se muestra si defines PUBLIC_FORM_ENDPOINT
 // (por ejemplo, la URL de un formulario de Formspree o Web3Forms).
@@ -14,8 +13,8 @@ const socials = [
 ];
 
 const downloads = [
-  { title: 'Currículum', meta: 'PDF', cta: 'Descargar CV ↓', href: cvDownloadUrl },
-  { title: 'Portfolio', meta: 'PDF — Proyectos seleccionados', cta: 'Descargar portfolio ↓', href: portfolioDownloadUrl },
+  { title: 'Currículum', meta: 'PDF', cta: 'Descargar CV ↓', href: cvUrl },
+  { title: 'Portfolio', meta: 'PDF — Proyectos seleccionados', cta: 'Descargar portfolio ↓', href: portfolioUrl },
 ];
 ---
 

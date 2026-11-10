@@ -1,71 +1,142 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectLayout from '../../components/ProjectLayout.astro';
 import { getCollection, render, type CollectionEntry } from 'astro:content';
-import ProjectBlocks from '../../components/ProjectBlocks.astro';
-import MusicEmbed from '../../components/MusicEmbed.astro';
-import { withBase } from '../../utils/base';
-import { imageSize } from '../../utils/image-size';
+import { withBase } from '../../site';
+import { imageSize } from '../../image-size';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('portfolio');
+  const all = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
 
-  return projects.map((project: CollectionEntry<'portfolio'>) => ({
+  return all.map((project, i) => ({
     params: { slug: project.id },
-    props: { project },
+    props: { project, prev: all[i - 1], next: all[i + 1] },
   }));
 }
 
-const { project }: { project: CollectionEntry<'portfolio'> } = Astro.props;
-const { Content } = await render(project);
+type Entry = CollectionEntry<'portfolio'>;
+const { project, prev, next } = Astro.props as { project: Entry; prev?: Entry; next?: Entry };
 const d = project.data;
+const { Content } = await render(project);
 
-const asset = (path?: string) => (path ? withBase(path) : undefined);
-const heroSize = await imageSize(d.heroImg);
+const [heroSize, ...blockSizes] = await Promise.all([
+  imageSize(d.heroImg),
+  ...d.blocks.map((b) => imageSize(b.image)),
+]);
+
+const cap = (v?: string) => v && v[0].toUpperCase() + v.slice(1);
+const meta = [
+  { label: 'Tipo', value: cap(d.tipo) },
+  { label: 'Año', value: d.year },
+  { label: 'Área', value: d.area },
+  { label: 'Rol', value: d.rol },
+  { label: 'Software', value: d.software },
+].filter((m) => m.value);
+
+const musicParams = d.musicId
+  ? new URLSearchParams({ controls: '1', playsinline: '1', loop: '1', playlist: d.musicId, rel: '0', modestbranding: '1' })
+  : '';
 ---
 
-<Layout
-  title={`${d.title} — Rafael Hijano`}
-  description={d.desc}
->
-  <ProjectLayout
-    title={d.title}
-    subtitle={d.subtitle}
-    intro={d.intro}
-    area={d.area}
-    rol={d.rol}
-    software={d.software}
-    heroImg={asset(d.heroImg)}
-    heroVideo={asset(d.heroVideo)}
-    heroWidth={heroSize?.width}
-    heroHeight={heroSize?.height}
-    heroAlt={d.heroAlt}
-    prevHref={d.prevSlug ? withBase(`portfolio/${d.prevSlug}`) : undefined}
-    prevLabel={d.prevLabel}
-    nextHref={d.nextSlug ? withBase(`portfolio/${d.nextSlug}`) : undefined}
-    nextLabel={d.nextLabel}
-  >
-    {d.wip ? (
-      <>
-        <div class="wip-media">
-          <img
-            src={withBase('images/projects/andaluce-wip.gif')}
-            alt={`${d.title} — en proceso`}
-            class="wip-figure"
-          />
-          {d.musicId && <MusicEmbed videoId={d.musicId} />}
+<Layout title={`${d.title} — Rafael Hijano`} description={d.desc}>
+  <div class="page">
+    <div class="container">
+
+      <section class="project-hero">
+        <div class="project-hero__img-wrap">
+          {d.heroImg ? (
+            <img
+              src={withBase(d.heroImg)}
+              alt={d.heroAlt || d.title}
+              width={heroSize?.width}
+              height={heroSize?.height}
+              fetchpriority="high"
+              decoding="async"
+              class="project-hero__img"
+            />
+          ) : (
+            <div class="img-ph img-ph--wide project-hero__img"></div>
+          )}
         </div>
-        <div class="wip-text">
-          <p class="t-label wip-tag">Proyecto bajo construcción</p>
-          <Content />
+
+        <div class="project-hero__info">
+          <div>
+            <h1 class="t-hero project-hero__title">{d.title}</h1>
+            {d.subtitle && <p class="t-body text-muted">{d.subtitle}</p>}
+          </div>
+
+          {d.intro && <p class="t-body">{d.intro}</p>}
+
+          <div class="project-meta">
+            {meta.map((m) => (
+              <div class="project-meta__item">
+                <p class="t-label">{m.label}</p>
+                <p class="t-body">{m.value}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </>
-    ) : d.blocks.length > 0 ? (
-      <ProjectBlocks blocks={d.blocks} />
-    ) : (
-      <div class="project-body">
-        <Content />
+      </section>
+
+      <div class="project-content">
+        {d.wip ? (
+          <>
+            <div class="wip-media">
+              {d.wipImg && <img src={withBase(d.wipImg)} alt={`${d.title} — en proceso`} class="wip-figure" />}
+              {d.musicId && (
+                <div class="music-embed">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${d.musicId}?${musicParams}`}
+                    title="Música de fondo — reproductor de YouTube"
+                    loading="lazy"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                </div>
+              )}
+            </div>
+            <div class="wip-text">
+              <p class="t-label text-muted">Proyecto bajo construcción</p>
+              <Content />
+            </div>
+          </>
+        ) : d.blocks.length > 0 ? (
+          <div class="project-blocks">
+            {d.blocks.map((block, i) => (
+              <section class="project-block" data-side={block.side ?? (i % 2 === 0 ? 'left' : 'right')}>
+                <img
+                  class="project-block__img"
+                  src={withBase(block.image)}
+                  alt={block.alt}
+                  width={blockSizes[i]?.width}
+                  height={blockSizes[i]?.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="project-block__text">
+                  {block.sections.map((section) => (
+                    <div class="project-block__section">
+                      {section.title && <h2 class="t-project-title">{section.title}</h2>}
+                      {section.paragraphs.map((p) => <p class="t-body">{p}</p>)}
+                    </div>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        ) : (
+          <div class="project-body"><Content /></div>
+        )}
       </div>
-    )}
-  </ProjectLayout>
+
+      <nav class="project-nav" aria-label="Navegación del proyecto">
+        <a href={withBase('proyectos')} class="project-nav__back t-label">Proyectos</a>
+
+        <div class="project-nav__links">
+          {prev && <a href={withBase(`proyectos/${prev.id}`)} class="arrow-link">{prev.data.title}</a>}
+          {next && <a href={withBase(`proyectos/${next.id}`)} class="arrow-link">{next.data.title}</a>}
+        </div>
+      </nav>
+
+    </div>
+  </div>
 </Layout>

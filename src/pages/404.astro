@@ -1,14 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { withBase } from '../utils/base';
-import { email } from '../utils/links';
-
-const links = [
-  { label: 'Inicio', href: withBase() },
-  { label: 'Proyectos', href: withBase('proyectos') },
-  { label: 'Sobre mí', href: withBase('sobre-mi') },
-  { label: 'Contacto', href: withBase('contacto') },
-];
+import { email, pages } from '../site';
 ---
 
 <Layout title="404 — Página no encontrada" description="Esta página no existe o ha sido movida.">
@@ -22,7 +14,7 @@ const links = [
       </p>
 
       <nav class="error-links" aria-label="Páginas principales">
-        {links.map((l) => <a href={l.href} class="arrow-link">{l.label}</a>)}
+        {pages.map((l) => <a href={l.href} class="arrow-link">{l.label}</a>)}
       </nav>
 
       <p class="t-body error-text">
