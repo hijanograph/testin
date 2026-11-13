@@ -42,11 +42,11 @@
   --fw-medium: 500;
   --tracking-tight: -0.03em;
 
-  --fs-1: 20px;
-  --fs-2: 24px;
-  --fs-3: 32px;
-  --fs-4: 48px;
-  --fs-5: 72px;
+  --fs-1: 0.75rem;
+  --fs-2: 1rem;
+  --fs-3: 1.5rem;
+  --fs-4: 2rem;
+  --fs-5: 4rem;
 
   --s-0: 4px;
   --s-1: 8px;
@@ -78,7 +78,6 @@
   }
 }
 
-/* Tokens de componente: no se heredan, así un hijo nunca recoge el valor de su padre */
 @property --gap { syntax: "*"; inherits: false; }
 @property --row { syntax: "*"; inherits: false; }
 @property --c { syntax: "*"; inherits: false; }
@@ -92,7 +91,7 @@
 }
 
 html {
-  font-size: 20px;
+  font-size: 18x;
   scrollbar-gutter: stable;
   scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust: 100%;
