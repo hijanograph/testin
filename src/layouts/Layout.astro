@@ -8,11 +8,13 @@ import { withBase } from '../site';
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   title = 'Rafael Hijano — Diseñador Visual',
   description = 'Diseñador visual que crea espacios donde cada marca cobra vida.',
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -22,6 +24,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
 

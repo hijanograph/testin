@@ -14,11 +14,11 @@ import { email, pages } from '../site';
       </p>
 
       <nav class="error-links" aria-label="Páginas principales">
-        {pages.map((l) => <a href={l.href} class="arrow-link">{l.label}</a>)}
+        {pages.map((l) => <a href={l.href} class="cta">{l.label}</a>)}
       </nav>
 
       <p class="t-body error-text">
-        ¿Seguro que debería estar aquí? <a href={`mailto:${email}`} class="contact-link">Avísame</a>.
+        ¿Seguro que debería estar aquí? <a href={`mailto:${email}`} class="cta">Avísame</a>.
       </p>
     </div>
   </div>

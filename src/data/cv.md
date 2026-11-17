@@ -2,7 +2,7 @@
 
 ### Diseñador Visual — Batterylight
 
-*Feb 2025 — presente*
+*Feb 2025 — Feb 2026*
 
 Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centrado en la eficiencia energética y la sostenibilidad en la industria de la iluminación proyectada.
 

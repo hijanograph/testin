@@ -18,10 +18,12 @@ const projects = (await getCollection('portfolio', (p) => p.data.featured)).sort
 
       <div class="hero__text">
         <h1 class="t-hero">Hola, soy Rafael Hijano</h1>
+        <p class="t-label text-muted">DISEÑADOR VISUAL — DISEÑADOR GRÁFICO — MOTION GRAPHICS — EDITOR DE VÍDEO</p>
         <p class="t-body">
           Diseño identidades visuales que tienen algo que decir. Creo en los detalles que importan, en las historias bien contadas y en el diseño que perdura.
           Si estás buscando a alguien para tu proyecto, creo que tenemos algo de qué hablar.
         </p>
+        <a href={withBase('contacto')} class="cta">Hablemos</a>
       </div>
     </div>
   </section>

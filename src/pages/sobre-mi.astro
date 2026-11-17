@@ -1,8 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Content as CvContent } from '../data/cv.md';
+import * as cv from '../data/cv.md';
 import { withBase, cvUrl } from '../site';
 import { servicios, proceso, ahora, ahoraActualizado, recomendaciones } from '../data/about';
+
+// Currículum: la fecha (<em>) pasa a la línea del <h3> y se reparte en una columna por bloque (h2)
+const cvHtml = (await cv.compiledContent()).replace(
+  /(<h3[^>]*>)([\s\S]*?)<\/h3>\s*<p><em>([\s\S]*?)<\/em><\/p>/g,
+  '$1$2 <em>$3</em></h3>',
+);
+const cvCols = cvHtml.split(/(?=<h2)/).filter((col) => col.trim());
 ---
 
 <Layout
@@ -13,160 +20,172 @@ import { servicios, proceso, ahora, ahoraActualizado, recomendaciones } from '..
     <div class="container">
 
       <section class="intro">
-        <h1 class="t-hero intro__title">Sobre mí</h1>
+  <h1 class="t-hero intro__title">Rafael Hijano, diseñador visual en Málaga</h1>
 
-        <div class="intro__grid">
-          <div class="intro__photo-wrap">
-            <img
-              src={withBase('images/about/about-profile.png')}
-              alt="Rafael Hijano"
-              class="intro__photo"
-            />
-          </div>
+  <div class="intro__grid">
+    <div class="intro__photo-wrap">
+      <img
+        src={withBase('images/about/about-profile.png')}
+        alt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
+        class="intro__photo"
+      />
+    </div>
 
-          <div class="intro__bio">
-            <!-- Propuesta de valor -->
-            <p class="lead">
-              Diseño identidades visuales con alma para marcas que quieren contar bien su historia, desde la idea hasta el último soporte.
-            </p>
-
-            <p class="t-body">
-              Soy Rafael, un Diseñador Visual que vive y trabaja en el área de Málaga.
-              Me apasiona crear espacios donde las marcas cobran vida y construir proyectos
-              con alma, conectando con las personas a través de un diseño cuidado y con propósito.
-            </p>
-            <p class="t-body">
-              Soy graduado de la Universidad de Málaga en Comunicación Audiovisual y cuento con
-              un Máster en Diseño Visual de La X Gauss. Mi interés por el diseño nació de forma
-              natural: de niño me fascinaban los sistemas interactivos y el arte visual en los
-              videojuegos y los ordenadores, lo que me llevó a querer estudiar informática.
-              Aunque sabía que mi hábitat se encontraba entre interfaces, algo dentro de mí me
-              pedía explorar más mi lado creativo.
-            </p>
-            <p class="t-body">
-              Así fue cómo comencé por segunda vez mi etapa universitaria, y tras explorar la
-              comunicación en todas sus formas, descubrí que mi verdadera vocación era contar
-              historias a través del diseño visual.
-            </p>
-            <p class="t-body">
-              Actualmente, trabajo como Diseñador Visual en Batterylight. Lidero diferentes
-              áreas creativas dentro del departamento de marketing, desde el diseño de packaging
-              hasta la edición de catálogos.
-            </p>
-            <p class="t-body">
-              Fuera del diseño, soy un entusiasta de la psicología, la música, la tecnología y
-              la cultura geek en general. Cuando tengo tiempo libre, puedes encontrarme leyendo,
-              jugando, cocinando, viendo alguna serie o acariciando algún gato.
-            </p>
+    <div class="intro__bio">
+<p class="lead">
+  Diseño, arte, alma y transparencia
+</p>
+<p class="t-body">
+  Soy diseñador visual y graduado en comunicación, en Málaga. Mi trabajo es ayudar a las marcas a comunicar con claridad
+  quiénes son y qué hacen por sus clientes. Busco proyectos exigentes en los que seguir creciendo, ya sea
+  integrándome en el equipo de una agencia o estudio, o liderando la imagen de
+  una empresa que quiere dar el siguiente paso.
+</p>
+<p class="t-body">
+  Trabajo con identidad visual, branding y diseño gráfico, y me motiva
+  acompañar a un negocio justo cuando funciona y necesita evolucionar: ese
+  momento en que su imagen debe estar a la altura de su potencial.
+</p>
+<p class="t-body">
+  Mi vocación nació de niño, fascinado por los videojuegos y los sistemas
+  interactivos, y se consolidó en la universidad, donde descubrí que lo mío es
+  contar historias a través del diseño. Fuera de él, me apasionan la psicología,
+  la música, la tecnología y la cultura geek, y siempre busco algún gato que me
+  alegre el día.
+</p>
+            <a href={withBase('contacto')} class="cta">Hablemos</a>
           </div>
         </div>
       </section>
 
-      <hr />
 
       <!-- Servicios en detalle -->
-      <section class="section" id="servicios">
-        <h2 class="t-section section__title">Servicios</h2>
+      <div class="section-row">
+        <section class="section" id="servicios">
+          <h2 class="t-section section__title">Servicios</h2>
 
-        {servicios.map((s) => (
-          <article class="split">
-            <div class="split__head">
-              <h3 class="t-project-title">{s.title}</h3>
-            </div>
-            <div class="split__body">
-              <p class="t-body">{s.detail}</p>
-              <ul class="tag-list">
-                {s.items.map((item) => <li class="tag t-label">{item}</li>)}
-              </ul>
-            </div>
-          </article>
-        ))}
-      </section>
+          {servicios.map((s) => (
+            <article class="split">
+              <div class="split__head">
+                <h3 class="t-project-title">{s.title}</h3>
+              </div>
+              <div class="split__body">
+                <p class="t-body">{s.detail}</p>
+                <ul class="tag-list">
+                  {s.items.map((item) => <li class="tag t-label">{item}</li>)}
+                </ul>
+              </div>
+            </article>
+          ))}
+        </section>
 
-      <hr />
+        <section class="section" id="proceso">
+          <h2 class="t-section section__title">Proceso</h2>
 
-      <!-- Proceso -->
-      <section class="section" id="proceso">
-        <h2 class="t-section section__title">Proceso</h2>
+          {proceso.map((step, i) => (
+            <article class="split">
+              <div class="split__head">
+                <span class="t-label text-muted">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="t-project-title">{step.title}</h3>
+              </div>
+              <div class="split__body">
+                <p class="t-body">{step.text}</p>
+              </div>
+            </article>
+          ))}
+        </section>
+      </div>
 
-        {proceso.map((step, i) => (
-          <article class="split">
-            <div class="split__head">
-              <span class="t-label text-muted">{String(i + 1).padStart(2, '0')}</span>
-              <h3 class="t-project-title">{step.title}</h3>
-            </div>
-            <div class="split__body">
-              <p class="t-body">{step.text}</p>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      <hr />
+      <!-- Imagen entre servicios/proceso y currículum -->
+      <img
+        src={withBase('images/about/about-cv.png')}
+        alt=""
+        class="section-banner"
+      />
 
       <!-- CV generado desde src/data/cv.md -->
-      <section class="section" id="cv">
+      <div class="section" id="cv">
         <div class="section-head">
           <h2 class="t-section">Currículum</h2>
           <a
             href={cvUrl}
             target="_blank"
             rel="noopener noreferrer"
-            class="download-btn t-label"
+            class="cta"
           >
-            Descargar CV ↓
+            Descargar CV
           </a>
         </div>
 
         <div class="cv-md">
-          <CvContent />
+          {cvCols.map((col) => (
+            <div class:list={['cv-col', /habilidades/i.test(col.slice(0, 80)) && 'cv-col--skills']} set:html={col} />
+          ))}
+          <img
+            src={withBase('images/about/about-formacion.png')}
+            alt=""
+            class="cv-img"
+          />
         </div>
-      </section>
+      </div>
 
       {recomendaciones.length > 0 && (
         <>
-          <hr />
-
           <section class="section" id="recomendaciones">
-            <h2 class="t-section section__title">Recomendaciones</h2>
+            <img
+              src={withBase('images/about/about-recomendaciones.png')}
+              alt=""
+              class="section__media"
+            />
 
-            {recomendaciones.map((r) => (
-              <figure class="split">
-                <figcaption class="split__head">
-                  <strong>{r.name}</strong>
-                  <span class="t-label text-muted">{r.role}</span>
-                </figcaption>
-                <blockquote class="split__body">
-                  <p class="t-body">{r.quote}</p>
-                </blockquote>
-              </figure>
-            ))}
+            <div class="section__content">
+              <h2 class="t-section section__title">Recomendaciones</h2>
+
+              {recomendaciones.map((r) => (
+                <figure class="split">
+                  <figcaption class="split__head">
+                    <strong>{r.name}</strong>
+                    <span class="t-label text-muted">{r.role}</span>
+                  </figcaption>
+                  <blockquote class="split__body">
+                    <p class="t-body">{r.quote}</p>
+                  </blockquote>
+                </figure>
+              ))}
+            </div>
           </section>
         </>
       )}
 
-      <hr />
 
       <!-- Ahora mismo -->
       <section class="section" id="ahora">
-        <div class="section-head">
-          <h2 class="t-section">Ahora mismo</h2>
-          <p class="t-label text-muted">Actualizado: {ahoraActualizado}</p>
-        </div>
+        <img
+          src={withBase('images/about/about-ahora.png')}
+          alt=""
+          class="section__media"
+        />
 
-        {ahora.map((item) => (
-          <article class="split">
-            <div class="split__head">
-              <span class="t-label">{item.label}</span>
-            </div>
-            <div class="split__body">
-              <p class="t-body">{item.text}</p>
-            </div>
-          </article>
-        ))}
+        <div class="section__content">
+          <div class="section-head">
+            <h2 class="t-section">Ahora mismo</h2>
+            <p class="t-label text-muted">Actualizado: {ahoraActualizado}</p>
+          </div>
 
-        <div class="cv-cta cv-cta--start">
-          <a href={withBase('contacto')} class="download-btn t-label">Hablemos</a>
+          {ahora.map((item) => (
+            <article class="split">
+              <div class="split__head">
+                <span class="t-label">{item.label}</span>
+              </div>
+              <div class="split__body">
+                <p class="t-body">{item.text}</p>
+              </div>
+            </article>
+          ))}
+
+          <div class="cv-cta cv-cta--start">
+            <a href={withBase('contacto')} class="cta">Hablemos</a>
+          </div>
         </div>
       </section>
 

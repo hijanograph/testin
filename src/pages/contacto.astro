@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { email, social, cvUrl, portfolioUrl } from '../site';
+import { email, social, cvUrl, portfolioUrl, withBase } from '../site';
 
-// Formulario opcional: solo se muestra si defines PUBLIC_FORM_ENDPOINT
-// (por ejemplo, la URL de un formulario de Formspree o Web3Forms).
 const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
 
 const socials = [
@@ -13,8 +11,8 @@ const socials = [
 ];
 
 const downloads = [
-  { title: 'Currículum', meta: 'PDF', cta: 'Descargar CV ↓', href: cvUrl },
-  { title: 'Portfolio', meta: 'PDF — Proyectos seleccionados', cta: 'Descargar portfolio ↓', href: portfolioUrl },
+  { label: 'Currículum en PDF', href: cvUrl },
+  { label: 'Portfolio en PDF', href: portfolioUrl },
 ];
 ---
 
@@ -25,84 +23,57 @@ const downloads = [
   <div class="page">
     <div class="container">
 
-      <header class="contact-header">
-        <h1 class="t-hero">Contacto</h1>
-      </header>
+      <div class="contact">
+        <header class="contact-header">
+          <h1 class="t-hero">Contacto</h1>
+        </header>
 
-      <section class="contact-content">
-        <p class="t-body contact-intro">
-          ¿Tienes algún proyecto en mente, una propuesta o simplemente quieres saludar?
-          Escríbeme: siempre tengo ganas de hablar sobre diseño visual, nuevas ideas y oportunidades de colaboración.
-        </p>
-      </section>
+        <img
+          src={withBase('images/contact/Contact-img.png')}
+          alt="Rafael Hijano"
+          class="contact-img"
+        />
 
-      <section class="contact-main">
-        <span class="t-label contact-label">Correo electrónico</span>
-        <a href={`mailto:${email}`} class="big-email">{email}</a>
-      </section>
-
-      <section class="contact-methods">
-        <div class="contact-item">
-          <span class="t-label contact-label">Redes</span>
-          <ul class="social-links">
-            {socials.map((s) => (
-              <li>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" class="contact-link t-body">
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {formEndpoint && (
-        <section class="section" id="formulario">
-          <h2 class="t-section section__title">O déjame un mensaje</h2>
-
-          <form class="form" action={formEndpoint} method="POST" data-astro-reload>
-            <label class="form__field">
-              <span class="t-label">Nombre</span>
-              <input class="form__input" type="text" name="name" autocomplete="name" required />
-            </label>
-
-            <label class="form__field">
-              <span class="t-label">Correo electrónico</span>
-              <input class="form__input" type="email" name="email" autocomplete="email" required />
-            </label>
-
-            <label class="form__field">
-              <span class="t-label">Mensaje</span>
-              <textarea class="form__input" name="message" rows="6" required></textarea>
-            </label>
-
-            <!-- Anti-spam: los bots lo rellenan, las personas no lo ven -->
-            <input class="form__hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
-            <button type="submit" class="download-btn t-label">Enviar mensaje</button>
-          </form>
+        <section class="contact-content">
+          <p class="t-body contact-intro">
+            ¿Tienes algún proyecto en mente, una propuesta o simplemente quieres saludar?
+            Escríbeme: siempre tengo ganas de hablar sobre diseño visual, nuevas ideas y oportunidades de colaboración.
+          </p>
         </section>
-      )}
 
-      <hr />
+        <section class="contact-main">
+          <span class="t-label contact-label">Correo electrónico</span>
+          <a href={`mailto:${email}`} class="big-email">{email}</a>
+        </section>
 
-      <section class="section" id="descargas">
-        <h2 class="t-section section__title">Descargas</h2>
+        <section class="contact-methods">
+          <div class="contact-item">
+            <span class="t-label contact-label">Redes</span>
+            <ul class="social-links">
+              {socials.map((s) => (
+                <li>
+                  <a href={s.href} target="_blank" rel="noopener noreferrer" class="cta">
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        {downloads.map((d) => (
-          <article class="split">
-            <div class="split__head">
-              <h3 class="t-project-title">{d.title}</h3>
-              <span class="t-label text-muted">{d.meta}</span>
-            </div>
-            <div class="split__body">
-              <a href={d.href} target="_blank" rel="noopener noreferrer" class="download-btn t-label">
-                {d.cta}
-              </a>
-            </div>
-          </article>
-        ))}
-      </section>
+          <div class="contact-item" id="descargas">
+            <span class="t-label contact-label">Descargas</span>
+            <ul class="download-links">
+              {downloads.map((d) => (
+                <li>
+                  <a href={d.href} target="_blank" rel="noopener noreferrer" class="cta">
+                    {d.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
 
     </div>
   </div>

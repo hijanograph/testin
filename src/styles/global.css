@@ -36,7 +36,6 @@
   --ink-60: color-mix(in srgb, var(--ink) 75%, transparent);
   --ink-30: color-mix(in srgb, var(--ink) 30%, transparent);
   --ink-10: color-mix(in srgb, var(--ink) 10%, transparent);
-  --border: 1px solid var(--ink-10);
 
   --font: "Overused Grotesk", system-ui, sans-serif;
   --fw-medium: 500;
@@ -146,12 +145,6 @@ iframe {
   border: 0;
 }
 
-hr {
-  margin: 0;
-  border: 0;
-  border-top: var(--border);
-}
-
 button {
   font: inherit;
   color: inherit;
@@ -170,6 +163,7 @@ button {
 /* ── Enlaces: flecha ↘ por defecto; --dir invierte el sentido (←) ─────────── */
 a::after,
 a > :is(h1, h2, h3)::after,
+.cta::after,
 .project-nav__back::before {
   display: inline-block;
   font: inherit;
@@ -178,7 +172,8 @@ a > :is(h1, h2, h3)::after,
   transition: transform var(--t-move);
 }
 
-a {
+/* .cta (llamada a la acción) funciona igual si en el HTML es <a> o <button> */
+:is(a, .cta) {
   color: var(--ink);
   text-decoration: none;
   transition: color var(--t-color);
@@ -201,8 +196,24 @@ a {
   }
 }
 
+/* CTA: estilo único para todas las llamadas a la acción (enlace con flecha, peso medio, sin mayúsculas).
+   El reset de caja es por si en el HTML es un <button> */
+.cta {
+  display: inline-block;
+  width: fit-content;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-2);
+  line-height: 1.5;
+  font-weight: var(--fw-medium);
+  text-align: left;
+  white-space: nowrap;
+}
+
 /* Enlaces sin flecha */
-:is(.skip-link, .download-btn, .nav__logo, .nav .nav__link, .project-card__img-link, .project-nav__back)::after {
+:is(.skip-link, .nav__logo, .nav .nav__link, .project-card__img-link, .project-nav__back)::after {
   content: none;
 }
 
@@ -222,7 +233,7 @@ a {
 /* Rejilla de la maqueta: cada bloque solo declara --row (separación vertical) */
 :is(
   .hero__inner, .projects__grid, .intro__grid, .split, .project-hero,
-  .project-content, .project-blocks
+  .project-content, .project-blocks, .contact
 ) {
   display: grid;
   grid-template-columns: var(--grid);
@@ -234,7 +245,7 @@ a {
 :is(
   .hero__img-wrap, .hero__text, .intro__photo-wrap, .intro__bio, .split__head, .split__body,
   .project-hero__img-wrap, .project-hero__info, .project-block__img, .project-block__text,
-  .project-content > *, .nav__logo, .nav__desktop, .footer__col
+  .project-content > *, .contact > *, .nav__logo, .nav__desktop, .footer__col
 ) {
   grid-column: var(--c, 1 / -1);
 
@@ -263,7 +274,7 @@ a {
   overflow: hidden;
 }
 
-:is(.projects__heading, .section__title, .section-head, .contact-header) {
+:is(.projects__heading, .section__title, .section-head) {
   margin-bottom: var(--s-4);
 }
 
@@ -297,20 +308,20 @@ a {
 }
 
 :is(
-  .nav__list, .nav-overlay__list, .tag-list, .social-links, .error-links, :where(.cv-md) ul
+  .nav__list, .nav-overlay__list, .tag-list, .social-links, .download-links, .error-links, :where(.cv-md) ul
 ) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-:is(.social-links, .error-links, .tag-list, :where(.cv-md > ul:last-child)) {
+:is(.social-links, .download-links, .error-links, .tag-list) {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s-2) var(--s-3);
 }
 
-:is(.tag-list, :where(.cv-md > ul:last-child)) {
+:is(.tag-list) {
   gap: var(--s-1);
 }
 
@@ -318,7 +329,7 @@ a {
 /* Peso y tracking: cambiar --fw-medium / --tracking-tight los afecta a todos */
 :is(
   .t-hero, .t-section, .t-project-title, .t-nav, .t-label, .arrow-link, .lead, .big-email,
-  .footer__email, .error-code, .nav-overlay__link, .contact-link, :where(.split) strong,
+  .footer__email, .error-code, .nav-overlay__link, :where(.split) strong,
   :where(.cv-md) :is(h2, h3), :where(.project-body) h2
 ) {
   font-weight: var(--fw-medium);
@@ -369,7 +380,7 @@ a {
   font-size: var(--fs-2);
 }
 
-:is(.t-label, .badge, .project-meta, .project-nav, :where(.cv-md) em) {
+:is(.t-label, .badge, .project-meta, .project-nav) {
   font-size: var(--fs-1);
   line-height: 1.25;
 }
@@ -387,23 +398,10 @@ a {
   color: var(--ink-60);
 }
 
-/* ── Controles: etiquetas, campos y botones comparten caja (--bd, --py, --px) ── */
-:is(.tag, .form__input, .download-btn, :where(.cv-md > ul:last-child li)) {
+/* ── Controles: etiquetas y campos comparten caja (--bd, --py, --px) ──────── */
+:is(.tag, .form__input) {
   border: 1px solid var(--bd, var(--ink-30));
   padding: var(--py, 0.45em) var(--px, 1em);
-}
-
-.download-btn {
-  --bd: var(--ink);
-  --py: 0.65em;
-  --px: 1.4em;
-  white-space: nowrap;
-  transition: background var(--t-color), color var(--t-color);
-
-  &:hover {
-    background: var(--ink);
-    color: var(--cream);
-  }
 }
 
 .badge {
@@ -726,26 +724,166 @@ a {
     .intro__grid {
       --row: var(--s-4);
       align-items: start;
+
+      @media (min-width: 1072px) {
+        align-items: start;
+      }
     }
 
     .intro__photo-wrap {
       --c-md: 1 / span 3;
-      --c-lg: 1 / span 4;
+      --c-lg: 1 / span 8;
+
+      /* Misma regla que el hero de la home: deja 80px libres bajo la foto en el primer
+         pantallazo (descontando el espacio que ocupa el nav y el padding de la página) */
+      @media (min-width: 1072px) {
+        position: relative;
+        height: calc(100vh - 80px - var(--nav-h) - var(--s-5));
+        height: calc(100dvh - 80px - var(--nav-h) - var(--s-5));
+      }
     }
 
     .intro__photo {
       aspect-ratio: 2 / 3;
+
+      /* Absoluta para que la foto no condicione la altura de la fila */
+      @media (min-width: 1072px) {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+        aspect-ratio: auto;
+      }
     }
 
     .intro__bio {
       --c-md: 4 / -1;
-      --c-lg: 6 / -1;
+      --c-lg: 9 / -1;
       --gap: var(--s-2);
+    }
+  }
+
+  /* Imagen a todo el ancho entre servicios/proceso y currículum */
+  .section-banner {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+
+    @media (min-width: 1072px) {
+      aspect-ratio: 21 / 9;
+    }
+  }
+
+  /* Proceso | imagen | servicios en un solo bloque horizontal (6 + 3 + 3 columnas).
+     El alto lo marca la sección con más contenido; la imagen se estira a esa altura. */
+  .section-row {
+    display: grid;
+    gap: var(--s-4);
+
+    .section-row__img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    @media (min-width: 1072px) {
+      grid-template-columns: var(--grid);
+      column-gap: var(--gutter);
+      row-gap: 0;
+      align-items: start;
+
+      & > .section {
+        display: grid;
+        grid-template-columns: subgrid;
+
+        & > * {
+          grid-column: 1 / -1;
+        }
+
+        &:first-child {
+          grid-column: 1 / span 6;
+        }
+
+        &:last-child {
+          grid-column: 10 / -1;
+        }
+      }
+
+      .section-row__img {
+        grid-column: 7 / span 3;
+        aspect-ratio: auto;
+        height: auto;
+        contain: size;
+        align-self: stretch;
+      }
+
+      /* Servicios ocupa solo 3 columnas: título y texto van apilados */
+      .section--stacked .split .split__head,
+      .section--stacked .split .split__body {
+        --c-lg: 1 / -1;
+      }
     }
   }
 
   .section {
     padding: var(--s-5) 0;
+
+    /* Imagen + contenido: cada uno ocupa 6 columnas en escritorio y se alternan
+       (la intro lleva la foto a la izquierda; la siguiente sección, a la derecha...) */
+    .section__media {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      margin-bottom: var(--s-4);
+      object-fit: cover;
+    }
+
+    @media (min-width: 1072px) {
+      &:has(> .section__media) {
+        display: grid;
+        grid-template-columns: var(--grid);
+        column-gap: var(--gutter);
+        align-items: stretch;
+      }
+
+      /* La imagen se estira a la altura del texto (contain: size evita que su
+         altura natural condicione la fila) */
+      .section__media {
+        grid-row: 1;
+        grid-column: 7 / -1;
+        aspect-ratio: auto;
+        height: auto;
+        margin-bottom: 0;
+        contain: size;
+        align-self: stretch;
+      }
+
+      /* Aire alrededor del texto: el superior es el doble que el inferior */
+      .section__content {
+        grid-row: 1;
+        grid-column: 1 / span 6;
+        align-self: start;
+        padding-block: var(--s-6) var(--s-4);
+        display: grid;
+        grid-template-columns: subgrid;
+
+        & > * {
+          grid-column: 1 / -1;
+        }
+      }
+
+      /* Secciones impares (3ª, 5ª...): la imagen va a la izquierda */
+      &:nth-of-type(odd) {
+        .section__media {
+          grid-column: 1 / span 6;
+        }
+
+        .section__content {
+          grid-column: 7 / -1;
+        }
+      }
+    }
 
     .section-head {
       display: flex;
@@ -759,15 +897,15 @@ a {
     .split {
       --row: var(--s-2);
       padding: var(--s-2) 0;
-      border-bottom: var(--border);
 
-      &:last-child {
-        border-bottom: none;
+      /* En escritorio vive dentro de las 6 columnas de la sección */
+      @media (min-width: 1072px) {
+        grid-template-columns: subgrid;
       }
 
       .split__head {
         --c-md: 1 / span 3;
-        --c-lg: 1 / span 4;
+        --c-lg: 1 / span 2;
         --gap: var(--s-0);
 
         & strong {
@@ -777,46 +915,140 @@ a {
 
       .split__body {
         --c-md: 4 / -1;
-        --c-lg: 5 / -1;
+        --c-lg: 3 / -1;
         --gap: var(--s-2);
         align-items: flex-start;
       }
     }
 
+    /* CTA: siempre alineado a la izquierda, como un enlace normal */
     .cv-cta {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       margin-top: var(--s-4);
-
-      &.cv-cta--start {
-        justify-content: flex-start;
-      }
     }
 
+    /* Currículum: experiencia, educación y habilidades al mismo nivel horizontal */
     .cv-md {
+      display: grid;
+      grid-template-columns: var(--grid);
+      column-gap: var(--gutter);
+      row-gap: var(--s-5);
+
+      @media (min-width: 1072px) {
+        grid-template-rows: auto 1fr;
+      }
+
+      .cv-col {
+        grid-column: 1 / -1;
+        min-width: 0;
+
+        @media (min-width: 768px) {
+          grid-column: span 4;
+
+          &:first-child {
+            grid-column: 1 / -1;
+          }
+        }
+
+        @media (min-width: 1072px) {
+          grid-row: 1;
+          grid-column: 7 / span 2;
+
+          &:first-child {
+            grid-row: 1 / span 2;
+            grid-column: 1 / span 6;
+          }
+
+          &.cv-col--skills {
+            grid-column: 9 / span 1;
+          }
+        }
+      }
+
+      /* Imagen bajo educación y habilidades (2 + 1 columnas): mismo ancho que ambas y altura hasta el
+         final del currículum (la fila 2 absorbe la altura sobrante de experiencia) */
+      .cv-img {
+        display: block;
+        grid-column: 1 / -1;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+
+        @media (min-width: 1072px) {
+          grid-row: 2;
+          grid-column: 7 / span 3;
+          aspect-ratio: auto;
+          height: auto;
+          contain: size;
+          align-self: stretch;
+        }
+      }
+
       & h2 {
-        margin: var(--s-5) 0 var(--s-2);
+        margin: 0 0 var(--s-2);
         line-height: 0.95;
       }
 
       & h3 {
-        margin-top: var(--s-4);
+        margin: var(--s-0) 0 0;
         font-size: var(--fs-2);
       }
 
+      /* Fecha encima del puesto, en fs-1 */
       & em {
-        color: var(--ink-60);
+        color: var(--ink-30);
+        font-style: normal;
+      }
+
+      & .cv-date {
+        display: block;
+        margin-top: var(--s-4);
+        font-size: var(--fs-1);
+        line-height: 1.25;
+      }
+
+      & h2 + .cv-date {
+        margin-top: 0;
+      }
+
+      /* Educación: fecha / nombre / lugar, las tres filas con el formato de la fecha */
+      & .cv-col--edu {
+        & :is(h3, p) {
+          margin: 0;
+          font-size: var(--fs-1);
+          line-height: 1.25;
+          font-weight: 400;
+          color: var(--ink-30);
+        }
+      }
+
+      /* Habilidades: una línea por habilidad, sin cajas */
+      & .cv-col--skills ul {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-1);
+
+        & li {
+          font-weight: var(--fw-medium);
+          letter-spacing: var(--tracking-tight);
+          line-height: 1.25;
+
+          @media (min-width: 1072px) {
+            white-space: nowrap;
+          }
+        }
       }
 
       & p {
         margin-block: var(--s-1);
       }
 
-      & :is(p, ul:not(:last-child)) {
+      & :is(p, .cv-col:not(.cv-col--skills) ul) {
         max-width: var(--measure-md);
       }
 
-      & ul:not(:last-child) {
+      & .cv-col:not(.cv-col--skills) ul {
         display: flex;
         flex-direction: column;
         gap: var(--s-1);
@@ -867,38 +1099,91 @@ a {
     }
   }
 
-  :is(.contact-content, .error-text) {
+  .error-text {
     max-width: var(--measure-md);
   }
 
+  /* /mecontratas: ficha rápida para reclutadores */
+  .recruit-intro__text {
+    max-width: var(--measure-md);
+  }
+
+  .recruit-facts {
+    display: grid;
+    grid-template-columns: var(--grid);
+    column-gap: var(--gutter);
+    row-gap: var(--s-4);
+    margin: 0;
+
+    & > div {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-0);
+
+      @media (min-width: 768px) {
+        grid-column: span 4;
+      }
+
+      @media (min-width: 1072px) {
+        grid-column: span 3;
+      }
+    }
+
+    & dd {
+      margin: 0;
+    }
+  }
+
+  /* Contacto: contenido en las columnas de la derecha, texto alineado a la izquierda.
+     En escritorio la imagen ocupa las columnas 1-6 y el contenido las 7-12. */
+  .contact {
+    --row: var(--s-5);
+
+    /* La última fila (1fr) absorbe la altura sobrante de la imagen para que
+       el contenido no se separe */
+    @media (min-width: 1072px) {
+      grid-template-rows: repeat(4, auto) 1fr;
+    }
+
+    & > * {
+      --c-md: 3 / -1;
+      --c-lg: 7 / -1;
+    }
+
+    /* Tablet y móvil: entre el título y el texto, a ancho completo */
+    & > .contact-img {
+      --c-md: 1 / -1;
+      --c-lg: 1 / span 6;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+
+      @media (min-width: 1072px) {
+        grid-row: 1 / span 5;
+        align-self: start;
+      }
+    }
+  }
+
   .contact-intro {
-    margin-bottom: var(--s-5);
     font-size: var(--fs-2);
+  }
+
+  :is(.contact-main, .contact-item, .contact-methods) {
+    align-items: flex-start;
   }
 
   :is(.contact-main, .contact-item) {
     --gap: var(--s-1);
   }
 
-  :is(.contact-main, .contact-methods) {
-    margin-bottom: var(--s-5);
-  }
-
   .contact-methods {
     --gap: var(--s-4);
   }
 
-  .contact-item {
-    padding-bottom: var(--s-3);
-    border-bottom: var(--border);
-  }
-
   .contact-label {
     letter-spacing: 0.05em;
-  }
-
-  .contact-link {
-    width: fit-content;
   }
 
   .big-email {
@@ -911,7 +1196,7 @@ a {
     }
 
     @media (min-width: 1072px) {
-      font-size: var(--fs-5);
+      font-size: var(--fs-4);
     }
   }
 }
@@ -1081,10 +1366,6 @@ a {
 
   @media (min-width: 768px) {
     padding-top: var(--s-7);
-  }
-
-  .footer__hr {
-    display: none;
   }
 
   .footer__copy {
