@@ -1,47 +1,26 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { email, social, cvUrl, portfolioUrl, withBase } from '../site';
-
-const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT as string | undefined;
-
-const socials = [
-  { label: 'LinkedIn', href: social.linkedin },
-  { label: 'Behance', href: social.behance },
-  { label: 'Instagram', href: social.instagram },
-];
-
-const downloads = [
-  { label: 'Currículum en PDF', href: cvUrl },
-  { label: 'Portfolio en PDF', href: portfolioUrl },
-];
+import { email, socials, downloads, withBase } from '../site';
 ---
 
-<Layout
-  title="Contacto — Rafael Hijano"
-  description="Ponte en contacto con Rafael Hijano, Diseñador Visual."
->
+<Layout title="Contacto" description="Ponte en contacto con Rafael Hijano, Diseñador Visual.">
   <div class="page">
     <div class="container">
-
       <div class="contact">
-        <header class="contact-header">
+        <header>
           <h1 class="t-hero">Contacto</h1>
         </header>
 
-        <img
-          src={withBase('images/contact/Contact-img.png')}
-          alt="Rafael Hijano"
-          class="contact-img"
-        />
+        <img src={withBase('images/contact/Contact-img.png')} alt="Rafael Hijano" class="contact-img" decoding="async" />
 
-        <section class="contact-content">
-          <p class="t-body contact-intro">
+        <section>
+          <p class="t-body">
             ¿Tienes algún proyecto en mente, una propuesta o simplemente quieres saludar?
             Escríbeme: siempre tengo ganas de hablar sobre diseño visual, nuevas ideas y oportunidades de colaboración.
           </p>
         </section>
 
-        <section class="contact-main">
+        <section class="contact-item">
           <span class="t-label contact-label">Correo electrónico</span>
           <a href={`mailto:${email}`} class="big-email">{email}</a>
         </section>
@@ -49,32 +28,23 @@ const downloads = [
         <section class="contact-methods">
           <div class="contact-item">
             <span class="t-label contact-label">Redes</span>
-            <ul class="social-links">
+            <ul class="link-list">
               {socials.map((s) => (
-                <li>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" class="cta">
-                    {s.label}
-                  </a>
-                </li>
+                <li><a href={s.href} target="_blank" rel="noopener noreferrer" class="cta">{s.label}</a></li>
               ))}
             </ul>
           </div>
 
           <div class="contact-item" id="descargas">
             <span class="t-label contact-label">Descargas</span>
-            <ul class="download-links">
+            <ul class="link-list">
               {downloads.map((d) => (
-                <li>
-                  <a href={d.href} target="_blank" rel="noopener noreferrer" class="cta">
-                    {d.label}
-                  </a>
-                </li>
+                <li><a href={d.href} target="_blank" rel="noopener noreferrer" class="cta">{d.label}</a></li>
               ))}
             </ul>
           </div>
         </section>
       </div>
-
     </div>
   </div>
 </Layout>

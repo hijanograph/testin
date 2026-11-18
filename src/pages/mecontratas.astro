@@ -1,68 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import * as cv from '../data/cv.md';
-import { getCollection } from 'astro:content';
-import { email, social, cvUrl, portfolioUrl, withBase } from '../site';
+import { getProjects } from '../data/projects';
+import { getCvColumns } from '../data/cv-columns';
+import { email, socials, downloads, cvUrl, withBase } from '../site';
 
-const projects = (await getCollection('portfolio', (p) => p.data.featured)).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const projects = await getProjects({ featured: true });
+const cvColumns = await getCvColumns();
 
-// Currículum desde src/data/cv.md (misma lógica que sobre-mi.astro): una columna por bloque,
-// con la fecha encima del puesto y, en Educación, nombre y lugar en filas separadas.
-const cvCols = (await cv.compiledContent())
-  .split(/(?=<h2)/)
-  .filter((html) => html.trim())
-  .map((html) => {
-    const kind = /^<h2[^>]*>\s*Habilidades/i.test(html)
-      ? 'skills'
-      : /^<h2[^>]*>\s*Educaci/i.test(html)
-        ? 'edu'
-        : 'exp';
-
-    if (kind !== 'skills') {
-      html = html.replace(
-        /(<h3[^>]*>[\s\S]*?<\/h3>)\s*<p><em>([\s\S]*?)<\/em><\/p>/g,
-        '<em class="cv-date">$2</em>$1',
-      );
-    }
-    if (kind === 'edu') {
-      html = html.replace(/<h3([^>]*)>([^<]*?) — ([^<]*?)<\/h3>/g, '<h3$1>$2</h3><p>$3</p>');
-    }
-    return { kind, html };
-  });
-
-const facts = [
+const profile = [
   { label: 'Perfil', value: 'Diseñador visual, diseñador gráfico, motion graphics y editor de vídeo' },
   { label: 'Ubicación', value: 'Málaga, España' },
-  { label: 'Actualmente', value: 'Diseñador visual en Batterylight' },
+  { label: 'Última experiencia', value: 'Diseñador visual en Batterylight (feb 2025 — feb 2026)' },
   { label: 'Formación', value: 'Máster en Diseño Visual (La X Gauss) y Grado en Comunicación Audiovisual (Universidad de Málaga)' },
 ];
 
-const links = [
-  { label: 'Currículum en PDF', href: cvUrl },
-  { label: 'Portfolio en PDF', href: portfolioUrl },
-  { label: 'LinkedIn', href: social.linkedin },
-  { label: 'Behance', href: social.behance },
-];
+// Para reclutadores: PDF + redes profesionales (sin Instagram)
+const links = [...downloads, ...socials.filter((s) => s.label !== 'Instagram')];
 ---
 
 <Layout
-  title="Rafael Hijano — Me encantaría trabajar contigo"
+  title="Me encantaría trabajar contigo"
   description="Resumen de perfil, currículum, proyectos y contacto de Rafael Hijano, diseñador visual en Málaga."
   noindex
 >
   <div class="page">
     <div class="container">
-
       <section class="intro stack">
-        <p class="t-label text-muted">Para reclutadores</p>
-        <h1 class="t-hero intro__title">Me encantaría trabajar contigo</h1>
-        <div class="recruit-intro__text stack">
-          <p class="lead">
-            Si has recibido este enlace, es porque tengo un interés real en vuestra oferta.
-          </p>
+        <p class="t-label t-muted">Para reclutadores</p>
+        <h1 class="t-hero page-title">Me encantaría trabajar contigo</h1>
+        <div class="measure stack">
+          <p class="t-lead">Si has recibido este enlace, es porque tengo un interés real en vuestra oferta.</p>
           <p class="t-body">
             He reunido aquí lo más importante para conocerme rápido: quién soy, dónde he trabajado,
             qué sé hacer y cómo contactar conmigo. Si necesitas algo más, escríbeme y respondo enseguida.
@@ -73,11 +41,11 @@ const links = [
 
       <section class="section" id="esencial">
         <h2 class="t-section section__title">Lo esencial</h2>
-        <dl class="recruit-facts">
-          {facts.map((f) => (
+        <dl class="facts">
+          {profile.map((item) => (
             <div>
-              <dt class="t-label text-muted">{f.label}</dt>
-              <dd class="t-body">{f.value}</dd>
+              <dt class="t-label t-muted">{item.label}</dt>
+              <dd class="t-body">{item.value}</dd>
             </div>
           ))}
         </dl>
@@ -85,20 +53,18 @@ const links = [
 
       <!-- CV generado desde src/data/cv.md -->
       <div class="section" id="cv">
-        <div class="section-head">
+        <div class="section__head">
           <h2 class="t-section">Currículum</h2>
           <a href={cvUrl} target="_blank" rel="noopener noreferrer" class="cta">Descargar CV</a>
         </div>
 
-        <div class="cv-md">
-          {cvCols.map((col) => (
-            <div class={`cv-col cv-col--${col.kind}`} set:html={col.html} />
-          ))}
+        <div class="cv">
+          {cvColumns.map((col) => <div class={`cv__col cv__col--${col.kind}`} set:html={col.html} />)}
         </div>
       </div>
 
       <section class="section" id="proyectos">
-        <div class="section-head">
+        <div class="section__head">
           <h2 class="t-section">Proyectos destacados</h2>
           <a href={withBase('proyectos')} class="cta">Ver todos</a>
         </div>
@@ -110,15 +76,12 @@ const links = [
       <section class="section stack" id="contacto">
         <h2 class="t-section section__title">Hablemos</h2>
         <a href={`mailto:${email}`} class="big-email">{email}</a>
-        <ul class="social-links">
+        <ul class="link-list">
           {links.map((l) => (
-            <li>
-              <a href={l.href} target="_blank" rel="noopener noreferrer" class="cta">{l.label}</a>
-            </li>
+            <li><a href={l.href} target="_blank" rel="noopener noreferrer" class="cta">{l.label}</a></li>
           ))}
         </ul>
       </section>
-
     </div>
   </div>
 </Layout>

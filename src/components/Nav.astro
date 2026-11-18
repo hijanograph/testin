@@ -11,6 +11,7 @@ const isActive = (href: string) => {
   return target === home ? current === target : current === target || current.startsWith(`${target}/`);
 };
 
+const items = pages.map((page) => ({ ...page, active: isActive(page.href) }));
 const externalLinks = [
   { label: 'LinkedIn', href: social.linkedin },
   { label: 'Behance', href: social.behance },
@@ -18,30 +19,23 @@ const externalLinks = [
 ---
 
 <div class="navigation" transition:persist>
-
-  <header class="nav" id="nav">
+  <header class="nav">
     <div class="nav__inner">
       <a href={pages[0].href} class="nav__logo t-nav">RAFAEL HIJANO</a>
 
       <nav class="nav__desktop" aria-label="Navegación principal">
         <ul class="nav__list">
-          {
-            pages.map(({ label, href }) => {
-              const active = isActive(href);
-
-              return (
-                <li>
-                  <a
-                    href={href}
-                    class:list={['nav__link', 't-nav', { 'nav__link--active': active }]}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {label}
-                  </a>
-                </li>
-              );
-            })
-          }
+          {items.map(({ label, href, active }) => (
+            <li>
+              <a
+                href={href}
+                class:list={['nav__link', 't-nav', { 'nav__link--active': active }]}
+                aria-current={active ? 'page' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
@@ -64,43 +58,28 @@ const externalLinks = [
     <div class="nav-overlay__inner">
       <nav class="nav-overlay__nav" aria-label="Navegación móvil">
         <ul class="nav-overlay__list">
-          {
-            pages.map(({ label, href }) => {
-              const active = isActive(href);
-
-              return (
-                <li>
-                  <a
-                    href={href}
-                    class:list={['nav__link', 't-nav', 'nav-overlay__link', { 'nav__link--active': active }]}
-                    aria-current={active ? 'page' : undefined}
-                  >
-                    {label}
-                  </a>
-                </li>
-              );
-            })
-          }
-
-          {
-            externalLinks.map(({ label, href }) => (
-              <li>
-                <a
-                  href={href}
-                  class="nav__link t-nav nav-overlay__link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {label}
-                </a>
-              </li>
-            ))
-          }
+          {items.map(({ label, href, active }) => (
+            <li>
+              <a
+                href={href}
+                class:list={['nav__link', 'nav-overlay__link', { 'nav__link--active': active }]}
+                aria-current={active ? 'page' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))}
+          {externalLinks.map(({ label, href }) => (
+            <li>
+              <a href={href} class="nav__link nav-overlay__link" target="_blank" rel="noopener noreferrer">
+                {label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
     </div>
   </div>
-
 </div>
 
 <script>
@@ -109,8 +88,7 @@ const externalLinks = [
   const init = () => {
     const toggle = document.getElementById('navToggle');
     const overlay = document.getElementById('navOverlay');
-    const nav = document.getElementById('nav');
-    if (!toggle || !overlay || !nav) return;
+    if (!toggle || !overlay) return;
 
     // El nav persiste entre páginas (transition:persist): hay que refrescar el enlace activo.
     const home = normalize(new URL(document.querySelector<HTMLAnchorElement>('.nav__logo')!.href).pathname);
@@ -120,7 +98,8 @@ const externalLinks = [
       const path = normalize(link.pathname);
       const active = path === home ? current === path : current === path || current.startsWith(`${path}/`);
       link.classList.toggle('nav__link--active', active);
-      active ? link.setAttribute('aria-current', 'page') : link.removeAttribute('aria-current');
+      if (active) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     });
 
     if (document.activeElement === toggle) toggle.blur();
@@ -141,11 +120,8 @@ const externalLinks = [
     // Cualquier clic dentro del overlay lo cierra; los enlaces internos los navega el ClientRouter.
     overlay.addEventListener('click', () => setOpen(false));
     document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
+    // Mismo punto de corte que el CSS (1072px): al pasar a escritorio se cierra el menú móvil.
     matchMedia('(min-width: 1072px)').addEventListener('change', (e) => e.matches && setOpen(false));
-
-    const onScroll = () => nav.classList.toggle('scrolled', scrollY > 4);
-    addEventListener('scroll', onScroll, { passive: true }); // el navegador ya agrupa por frame
-    onScroll();
     setOpen(false);
   };
 

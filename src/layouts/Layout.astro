@@ -3,19 +3,24 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { withBase } from '../site';
+import { name, withBase } from '../site';
 
 interface Props {
+  /** Sin título (home) se usa «Rafael Hijano — Diseñador Visual»; con título, «título — Rafael Hijano». */
   title?: string;
   description?: string;
   noindex?: boolean;
 }
 
 const {
-  title = 'Rafael Hijano — Diseñador Visual',
+  title,
   description = 'Diseñador visual que crea espacios donde cada marca cobra vida.',
   noindex = false,
 } = Astro.props;
+
+const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador Visual`;
+// Solo si `site` está definido en astro.config
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 
 <!DOCTYPE html>
@@ -23,18 +28,28 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fff5e9" />
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
-    <title>{title}</title>
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
 
-    <!-- Precarga de la fuente principal para evitar FOUT / saltos al cargar -->
-    <link 
-      rel="preload" 
-      href={withBase('fonts/OverusedGrotesk-Regular.woff2')} 
-      as="font" 
-      type="font/woff2" 
-      crossorigin 
+    <!-- Precarga de la fuente principal para evitar saltos al cargar -->
+    <link
+      rel="preload"
+      href={withBase('fonts/OverusedGrotesk-Regular.woff2')}
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
 
     <ClientRouter />
@@ -50,6 +65,5 @@ const {
     </main>
 
     <Footer />
-
   </body>
 </html>

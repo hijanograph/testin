@@ -3,21 +3,21 @@ import Layout from '../layouts/Layout.astro';
 import { email, pages } from '../site';
 ---
 
-<Layout title="404 — Página no encontrada" description="Esta página no existe o ha sido movida.">
+<Layout title="Página no encontrada" description="Esta página no existe o ha sido movida.">
   <div class="page page--error">
     <div class="container stack">
       <p class="t-label">Error 404</p>
       <p class="error-code" aria-hidden="true">404</p>
       <h1 class="t-section">Esta página no existe</h1>
-      <p class="t-body error-text">
+      <p class="t-body measure">
         Puede que el enlace esté roto o que la página se haya movido. Prueba con alguno de estos caminos:
       </p>
 
-      <nav class="error-links" aria-label="Páginas principales">
+      <nav class="link-list" aria-label="Páginas principales">
         {pages.map((l) => <a href={l.href} class="cta">{l.label}</a>)}
       </nav>
 
-      <p class="t-body error-text">
+      <p class="t-body measure">
         ¿Seguro que debería estar aquí? <a href={`mailto:${email}`} class="cta">Avísame</a>.
       </p>
     </div>

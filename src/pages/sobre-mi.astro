@@ -1,175 +1,139 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import * as cv from '../data/cv.md';
+import { getCvColumns } from '../data/cv-columns';
 import { withBase, cvUrl } from '../site';
 import { servicios, proceso, ahora, ahoraActualizado, recomendaciones } from '../data/about';
 
-// Currículum: la fecha (<em>) pasa a la línea del <h3> y se reparte en una columna por bloque (h2)
-const cvHtml = (await cv.compiledContent()).replace(
-  /(<h3[^>]*>)([\s\S]*?)<\/h3>\s*<p><em>([\s\S]*?)<\/em><\/p>/g,
-  '$1$2 <em>$3</em></h3>',
-);
-const cvCols = cvHtml.split(/(?=<h2)/).filter((col) => col.trim());
+const cvColumns = await getCvColumns();
 ---
 
 <Layout
-  title="Sobre mí — Rafael Hijano"
+  title="Sobre mí"
   description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual."
 >
   <div class="page">
     <div class="container">
-
       <section class="intro">
-  <h1 class="t-hero intro__title">Rafael Hijano, diseñador visual en Málaga</h1>
+        <h1 class="t-hero page-title">Rafael Hijano, diseñador visual en Málaga</h1>
 
-  <div class="intro__grid">
-    <div class="intro__photo-wrap">
-      <img
-        src={withBase('images/about/about-profile.png')}
-        alt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
-        class="intro__photo"
-      />
-    </div>
+        <div class="intro__grid">
+          <div class="intro__photo-wrap">
+            <img
+              src={withBase('images/about/about-profile.png')}
+              alt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
+              class="intro__photo"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </div>
 
-    <div class="intro__bio">
-<p class="lead">
-  Diseño, arte, alma y transparencia
-</p>
-<p class="t-body">
-  Soy diseñador visual y graduado en comunicación, en Málaga. Mi trabajo es ayudar a las marcas a comunicar con claridad
-  quiénes son y qué hacen por sus clientes. Busco proyectos exigentes en los que seguir creciendo, ya sea
-  integrándome en el equipo de una agencia o estudio, o liderando la imagen de
-  una empresa que quiere dar el siguiente paso.
-</p>
-<p class="t-body">
-  Trabajo con identidad visual, branding y diseño gráfico, y me motiva
-  acompañar a un negocio justo cuando funciona y necesita evolucionar: ese
-  momento en que su imagen debe estar a la altura de su potencial.
-</p>
-<p class="t-body">
-  Mi vocación nació de niño, fascinado por los videojuegos y los sistemas
-  interactivos, y se consolidó en la universidad, donde descubrí que lo mío es
-  contar historias a través del diseño. Fuera de él, me apasionan la psicología,
-  la música, la tecnología y la cultura geek, y siempre busco algún gato que me
-  alegre el día.
-</p>
+          <div class="intro__bio">
+            <p class="t-lead">Diseño, arte, alma y transparencia</p>
+            <p class="t-body">
+              Soy diseñador visual y graduado en comunicación, en Málaga. Mi trabajo es ayudar a las marcas a comunicar con claridad
+              quiénes son y qué hacen por sus clientes. Busco proyectos exigentes en los que seguir creciendo, ya sea
+              integrándome en el equipo de una agencia o estudio, o liderando la imagen de
+              una empresa que quiere dar el siguiente paso.
+            </p>
+            <p class="t-body">
+              Trabajo con identidad visual, branding y diseño gráfico, y me motiva
+              acompañar a un negocio justo cuando funciona y necesita evolucionar: ese
+              momento en que su imagen debe estar a la altura de su potencial.
+            </p>
+            <p class="t-body">
+              Mi vocación nació de niño, fascinado por los videojuegos y los sistemas
+              interactivos, y se consolidó en la universidad, donde descubrí que lo mío es
+              contar historias a través del diseño. Fuera de él, me apasionan la psicología,
+              la música, la tecnología y la cultura geek, y siempre busco algún gato que me
+              alegre el día.
+            </p>
             <a href={withBase('contacto')} class="cta">Hablemos</a>
           </div>
         </div>
       </section>
 
-
-      <!-- Servicios en detalle -->
       <div class="section-row">
         <section class="section" id="servicios">
           <h2 class="t-section section__title">Servicios</h2>
 
-          {servicios.map((s) => (
+          {servicios.map((servicio) => (
             <article class="split">
               <div class="split__head">
-                <h3 class="t-project-title">{s.title}</h3>
+                <h3 class="t-title">{servicio.title}</h3>
               </div>
               <div class="split__body">
-                <p class="t-body">{s.detail}</p>
-                <ul class="tag-list">
-                  {s.items.map((item) => <li class="tag t-label">{item}</li>)}
+                <p class="t-body">{servicio.detail}</p>
+                <ul class="line-list">
+                  {servicio.items.map((item) => <li>{item}</li>)}
                 </ul>
               </div>
             </article>
           ))}
         </section>
 
-        <section class="section" id="proceso">
+        <img src={withBase('images/about/about-servicios.png')} alt="" class="section-row__img" loading="lazy" decoding="async" />
+
+        <section class="section section--narrow" id="proceso">
           <h2 class="t-section section__title">Proceso</h2>
 
-          {proceso.map((step, i) => (
+          {proceso.map((paso, i) => (
             <article class="split">
               <div class="split__head">
-                <span class="t-label text-muted">{String(i + 1).padStart(2, '0')}</span>
-                <h3 class="t-project-title">{step.title}</h3>
+                <span class="t-label t-muted">{String(i + 1).padStart(2, '0')}</span>
+                <h3 class="t-title">{paso.title}</h3>
               </div>
               <div class="split__body">
-                <p class="t-body">{step.text}</p>
+                <p class="t-body">{paso.text}</p>
               </div>
             </article>
           ))}
         </section>
       </div>
 
-      <!-- Imagen entre servicios/proceso y currículum -->
-      <img
-        src={withBase('images/about/about-cv.png')}
-        alt=""
-        class="section-banner"
-      />
+      <img src={withBase('images/about/about-cv.png')} alt="" class="banner" loading="lazy" decoding="async" />
 
       <!-- CV generado desde src/data/cv.md -->
       <div class="section" id="cv">
-        <div class="section-head">
+        <div class="section__head">
           <h2 class="t-section">Currículum</h2>
-          <a
-            href={cvUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="cta"
-          >
-            Descargar CV
-          </a>
+          <a href={cvUrl} target="_blank" rel="noopener noreferrer" class="cta">Descargar CV</a>
         </div>
 
-        <div class="cv-md">
-          {cvCols.map((col) => (
-            <div class:list={['cv-col', /habilidades/i.test(col.slice(0, 80)) && 'cv-col--skills']} set:html={col} />
-          ))}
-          <img
-            src={withBase('images/about/about-formacion.png')}
-            alt=""
-            class="cv-img"
-          />
+        <div class="cv">
+          {cvColumns.map((col) => <div class={`cv__col cv__col--${col.kind}`} set:html={col.html} />)}
+          <img src={withBase('images/about/about-formacion.png')} alt="" class="cv__img" loading="lazy" decoding="async" />
         </div>
       </div>
 
       {recomendaciones.length > 0 && (
-        <>
-          <section class="section" id="recomendaciones">
-            <img
-              src={withBase('images/about/about-recomendaciones.png')}
-              alt=""
-              class="section__media"
-            />
+        <section class="section" id="recomendaciones">
+          <img src={withBase('images/about/about-recomendaciones.png')} alt="" class="section__media" loading="lazy" decoding="async" />
 
-            <div class="section__content">
-              <h2 class="t-section section__title">Recomendaciones</h2>
+          <div class="section__content">
+            <h2 class="t-section section__title">Recomendaciones</h2>
 
-              {recomendaciones.map((r) => (
-                <figure class="split">
-                  <figcaption class="split__head">
-                    <strong>{r.name}</strong>
-                    <span class="t-label text-muted">{r.role}</span>
-                  </figcaption>
-                  <blockquote class="split__body">
-                    <p class="t-body">{r.quote}</p>
-                  </blockquote>
-                </figure>
-              ))}
-            </div>
-          </section>
-        </>
+            {recomendaciones.map((r) => (
+              <figure class="split">
+                <figcaption class="split__head">
+                  <strong>{r.name}</strong>
+                  <span class="t-label t-muted">{r.role}</span>
+                </figcaption>
+                <blockquote class="split__body">
+                  <p class="t-body">{r.quote}</p>
+                </blockquote>
+              </figure>
+            ))}
+          </div>
+        </section>
       )}
 
-
-      <!-- Ahora mismo -->
       <section class="section" id="ahora">
-        <img
-          src={withBase('images/about/about-ahora.png')}
-          alt=""
-          class="section__media"
-        />
+        <img src={withBase('images/about/about-ahora.png')} alt="" class="section__media" loading="lazy" decoding="async" />
 
         <div class="section__content">
-          <div class="section-head">
+          <div class="section__head">
             <h2 class="t-section">Ahora mismo</h2>
-            <p class="t-label text-muted">Actualizado: {ahoraActualizado}</p>
+            <p class="t-label t-muted">Actualizado: {ahoraActualizado}</p>
           </div>
 
           {ahora.map((item) => (
@@ -183,12 +147,9 @@ const cvCols = cvHtml.split(/(?=<h2)/).filter((col) => col.trim());
             </article>
           ))}
 
-          <div class="cv-cta cv-cta--start">
-            <a href={withBase('contacto')} class="cta">Hablemos</a>
-          </div>
+          <a href={withBase('contacto')} class="cta section__cta">Hablemos</a>
         </div>
       </section>
-
     </div>
   </div>
 </Layout>

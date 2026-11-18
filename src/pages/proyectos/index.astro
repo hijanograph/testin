@@ -1,18 +1,58 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
-import { getCollection } from 'astro:content';
+import { getProjects, getAllAreas } from '../../data/projects';
 
-const projects = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
+const projects = await getProjects();
+const areas = getAllAreas(projects);
 ---
 
-<Layout title="Proyectos — Rafael Hijano" description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics.">
+<Layout title="Proyectos" description="Proyectos de diseño visual: branding, editorial, UX/UI y motion graphics.">
   <div class="page">
     <div class="container">
-      <h1 class="t-hero page-title">Proyectos</h1>
-      <div class="projects__grid">
+      <header class="projects__intro stack">
+        <h1 class="t-hero">Proyectos</h1>
+        <p class="t-body measure">
+          Una selección de mis trabajos de branding, editorial, motion graphics y más. Cada proyecto cuenta
+          el proceso detrás del resultado: filtra por área para ver los que más te interesen.
+        </p>
+
+        <!-- Oculto hasta que carga el JavaScript: sin él se ven todos los proyectos -->
+        <div class="filter" id="projectFilter" role="group" aria-label="Filtrar proyectos por área" hidden>
+          <button type="button" class="filter__btn t-label" data-area="all" aria-pressed="true">Todos</button>
+          {areas.map((area) => (
+            <button type="button" class="filter__btn t-label" data-area={area.slug} aria-pressed="false">
+              {area.label}
+            </button>
+          ))}
+        </div>
+      </header>
+
+      <div class="projects__grid" id="projectGrid">
         {projects.map((project, i) => <ProjectCard project={project} index={i} />)}
       </div>
     </div>
   </div>
 </Layout>
+
+<script>
+  const init = () => {
+    const filter = document.getElementById('projectFilter');
+    const cards = document.querySelectorAll<HTMLElement>('#projectGrid .project-card');
+    if (!filter) return;
+    filter.hidden = false;
+
+    filter.addEventListener('click', (e) => {
+      const button = (e.target as HTMLElement).closest<HTMLButtonElement>('.filter__btn');
+      if (!button) return;
+      const area = button.dataset.area;
+
+      filter.querySelectorAll('.filter__btn').forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      cards.forEach((card) => {
+        card.hidden = area !== 'all' && !card.dataset.areas?.split(' ').includes(area!);
+      });
+    });
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>

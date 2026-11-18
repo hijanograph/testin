@@ -1,11 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { render, type CollectionEntry } from 'astro:content';
+import { getProjects } from '../../data/projects';
 import { withBase } from '../../site';
 import { imageSize } from '../../image-size';
 
 export async function getStaticPaths() {
-  const all = (await getCollection('portfolio')).sort((a, b) => a.data.order - b.data.order);
+  const all = await getProjects();
 
   return all.map((project, i) => ({
     params: { slug: project.id },
@@ -37,7 +38,7 @@ const musicParams = d.musicId
   : '';
 ---
 
-<Layout title={`${d.title} — Rafael Hijano`} description={d.desc}>
+<Layout title={d.title} description={d.desc}>
   <div class="page">
     <div class="container">
 
@@ -61,7 +62,7 @@ const musicParams = d.musicId
         <div class="project-hero__info">
           <div>
             <h1 class="t-hero project-hero__title">{d.title}</h1>
-            {d.subtitle && <p class="t-body text-muted">{d.subtitle}</p>}
+            {d.subtitle && <p class="t-body t-muted">{d.subtitle}</p>}
           </div>
 
           {d.intro && <p class="t-body">{d.intro}</p>}
@@ -80,10 +81,10 @@ const musicParams = d.musicId
       <div class="project-content">
         {d.wip ? (
           <>
-            <div class="wip-media">
-              {d.wipImg && <img src={withBase(d.wipImg)} alt={`${d.title} — en proceso`} class="wip-figure" />}
+            <div class="project-wip__media">
+              {d.wipImg && <img src={withBase(d.wipImg)} alt={`${d.title} — en proceso`} class="project-wip__img" />}
               {d.musicId && (
-                <div class="music-embed">
+                <div class="project-wip__music">
                   <iframe
                     src={`https://www.youtube-nocookie.com/embed/${d.musicId}?${musicParams}`}
                     title="Música de fondo — reproductor de YouTube"
@@ -94,8 +95,8 @@ const musicParams = d.musicId
                 </div>
               )}
             </div>
-            <div class="wip-text">
-              <p class="t-label text-muted">Proyecto bajo construcción</p>
+            <div class="project-wip__text">
+              <p class="t-label t-muted">Proyecto bajo construcción</p>
               <Content />
             </div>
           </>
@@ -115,7 +116,7 @@ const musicParams = d.musicId
                 <div class="project-block__text">
                   {block.sections.map((section) => (
                     <div class="project-block__section">
-                      {section.title && <h2 class="t-project-title">{section.title}</h2>}
+                      {section.title && <h2 class="t-title">{section.title}</h2>}
                       {section.paragraphs.map((p) => <p class="t-body">{p}</p>)}
                     </div>
                   ))}

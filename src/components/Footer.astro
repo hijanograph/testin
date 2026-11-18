@@ -1,13 +1,11 @@
 ---
 import { email, social, pages } from '../site';
 
-// Se lee en dos columnas: impares a la izquierda, pares a la derecha.
-const [inicio, proyectos, sobreMi, contacto] = pages;
-const links = [
-  inicio, { label: 'Behance', href: social.behance, external: true },
-  proyectos, { label: 'LinkedIn', href: social.linkedin, external: true },
-  sobreMi, { label: 'Instagram', href: social.instagram, external: true },
-  contacto,
+// Columna izquierda: redes (pegadas abajo). Columna derecha: páginas.
+const socialLinks = [
+  { label: 'Behance', href: social.behance },
+  { label: 'LinkedIn', href: social.linkedin },
+  { label: 'Instagram', href: social.instagram },
 ];
 
 const [user, domain] = email.split('@');
@@ -16,10 +14,9 @@ const [user, domain] = email.split('@');
 <footer class="footer">
   <div class="container">
     <div class="footer__grid">
-
       <div class="footer__col">
         <p class="t-label footer__copy">
-          ® 2026<br />
+          ® {new Date().getFullYear()}<br />
           Todos los derechos reservados.
         </p>
       </div>
@@ -33,19 +30,16 @@ const [user, domain] = email.split('@');
 
       <div class="footer__col footer__col--links">
         <nav class="footer__nav" aria-label="Enlaces del pie">
-          {links.map(({ label, href, external }) => (
-            <a
-              href={href}
-              class="footer__nav-link arrow-link"
-              target={external ? '_blank' : undefined}
-              rel={external ? 'noopener noreferrer' : undefined}
-            >
-              {label}
-            </a>
-          ))}
+          <div class="footer__nav-col footer__nav-col--social">
+            {socialLinks.map(({ label, href }) => (
+              <a href={href} class="footer__nav-link" target="_blank" rel="noopener noreferrer">{label}</a>
+            ))}
+          </div>
+          <div class="footer__nav-col">
+            {pages.map(({ label, href }) => <a href={href} class="footer__nav-link">{label}</a>)}
+          </div>
         </nav>
       </div>
-
     </div>
   </div>
 </footer>

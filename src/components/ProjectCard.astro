@@ -1,9 +1,11 @@
 ---
 import { withBase } from '../site';
+import { getAreas } from '../data/projects';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   project: CollectionEntry<'portfolio'>;
+  /** Si se indica, la tarjeta se muestra en detalle (número y área) y con h2 en lugar de h3. */
   index?: number;
 }
 
@@ -12,27 +14,23 @@ const d = project.data;
 const href = withBase(`proyectos/${project.id}`);
 const detailed = index !== undefined;
 const Title = detailed ? 'h2' : 'h3';
+// Para el filtro de /proyectos: "branding editorial ux-ui"
+const areas = getAreas(project).map((a) => a.slug).join(' ');
 ---
 
-<article class="project-card">
-  {detailed && (
-    <span class="t-label text-muted project-card__number">
-      {String(index + 1).padStart(2, '0')}
-    </span>
-  )}
+<article class="project-card" data-areas={areas}>
+  {detailed && <span class="t-label t-muted">{String(index + 1).padStart(2, '0')}</span>}
 
   <a href={href} class="project-card__img-link" aria-label={d.title}>
     {d.coverImg
-      ? <img src={withBase(d.coverImg)} alt={d.coverAlt ?? d.title} class="project-card__img" loading="lazy" />
+      ? <img src={withBase(d.coverImg)} alt={d.coverAlt ?? d.title} class="project-card__img" loading="lazy" decoding="async" />
       : <div class="img-ph project-card__img"></div>}
     {d.wip && <span class="project-card__wip badge t-label">En proceso</span>}
   </a>
 
   <div class="project-card__body">
-    <a href={href}><Title class="t-project-title">{d.title}</Title></a>
-    
-    {detailed && <p class="t-label text-muted">{d.area}</p>}
-    
+    <a href={href}><Title class="t-title">{d.title}</Title></a>
+    {detailed && <p class="t-label t-muted">{d.area}</p>}
     <p class="t-body">{d.desc}</p>
   </div>
 </article>

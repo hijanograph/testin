@@ -58,12 +58,12 @@ export const proceso = [
   },
 ];
 
-export const ahoraActualizado = 'Octubre 2026';
+export const ahoraActualizado = 'Noviembre 2026';
 
 export const ahora = [
   {
     label: 'Trabajo',
-    text: 'Diseñador visual en Batterylight: packaging, catálogos y materiales de marketing.',
+    text: 'Buscando mi próximo proyecto como diseñador visual. Hasta febrero de 2026, en Batterylight: packaging, catálogos y materiales de marketing.',
   },
   {
     label: 'Proyecto personal',

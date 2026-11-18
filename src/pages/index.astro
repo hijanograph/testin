@@ -1,24 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import { getCollection } from 'astro:content';
+import { getProjects } from '../data/projects';
 import { withBase } from '../site';
 
-const projects = (await getCollection('portfolio', (p) => p.data.featured)).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const projects = await getProjects({ featured: true });
 ---
 
-<Layout title="Rafael Hijano — Diseñador Visual">
+<Layout>
   <section class="hero">
     <div class="hero__inner">
       <div class="hero__img-wrap">
-        <img src={withBase('images/index/hero-profile.png')} alt="Rafael Hijano" class="hero__img" fetchpriority="high" />
+        <img src={withBase('images/index/hero-profile.png')} alt="Rafael Hijano" class="hero__img" fetchpriority="high" decoding="async" />
       </div>
 
       <div class="hero__text">
-        <h1 class="t-hero">Hola, soy Rafael Hijano</h1>
-        <p class="t-label text-muted">DISEÑADOR VISUAL — DISEÑADOR GRÁFICO — MOTION GRAPHICS</p>
+        <h1 class="t-hero">Hola, soy<br />Rafael Hijano</h1>
+        <p class="t-label t-muted">DISEÑADOR VISUAL — DISEÑADOR GRÁFICO — MOTION GRAPHICS</p>
         <p class="t-body">
           Diseño identidades visuales que tienen algo que decir. Creo en los detalles que importan, en las historias bien contadas y en el diseño que perdura.
           Si estás buscando a alguien para tu proyecto, creo que tenemos algo de qué hablar.
@@ -30,7 +28,7 @@ const projects = (await getCollection('portfolio', (p) => p.data.featured)).sort
 
   <section class="projects">
     <div class="container">
-      <h2 class="t-section projects__heading">Algunos de mis proyectos:</h2>
+      <h2 class="t-section section__title">Algunos de mis proyectos:</h2>
       <div class="projects__grid">
         {projects.map((project) => <ProjectCard project={project} />)}
       </div>
