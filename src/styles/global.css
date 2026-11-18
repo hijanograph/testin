@@ -34,14 +34,14 @@
   --cream: #fff5e9;
   --ink: #3c3a26;
   --ink-60: color-mix(in srgb, var(--ink) 75%, transparent);
-  --ink-30: color-mix(in srgb, var(--ink) 30%, transparent);
+  --ink-30: color-mix(in srgb, var(--ink) 45%, transparent);
   --ink-10: color-mix(in srgb, var(--ink) 10%, transparent);
 
   --font: "Overused Grotesk", system-ui, sans-serif;
   --fw-medium: 500;
   --tracking-tight: -0.03em;
 
-  --fs-1: 0.75rem;
+  --fs-1: calc(14 / 18 * 1rem);
   --fs-2: 1rem;
   --fs-3: 1.5rem;
   --fs-4: 2rem;
@@ -395,7 +395,7 @@ a > :is(h1, h2, h3)::after,
 
 .text-muted,
 .footer__copy {
-  color: var(--ink-60);
+  color: var(--ink-30);
 }
 
 /* ── Controles: etiquetas y campos comparten caja (--bd, --py, --px) ──────── */
@@ -647,7 +647,7 @@ a > :is(h1, h2, h3)::after,
     @media (min-width: 1072px) {
       --gap: var(--fs-2);
       align-self: end;
-      padding: var(--fs-2) 0;
+      padding-bottom: 3rem;
     }
   }
 }
