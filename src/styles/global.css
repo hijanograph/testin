@@ -33,21 +33,19 @@
 :root {
   --cream: #fff5e9;
   --ink: #3c3a26;
-  --ink-soft: color-mix(in srgb, var(--ink) 75%, transparent); /* enlaces de navegación en reposo */
-  --ink-muted: color-mix(in srgb, var(--ink) 45%, transparent); /* texto secundario y bordes */
+  --ink-soft: color-mix(in srgb, var(--ink) 75%, transparent);
+  --ink-muted: color-mix(in srgb, var(--ink) 45%, transparent);
 
   --font: "Overused Grotesk", system-ui, sans-serif;
   --fw-medium: 500;
   --tracking-tight: -0.03em;
 
-  /* Escala tipográfica (1rem = 18px) */
   --fs-1: calc(14 / 18 * 1rem);
   --fs-2: 1rem;
   --fs-3: 1.5rem;
   --fs-4: 2rem;
   --fs-5: 4rem;
 
-  /* Escala de espaciado */
   --s-0: 4px;
   --s-1: 8px;
   --s-2: 16px;
@@ -58,13 +56,12 @@
   --s-7: 128px;
 
   --nav-h: 86px;
-  --max-w: 1920px; /* ancho máximo del contenido en pantallas muy grandes */
-  --min-w: 320px; /* ancho mínimo: por debajo aparece scroll horizontal en vez de romper la maqueta */
+  --max-w: 1920px;
+  --min-w: 255px;
   --measure: 68ch;
   --transition-color: 0.2s ease;
   --transition-move: 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  /* Maqueta: 4 columnas (móvil) · 8 (≥768px) · 12 (≥1072px) */
   --cols: 4;
   --margin: clamp(24px, 7vw, 36px);
   --gutter: 24px;
@@ -80,7 +77,6 @@
   }
 }
 
-/* Sin herencia: el --gap / --row-gap / --col de un bloque no se filtra a sus hijos */
 @property --gap { syntax: "*"; inherits: false; }
 @property --row-gap { syntax: "*"; inherits: false; }
 @property --col { syntax: "*"; inherits: false; }
@@ -94,7 +90,7 @@
 }
 
 html {
-  font-size: 112.5%; /* 18px por defecto, pero respeta el tamaño de letra del usuario */
+  font-size: 112.5%;
   scrollbar-gutter: stable;
   scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust: 100%;
@@ -165,7 +161,6 @@ button {
   outline: none;
 }
 
-/* ── Enlaces: flecha ↘ por defecto; --arrow-dir invierte el sentido (←) ─────────── */
 a::after,
 a > :is(h1, h2, h3)::after,
 .cta::after,
@@ -177,7 +172,6 @@ a > :is(h1, h2, h3)::after,
   transition: transform var(--transition-move);
 }
 
-/* .cta (llamada a la acción) funciona igual si en el HTML es <a> o <button> */
 :is(a, .cta) {
   color: var(--ink);
   text-decoration: none;
@@ -201,8 +195,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* CTA: estilo único para todas las llamadas a la acción (enlace con flecha, peso medio, sin mayúsculas).
-   El reset de caja es por si en el HTML es un <button> */
 .cta {
   display: inline-block;
   width: fit-content;
@@ -217,13 +209,10 @@ a > :is(h1, h2, h3)::after,
   white-space: nowrap;
 }
 
-/* Enlaces sin flecha */
 :is(.skip-link, .nav__logo, .nav .nav__link, .project-card__img-link, .project-nav__back)::after {
   content: none;
 }
 
-/* ── Piezas compartidas ─────────────────────────────────────────────────── */
-/* Columna flex: cada componente solo declara --gap */
 :is(
   .stack, .hero__text, .project-card, .project-card__body, .project-hero__info, .project-meta,
   .project-meta__item, .project-block__text, .project-block__section, .project-body, .project-wip__media,
@@ -235,7 +224,6 @@ a > :is(h1, h2, h3)::after,
   gap: var(--gap, 0);
 }
 
-/* Rejilla de la maqueta: cada bloque solo declara --row (separación vertical) */
 :is(
   .hero__inner, .projects__grid, .intro__grid, .split, .project-hero,
   .project-content, .project-blocks, .contact
@@ -246,7 +234,6 @@ a > :is(h1, h2, h3)::after,
   row-gap: var(--row-gap, 0);
 }
 
-/* Posición en la rejilla: --c (móvil), --col-md (≥768) y --col-lg (≥1072), cada una hereda de la anterior */
 :is(
   .hero__img-wrap, .hero__text, .intro__photo-wrap, .intro__bio, .split__head, .split__body,
   .project-hero__img-wrap, .project-hero__info, .project-block__img, .project-block__text,
@@ -263,7 +250,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* Imagen + texto en la misma fila en escritorio */
 :is(.hero__inner, .project-hero, .project-block, .footer__grid) > * {
   @media (min-width: 1072px) {
     grid-row: 1;
@@ -332,7 +318,6 @@ a > :is(h1, h2, h3)::after,
   gap: var(--s-2) var(--s-3);
 }
 
-/* Lista sencilla: una línea por elemento, sin cajas ni viñetas (servicios y habilidades) */
 :is(.line-list, .cv__col--skills ul) {
   display: flex;
   flex-direction: column;
@@ -345,8 +330,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Tipografía ─────────────────────────────────────────────────────────── */
-/* Peso y tracking: cambiar --fw-medium / --tracking-tight los afecta a todos */
 :is(
   .t-hero, .t-section, .t-title, .t-nav, .t-label, .footer__nav-link, .t-lead, .big-email,
   .footer__email, .error-code, .nav-overlay__link, :where(.split) strong,
@@ -371,7 +354,6 @@ a > :is(h1, h2, h3)::after,
   line-height: 0.9;
   overflow-wrap: anywhere;
 
-  /* Crece de forma continua de 36px (768px) a 72px (1072px): (72 − 36) / (1072 − 768) ≈ 0.1184 */
   @media (min-width: 768px) {
     font-size: clamp(var(--fs-4), calc(var(--fs-4) + 0.1184 * (100vw - 768px)), var(--fs-5));
   }
@@ -415,8 +397,6 @@ a > :is(h1, h2, h3)::after,
   color: var(--ink-muted);
 }
 
-/* ── Controles ──────────────────────────────────────────────────────────── */
-/* Filtro de proyectos por área (/proyectos). Se muestra solo si hay JavaScript. */
 .filter {
   display: flex;
   flex-wrap: wrap;
@@ -462,7 +442,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Navegación ─────────────────────────────────────────────────────────── */
 .navigation {
   .nav__link,
   .nav-overlay__link {
@@ -533,10 +512,10 @@ a > :is(h1, h2, h3)::after,
     }
 
     .nav__toggle {
-      --toggle-h: 1cap;                          /* altura de las mayúsculas */
-      --toggle-t: 0.15cap;                       /* grosor de línea ≈ trazo del texto */
-      --toggle-w: calc(var(--toggle-h) * 1.15);  /* ancho en función del alto */
-      --toggle-shift: 1px;                       /* ajuste vertical fino */
+      --toggle-h: 1cap;
+      --toggle-t: 0.15cap;
+      --toggle-w: calc(var(--toggle-h) * 1.15);
+      --toggle-shift: 1px;
 
       position: relative;
       flex: none;
@@ -562,7 +541,6 @@ a > :is(h1, h2, h3)::after,
         color: var(--ink-soft);
       }
 
-      /* Menú abierto: color pleno para que la X tenga contraste */
       &[aria-expanded="true"] {
         color: var(--ink);
       }
@@ -571,13 +549,11 @@ a > :is(h1, h2, h3)::after,
         display: none;
       }
 
-      /* Navegadores sin soporte para la unidad cap */
       @supports not (height: 1cap) {
         --toggle-h: 0.7em;
         --toggle-t: 0.1em;
       }
 
-      /* Área táctil ampliada e invisible */
       &::after {
         content: "";
         position: absolute;
@@ -654,7 +630,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Home ───────────────────────────────────────────────────────────────── */
 .hero {
   .hero__inner {
     max-width: var(--max-w);
@@ -668,7 +643,7 @@ a > :is(h1, h2, h3)::after,
 
     @media (min-width: 1072px) {
       margin-right: 0;
-      min-height: 30rem; /* pantallas bajas (portátiles pequeños, móvil en horizontal) */
+      min-height: 30rem;
       height: calc(100vh - 80px);
       height: calc(100dvh - 80px);
     }
@@ -689,7 +664,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* Texto junto a la foto principal (home y sobre mí): en escritorio queda pegado abajo */
 :is(.hero__text, .intro__bio) {
   --gap: var(--s-2);
   min-width: 0;
@@ -714,7 +688,6 @@ a > :is(h1, h2, h3)::after,
   display: none;
 }
 
-/* Compartido por la home y /proyectos */
 .projects__grid {
   --row-gap: var(--s-5);
 
@@ -733,7 +706,6 @@ a > :is(h1, h2, h3)::after,
       }
     }
 
-    /* La tarjeta ocupa 4 columnas: 1 por fila (móvil), 2 (tablet) o 3 (escritorio) */
     .project-card__img {
       aspect-ratio: 4 / 3;
       transition: transform var(--transition-move);
@@ -759,7 +731,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Páginas (sobre mí, contacto, 404) ──────────────────────────────────── */
 .page {
   padding-block: calc(var(--nav-h) + var(--s-4)) var(--s-5);
 
@@ -783,7 +754,6 @@ a > :is(h1, h2, h3)::after,
   .intro {
     margin-bottom: var(--s-6);
 
-    /* Título + foto llenan el primer pantallazo: la foto acaba 80px antes del borde inferior */
     @media (min-width: 1072px) {
       &:has(> .intro__grid) {
         display: flex;
@@ -806,7 +776,6 @@ a > :is(h1, h2, h3)::after,
       --col-md: 1 / span 3;
       --col-lg: 1 / span 8;
 
-      /* En escritorio ocupa todo el alto sobrante de .intro (ver arriba) */
       @media (min-width: 1072px) {
         position: relative;
         align-self: stretch;
@@ -817,7 +786,6 @@ a > :is(h1, h2, h3)::after,
     .intro__photo {
       aspect-ratio: 2 / 3;
 
-      /* Absoluta para que la foto no condicione la altura de la fila */
       @media (min-width: 1072px) {
         position: absolute;
         inset: 0;
@@ -832,7 +800,6 @@ a > :is(h1, h2, h3)::after,
     }
   }
 
-  /* Imagen a todo el ancho entre servicios/proceso y currículum */
   .banner {
     display: block;
     width: 100%;
@@ -844,7 +811,6 @@ a > :is(h1, h2, h3)::after,
     }
   }
 
-  /* Servicios (5 col) | imagen (4 col) | Proceso (3 col); apilados hasta 1071px */
   .section-row {
     display: grid;
     gap: var(--s-4);
@@ -876,7 +842,6 @@ a > :is(h1, h2, h3)::after,
         grid-column: 10 / span 3;
       }
 
-      /* Proceso: número + título en 1 columna, descripción en 2 */
       & .section--narrow .split .split__head {
         --col-lg: 1 / span 1;
         overflow-wrap: break-word;
@@ -889,7 +854,6 @@ a > :is(h1, h2, h3)::after,
     }
   }
 
-  /* Su alto lo marca el texto más largo de la fila (contain: size ignora el alto propio de la foto) */
   .section-row__img {
     display: block;
     width: 100%;
@@ -907,8 +871,6 @@ a > :is(h1, h2, h3)::after,
   .section {
     padding: var(--s-5) 0;
 
-    /* Imagen + contenido: cada uno ocupa 6 columnas en escritorio y se alternan
-       (la intro lleva la foto a la izquierda; la siguiente sección, a la derecha...) */
     .section__media {
       display: block;
       width: 100%;
@@ -925,8 +887,6 @@ a > :is(h1, h2, h3)::after,
         align-items: stretch;
       }
 
-      /* La imagen se estira a la altura del texto (contain: size evita que su
-         altura natural condicione la fila) */
       .section__media {
         grid-row: 1;
         grid-column: 7 / -1;
@@ -937,7 +897,6 @@ a > :is(h1, h2, h3)::after,
         align-self: stretch;
       }
 
-      /* Aire alrededor del texto: el superior es el doble que el inferior */
       .section__content {
         grid-row: 1;
         grid-column: 1 / span 6;
@@ -951,7 +910,6 @@ a > :is(h1, h2, h3)::after,
         }
       }
 
-      /* Secciones impares (3ª, 5ª...): la imagen va a la izquierda */
       &:nth-of-type(odd) {
         .section__media {
           grid-column: 1 / span 6;
@@ -971,12 +929,10 @@ a > :is(h1, h2, h3)::after,
       gap: var(--s-1);
     }
 
-    /* Fila "título | contenido": servicios, proceso, descargas, ahora, recomendaciones */
     .split {
       --row-gap: var(--s-2);
       padding: var(--s-2) 0;
 
-      /* En escritorio vive dentro de las 6 columnas de la sección */
       @media (min-width: 1072px) {
         grid-template-columns: subgrid;
       }
@@ -1003,7 +959,6 @@ a > :is(h1, h2, h3)::after,
       margin-top: var(--s-4);
     }
 
-    /* Currículum: experiencia, educación y habilidades al mismo nivel horizontal */
     .cv {
       display: grid;
       grid-template-columns: var(--grid);
@@ -1041,8 +996,6 @@ a > :is(h1, h2, h3)::after,
         }
       }
 
-      /* Imagen bajo educación y habilidades (2 + 1 columnas): mismo ancho que ambas y altura hasta el
-         final del currículum (la fila 2 absorbe la altura sobrante de experiencia) */
       .cv__img {
         display: block;
         grid-column: 1 / -1;
@@ -1070,7 +1023,6 @@ a > :is(h1, h2, h3)::after,
         font-size: var(--fs-2);
       }
 
-      /* Fecha encima del puesto, en fs-1 */
       & .cv__date {
         display: block;
         color: var(--ink-muted);
@@ -1084,7 +1036,6 @@ a > :is(h1, h2, h3)::after,
         margin-top: 0;
       }
 
-      /* Habilidades: el estilo de lista viene de .line-list */
       & .cv__col--skills li {
         @media (min-width: 1072px) {
           white-space: nowrap;
@@ -1120,7 +1071,6 @@ a > :is(h1, h2, h3)::after,
 
   }
 
-  /* /mecontratas: ficha rápida para reclutadores */
   .facts {
     display: grid;
     grid-template-columns: var(--grid);
@@ -1148,13 +1098,9 @@ a > :is(h1, h2, h3)::after,
     }
   }
 
-  /* Contacto: contenido en las columnas de la derecha, texto alineado a la izquierda.
-     En escritorio la imagen ocupa las columnas 1-6 y el contenido las 7-12. */
   .contact {
     --row-gap: var(--s-5);
 
-    /* La última fila (1fr) absorbe la altura sobrante de la imagen para que
-       el contenido no se separe */
     @media (min-width: 1072px) {
       grid-template-rows: repeat(4, auto) 1fr;
     }
@@ -1164,7 +1110,6 @@ a > :is(h1, h2, h3)::after,
       --col-lg: 7 / -1;
     }
 
-    /* Tablet y móvil: entre el título y el texto, a ancho completo */
     & > .contact-img {
       --col-md: 1 / -1;
       --col-lg: 1 / span 6;
@@ -1206,7 +1151,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Proyecto ───────────────────────────────────────────────────────────── */
 .project-hero {
   --row-gap: var(--s-4);
   align-items: start;
@@ -1220,7 +1164,6 @@ a > :is(h1, h2, h3)::after,
     --col-lg: 9 / -1;
     --gap: var(--s-4);
 
-    /* Solo se queda fijo si cabe en pantalla */
     @media (min-width: 1072px) and (min-height: 700px) {
       position: sticky;
       top: calc(var(--nav-h) + var(--fs-2));
@@ -1264,7 +1207,6 @@ a > :is(h1, h2, h3)::after,
     row-gap: var(--s-4);
     align-items: center;
 
-    /* Imagen a la derecha por defecto (texto 4 col + imagen 8 col); data-side="right" los invierte */
     &[data-side="right"] {
       .project-block__text {
         --col-lg: 9 / -1;
@@ -1356,7 +1298,6 @@ a > :is(h1, h2, h3)::after,
     justify-content: flex-end;
     gap: var(--s-2) var(--s-4);
 
-    /* Los títulos largos pueden partirse en pantallas estrechas */
     .cta {
       white-space: normal;
     }
@@ -1371,7 +1312,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Footer ─────────────────────────────────────────────────────────────── */
 .footer {
   padding: var(--s-6) 0 var(--s-4);
   font-size: var(--fs-2);
@@ -1450,14 +1390,12 @@ a > :is(h1, h2, h3)::after,
     text-align: right;
   }
 
-  /* Dos columnas: redes (izquierda, pegadas abajo para dejar el hueco arriba) y páginas (derecha) */
   .footer__nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: var(--gutter);
     width: 100%;
 
-    /* En tablet ocupa la mitad derecha */
     @media (min-width: 768px) {
       width: 50%;
       margin-left: auto;
@@ -1486,7 +1424,6 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-/* ── Transiciones de página y scroll ────────────────────────────────────── */
 @keyframes fadeUp {
   from {
     opacity: 0;
