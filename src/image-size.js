@@ -2,17 +2,8 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import sharp from 'sharp';
 
-/** @typedef {{ width: number, height: number }} ImageSize */
-
-/** @type {Map<string, Promise<ImageSize | undefined>>} */
 const cache = new Map();
 
-/**
- * Dimensiones de una imagen de `public/` (ruta relativa, p. ej. "images/projects/x.png").
- * Devuelve `undefined` si el archivo no existe todavía.
- * @param {string} [path]
- * @returns {Promise<ImageSize | undefined>}
- */
 export function imageSize(path) {
   if (!path) return Promise.resolve(undefined);
 
@@ -31,5 +22,5 @@ export function imageSize(path) {
     );
   }
 
-  return /** @type {Promise<ImageSize | undefined>} */ (cache.get(file));
+  return  (cache.get(file));
 }

@@ -6,21 +6,22 @@ import { ClientRouter } from 'astro:transitions';
 import { name, withBase } from '../site';
 
 interface Props {
-  /** Sin título (home) se usa «Rafael Hijano — Diseñador Visual»; con título, «título — Rafael Hijano». */
   title?: string;
   description?: string;
+  image?: string;
   noindex?: boolean;
 }
 
 const {
   title,
   description = 'Diseñador visual que crea espacios donde cada marca cobra vida.',
+  image = 'images/index/hero-profile.png',
   noindex = false,
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador Visual`;
-// Solo si `site` está definido en astro.config
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefined;
 ---
 
 <!DOCTYPE html>
@@ -40,10 +41,12 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
 
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
 
-    <!-- Precarga de la fuente principal para evitar saltos al cargar -->
     <link
       rel="preload"
       href={withBase('fonts/OverusedGrotesk-Regular.woff2')}

@@ -1,0 +1,90 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import { getProjects } from '../data/projects';
+import { servicios, proceso } from '../data/servicios';
+import { email, socials, downloads, withBase } from '../site';
+
+const projects = await getProjects({ featured: true });
+
+const portfolio = downloads.find((d) => d.label.startsWith('Portfolio'))!;
+const samples = [portfolio, ...socials.filter((s) => s.label !== 'Instagram')];
+---
+
+<Layout
+  title="Servicios"
+  description="Servicios de diseño visual freelance: identidad de marca, editorial, packaging, motion graphics y UX/UI."
+  noindex
+>
+  <div class="page">
+    <div class="container">
+      <section class="intro stack">
+        <p class="t-label t-muted">Para empresas y marcas</p>
+        <h1 class="t-hero page-title">Diseño visual que trabaja para tu marca</h1>
+        <div class="measure stack">
+          <p class="t-lead">Soy Rafael Hijano, diseñador visual freelance en Málaga.</p>
+          <p class="t-body">
+            En esta página tienes lo que puedo hacer por tu proyecto, cómo trabajo y algunos ejemplos reales.
+            Si encaja con lo que buscas, cuéntame tu caso y te respondo con una propuesta.
+          </p>
+          <div class="link-list">
+            <a href={`mailto:${email}`} class="cta">Cuéntame tu proyecto</a>
+            <a href={portfolio.href} target="_blank" rel="noopener noreferrer" class="cta">Ver portfolio en PDF</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--grid" id="servicios">
+        <h2 class="t-section section__title">Qué puedo hacer por ti</h2>
+
+        {servicios.map((servicio) => (
+          <article class="split">
+            <div class="split__head">
+              <h3 class="t-title">{servicio.title}</h3>
+            </div>
+            <div class="split__body">
+              <p class="t-body">{servicio.detail}</p>
+              <ul class="line-list">
+                {servicio.items.map((item) => <li>{item}</li>)}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section class="section section--grid" id="proceso">
+        <h2 class="t-section section__title">Cómo trabajo</h2>
+
+        {proceso.map((paso, i) => (
+          <article class="split">
+            <div class="split__head">
+              <span class="t-label t-muted">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="t-title">{paso.title}</h3>
+            </div>
+            <div class="split__body">
+              <p class="t-body">{paso.text}</p>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section class="section" id="proyectos">
+        <div class="section__head">
+          <h2 class="t-section">Ejemplos de mi trabajo</h2>
+          <a href={withBase('proyectos')} class="cta">Ver todos</a>
+        </div>
+        <ProjectGrid projects={projects} />
+      </section>
+
+      <section class="section stack" id="contacto">
+        <h2 class="t-section section__title">Hablemos de tu proyecto</h2>
+        <a href={`mailto:${email}`} class="big-email">{email}</a>
+        <ul class="link-list">
+          {samples.map((l) => (
+            <li><a href={l.href} target="_blank" rel="noopener noreferrer" class="cta">{l.label}</a></li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </div>
+</Layout>

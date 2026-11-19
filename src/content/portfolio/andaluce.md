@@ -1,7 +1,6 @@
 ---
 title: "Andaluçê yorá"
 subtitle: "(hierofanía de los moriscos y el expolio andaluz)"
-tagline: "Música, arte y tradición"
 desc: "Tributo a «ANDALUÇÊ YORÁ», de Califato ¾ (aún en proceso)"
 # TODO: confirmar año
 tipo: "personal"

@@ -2,10 +2,6 @@ import * as cv from './cv.md';
 
 export type CvColumn = { kind: 'exp' | 'edu' | 'skills'; html: string };
 
-/**
- * Divide src/data/cv.md en una columna por bloque (h2) y ajusta el HTML:
- * la fecha pasa encima del puesto y, en Educación, nombre y lugar van en filas separadas.
- */
 export async function getCvColumns(): Promise<CvColumn[]> {
   const html = await cv.compiledContent();
 

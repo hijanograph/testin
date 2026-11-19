@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { getCvColumns } from '../data/cv-columns';
 import { withBase, cvUrl } from '../site';
-import { servicios, proceso, ahora, ahoraActualizado, recomendaciones } from '../data/about';
+import { ahora, ahoraActualizado, recomendaciones } from '../data/about';
 
 const cvColumns = await getCvColumns();
 ---
@@ -10,6 +10,7 @@ const cvColumns = await getCvColumns();
 <Layout
   title="Sobre mí"
   description="Diseñador Visual en Málaga. Graduado en Comunicación Audiovisual y Máster en Diseño Visual."
+  image="images/about/about-profile.png"
 >
   <div class="page">
     <div class="container">
@@ -52,49 +53,10 @@ const cvColumns = await getCvColumns();
         </div>
       </section>
 
-      <div class="section-row">
-        <section class="section" id="servicios">
-          <h2 class="t-section section__title">Servicios</h2>
-
-          {servicios.map((servicio) => (
-            <article class="split">
-              <div class="split__head">
-                <h3 class="t-title">{servicio.title}</h3>
-              </div>
-              <div class="split__body">
-                <p class="t-body">{servicio.detail}</p>
-                <ul class="line-list">
-                  {servicio.items.map((item) => <li>{item}</li>)}
-                </ul>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        <img src={withBase('images/about/about-servicios.png')} alt="" class="section-row__img" loading="lazy" decoding="async" />
-
-        <section class="section section--narrow" id="proceso">
-          <h2 class="t-section section__title">Proceso</h2>
-
-          {proceso.map((paso, i) => (
-            <article class="split">
-              <div class="split__head">
-                <span class="t-label t-muted">{String(i + 1).padStart(2, '0')}</span>
-                <h3 class="t-title">{paso.title}</h3>
-              </div>
-              <div class="split__body">
-                <p class="t-body">{paso.text}</p>
-              </div>
-            </article>
-          ))}
-        </section>
-      </div>
-
       <img src={withBase('images/about/about-cv.png')} alt="" class="banner" loading="lazy" decoding="async" />
 
-      <!-- CV generado desde src/data/cv.md -->
       <div class="section" id="cv">
-        <div class="section__head">
+        <div class="section__head section__head--inline">
           <h2 class="t-section">Currículum</h2>
           <a href={cvUrl} target="_blank" rel="noopener noreferrer" class="cta">Descargar CV</a>
         </div>
@@ -153,3 +115,14 @@ const cvColumns = await getCvColumns();
     </div>
   </div>
 </Layout>
+
+<script>
+  const init = () => {
+    const intro = document.querySelector<HTMLElement>('.intro');
+    const title = intro?.querySelector<HTMLElement>('.page-title');
+    if (!intro || !title) return;
+    new ResizeObserver(() => intro.style.setProperty('--title-h', `${title.offsetHeight}px`)).observe(title);
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>

@@ -17,7 +17,6 @@ export const socials = [
   { label: 'Instagram', href: social.instagram },
 ];
 
-// Los PDF viven en Google Drive; solo hace falta el id.
 const drive = (id: string) => `https://drive.google.com/uc?export=download&id=${id}`;
 export const cvUrl = drive('16K_kHrIxXQuXzdytIGrX46_dsheItNwA');
 export const portfolioUrl = drive('1p5WQXuLPW-kFGgMLAzbrCEaSUpG7zqYD');
@@ -27,7 +26,6 @@ export const downloads = [
   { label: 'Portfolio en PDF', href: portfolioUrl },
 ];
 
-// Páginas internas: las usan Nav, Footer y 404.
 export const pages = [
   { label: 'Inicio', href: withBase() },
   { label: 'Proyectos', href: withBase('proyectos') },

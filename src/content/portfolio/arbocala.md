@@ -1,6 +1,5 @@
 ---
 title: "Bodegas Arbocala"
-tagline: "Una marca viva, pero con historia"
 desc: "Creación de un ecosistema visual para Bodegas Arbocala y sus productos derivados"
 # TODO: confirmar tipo y año
 tipo: "académico"

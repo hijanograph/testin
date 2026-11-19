@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
 import { getProjects } from '../data/projects';
 import { getCvColumns } from '../data/cv-columns';
 import { email, socials, downloads, cvUrl, withBase } from '../site';
@@ -15,7 +15,6 @@ const profile = [
   { label: 'Formación', value: 'Máster en Diseño Visual (La X Gauss) y Grado en Comunicación Audiovisual (Universidad de Málaga)' },
 ];
 
-// Para reclutadores: PDF + redes profesionales (sin Instagram)
 const links = [...downloads, ...socials.filter((s) => s.label !== 'Instagram')];
 ---
 
@@ -51,7 +50,6 @@ const links = [...downloads, ...socials.filter((s) => s.label !== 'Instagram')];
         </dl>
       </section>
 
-      <!-- CV generado desde src/data/cv.md -->
       <div class="section" id="cv">
         <div class="section__head">
           <h2 class="t-section">Currículum</h2>
@@ -68,9 +66,7 @@ const links = [...downloads, ...socials.filter((s) => s.label !== 'Instagram')];
           <h2 class="t-section">Proyectos destacados</h2>
           <a href={withBase('proyectos')} class="cta">Ver todos</a>
         </div>
-        <div class="projects__grid">
-          {projects.map((project) => <ProjectCard project={project} />)}
-        </div>
+        <ProjectGrid projects={projects} />
       </section>
 
       <section class="section stack" id="contacto">

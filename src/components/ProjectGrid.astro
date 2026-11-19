@@ -1,0 +1,106 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import { getAllAreas } from '../data/projects';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'portfolio'>[];
+  mode?: 'dim' | 'hide';
+  numbered?: boolean;
+}
+
+const { projects, mode = 'hide', numbered = false } = Astro.props;
+const areas = getAllAreas(projects);
+---
+
+<div class="projects-view" data-mode={mode}>
+  <div class="filter" role="group" aria-label="Filtrar proyectos por área" hidden>
+    <button type="button" class="filter__btn t-label" data-area="all" aria-pressed="true">Todos</button>
+    {areas.map((area) => (
+      <button type="button" class="filter__btn t-label" data-area={area.slug} aria-pressed="false">
+        {area.label}
+      </button>
+    ))}
+    {numbered && (
+      <label class="filter__number t-label">
+        <input
+          class="filter__input"
+          type="number"
+          min="1"
+          max={projects.length}
+          inputmode="numeric"
+          placeholder="Nº"
+          aria-label="Filtrar por número de proyecto"
+        />
+      </label>
+    )}
+  </div>
+
+  <p class="t-body t-muted projects-view__empty" role="status" hidden>Ningún proyecto con ese número.</p>
+
+  <div class="projects__grid">
+    {projects.map((project, i) => <ProjectCard project={project} index={numbered ? i : undefined} />)}
+  </div>
+</div>
+
+<script>
+  const init = () => {
+    const view = document.querySelector<HTMLElement>('.projects-view');
+    if (!view) return;
+
+    const filter = view.querySelector<HTMLElement>('.filter')!;
+    const number = view.querySelector<HTMLInputElement>('.filter__input');
+    const empty = view.querySelector<HTMLElement>('.projects-view__empty')!;
+    const cards = view.querySelectorAll<HTMLElement>('.project-card');
+    const buttons = [...filter.querySelectorAll<HTMLButtonElement>('.filter__btn')];
+    const hideExcluded = view.dataset.mode === 'hide';
+    filter.hidden = false;
+
+    const press = (area: string) =>
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.area === area)));
+
+    const show = (matches: (card: HTMLElement) => boolean) => {
+      let visible = 0;
+      cards.forEach((card) => {
+        const ok = matches(card);
+        if (ok) visible++;
+        card.hidden = hideExcluded && !ok;
+        card.classList.toggle('is-dimmed', !hideExcluded && !ok);
+      });
+      empty.hidden = visible > 0;
+    };
+
+    const selectArea = (area: string) => {
+      press(area);
+      if (number) number.value = '';
+      show((card) => area === 'all' || !!card.dataset.areas?.split(' ').includes(area));
+    };
+
+    filter.addEventListener('click', (e) => {
+      const button = (e.target as HTMLElement).closest<HTMLButtonElement>('.filter__btn');
+      if (!button) return;
+      const area = button.dataset.area!;
+      selectArea(area);
+      history.replaceState(history.state, '', area === 'all' ? location.pathname + location.search : `#${area}`);
+    });
+
+    number?.addEventListener('input', () => {
+      const value = number.value.trim();
+      press('all');
+      show((card) => !value || card.dataset.number === String(Number(value)));
+    });
+
+    const applyHash = () => {
+      const area = location.hash.slice(1);
+      if (!buttons.some((b) => b.dataset.area === area)) return false;
+      selectArea(area);
+      return true;
+    };
+
+    if (applyHash()) view.closest('section')?.scrollIntoView();
+    window.addEventListener('hashchange', applyHash);
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('hashchange', applyHash), { once: true });
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>

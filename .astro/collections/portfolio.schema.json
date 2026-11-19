@@ -11,9 +11,6 @@
     "intro": {
       "type": "string"
     },
-    "tagline": {
-      "type": "string"
-    },
     "desc": {
       "type": "string"
     },
@@ -116,7 +113,6 @@
   },
   "required": [
     "title",
-    "tagline",
     "desc",
     "area",
     "rol",

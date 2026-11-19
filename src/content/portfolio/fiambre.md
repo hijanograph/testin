@@ -1,6 +1,5 @@
 ---
 title: "Editorial Fiambre"
-tagline: "El alma del terror cotidiano"
 desc: "Una identidad visual integral cercana y diferente, con espíritu innovador para la editorial multiplataforma Fiambre"
 # TODO: confirmar tipo y año
 tipo: "académico"

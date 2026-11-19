@@ -5,7 +5,6 @@ const normalize = (path: string) => path.replace(/\/$/, '') || '/';
 const home = normalize(pages[0].href);
 const current = normalize(Astro.url.pathname);
 
-// "Proyectos" también queda activo en /proyectos/nombre-del-caso
 const isActive = (href: string) => {
   const target = normalize(href);
   return target === home ? current === target : current === target || current.startsWith(`${target}/`);
@@ -90,7 +89,6 @@ const externalLinks = [
     const overlay = document.getElementById('navOverlay');
     if (!toggle || !overlay) return;
 
-    // El nav persiste entre páginas (transition:persist): hay que refrescar el enlace activo.
     const home = normalize(new URL(document.querySelector<HTMLAnchorElement>('.nav__logo')!.href).pathname);
     const current = normalize(location.pathname);
     document.querySelectorAll<HTMLAnchorElement>('.nav__link[href]').forEach((link) => {
@@ -117,10 +115,8 @@ const externalLinks = [
     };
 
     toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-    // Cualquier clic dentro del overlay lo cierra; los enlaces internos los navega el ClientRouter.
     overlay.addEventListener('click', () => setOpen(false));
     document.addEventListener('keydown', (e) => e.key === 'Escape' && setOpen(false));
-    // Mismo punto de corte que el CSS (1072px): al pasar a escritorio se cierra el menú móvil.
     matchMedia('(min-width: 1072px)').addEventListener('change', (e) => e.matches && setOpen(false));
     setOpen(false);
   };

@@ -5,7 +5,6 @@ import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   project: CollectionEntry<'portfolio'>;
-  /** Si se indica, la tarjeta se muestra en detalle (número y área) y con h2 en lugar de h3. */
   index?: number;
 }
 
@@ -14,11 +13,10 @@ const d = project.data;
 const href = withBase(`proyectos/${project.id}`);
 const detailed = index !== undefined;
 const Title = detailed ? 'h2' : 'h3';
-// Para el filtro de /proyectos: "branding editorial ux-ui"
 const areas = getAreas(project).map((a) => a.slug).join(' ');
 ---
 
-<article class="project-card" data-areas={areas}>
+<article class="project-card" data-areas={areas} data-number={index === undefined ? undefined : index + 1}>
   {detailed && <span class="t-label t-muted">{String(index + 1).padStart(2, '0')}</span>}
 
   <a href={href} class="project-card__img-link" aria-label={d.title}>
