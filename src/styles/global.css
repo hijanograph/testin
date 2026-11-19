@@ -422,6 +422,12 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
+.filter__field {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+}
+
 .filter__number {
   display: inline-flex;
   align-items: baseline;
@@ -429,20 +435,21 @@ a > :is(h1, h2, h3)::after,
 
 .filter__input {
   width: 4.5em;
-  margin-left: calc(-0.75em - 1px);
   padding: 0.5em 0.75em;
-  border: 1px solid transparent;
+  border: 1px solid var(--ink-muted);
   border-radius: 0;
   background: none;
   color: var(--ink);
   font: inherit;
   letter-spacing: inherit;
+  text-align: center;
   text-transform: inherit;
   appearance: textfield;
 
   &::placeholder {
     color: var(--ink-muted);
     opacity: 1;
+    text-align: center;
   }
 
   &::-webkit-inner-spin-button,
@@ -452,8 +459,8 @@ a > :is(h1, h2, h3)::after,
   }
 
   &:focus {
-    border-color: var(--ink-soft);
-    outline: none;
+    outline: 1px solid var(--ink-soft);
+    outline-offset: 2px;
   }
 }
 
@@ -717,14 +724,17 @@ a > :is(h1, h2, h3)::after,
 }
 
 .project-card {
-  transition: opacity var(--transition-move);
+  transition:
+    opacity var(--transition-move),
+    filter var(--transition-move);
 
   &[hidden] {
     display: none;
   }
 
   &.is-dimmed {
-    opacity: 0.25;
+    opacity: 0.3;
+    filter: blur(3px);
   }
 }
 
@@ -1311,7 +1321,7 @@ a > :is(h1, h2, h3)::after,
   line-height: 1.25;
 
   @media (min-width: 768px) {
-    padding-top: var(--s-6);
+    padding-top: var(--s-7);
   }
 
   .footer__copy {
@@ -1460,6 +1470,12 @@ a > :is(h1, h2, h3)::after,
   ::view-transition-new(*) {
     transition: none !important;
     animation: none !important;
+  }
+
+  .project-card {
+    transition:
+      opacity var(--transition-color),
+      filter var(--transition-color) !important;
   }
 }
 

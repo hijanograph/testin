@@ -22,21 +22,22 @@ const areas = getAllAreas(projects);
       </button>
     ))}
     {numbered && (
-      <label class="filter__number t-label">
-        <input
-          class="filter__input"
-          type="number"
-          min="1"
-          max={projects.length}
-          inputmode="numeric"
-          placeholder="Nº"
-          aria-label="Filtrar por número de proyecto"
-        />
-      </label>
+      <div class="filter__field">
+        <label class="filter__number t-label">
+          <input
+            class="filter__input"
+            type="number"
+            min="1"
+            max={projects.length}
+            inputmode="numeric"
+            placeholder="Nº"
+            aria-label="Filtrar por número de proyecto"
+          />
+        </label>
+        <p class="t-body t-muted projects-view__empty" role="status" hidden>Ningún proyecto con ese número.</p>
+      </div>
     )}
   </div>
-
-  <p class="t-body t-muted projects-view__empty" role="status" hidden>Ningún proyecto con ese número.</p>
 
   <div class="projects__grid">
     {projects.map((project, i) => <ProjectCard project={project} index={numbered ? i : undefined} />)}
@@ -50,30 +51,91 @@ const areas = getAllAreas(projects);
 
     const filter = view.querySelector<HTMLElement>('.filter')!;
     const number = view.querySelector<HTMLInputElement>('.filter__input');
-    const empty = view.querySelector<HTMLElement>('.projects-view__empty')!;
-    const cards = view.querySelectorAll<HTMLElement>('.project-card');
+    const empty = view.querySelector<HTMLElement>('.projects-view__empty');
+    const cards = [...view.querySelectorAll<HTMLElement>('.project-card')];
     const buttons = [...filter.querySelectorAll<HTMLButtonElement>('.filter__btn')];
     const hideExcluded = view.dataset.mode === 'hide';
+    const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const easing = 'cubic-bezier(0.2, 0.7, 0.2, 1)';
+    let run = 0;
     filter.hidden = false;
 
     const press = (area: string) =>
       buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.area === area)));
 
-    const show = (matches: (card: HTMLElement) => boolean) => {
+    const leave = (card: HTMLElement) =>
+      card.animate(
+        calm
+          ? [{ opacity: 1 }, { opacity: 0 }]
+          : [
+              { opacity: 1, transform: 'scale(1)', filter: 'blur(0)' },
+              { opacity: 0, transform: 'scale(0.94)', filter: 'blur(6px)' },
+            ],
+        { duration: 260, easing: 'ease-out', fill: 'forwards' },
+      ).finished;
+
+    const enter = (card: HTMLElement, position: number) =>
+      card.animate(
+        calm
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [
+              { opacity: 0, transform: 'translateY(24px) scale(0.96)' },
+              { opacity: 1, transform: 'none' },
+            ],
+        { duration: 500, delay: position * 60, easing, fill: 'backwards' },
+      );
+
+    const glide = (card: HTMLElement, from: DOMRect) => {
+      const to = card.getBoundingClientRect();
+      const dx = from.left - to.left;
+      const dy = from.top - to.top;
+      if (dx || dy) {
+        card.animate(
+          [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+          { duration: 650, easing },
+        );
+      }
+    };
+
+    const show = async (matches: (card: HTMLElement) => boolean, animate = true) => {
+      const id = ++run;
+      const visibleBefore = cards.filter((card) => !card.hidden);
+
+      if (animate && hideExcluded) {
+        const leaving = visibleBefore.filter((card) => !matches(card));
+        await Promise.allSettled(leaving.map(leave));
+        if (id !== run) return;
+      }
+
+      const first = new Map(visibleBefore.map((card) => [card, card.getBoundingClientRect()]));
+      const filtering = cards.some((card) => !matches(card));
       let visible = 0;
-      cards.forEach((card) => {
+
+      cards.forEach((card, i) => {
+        card.getAnimations().forEach((animation) => animation.cancel());
         const ok = matches(card);
         if (ok) visible++;
         card.hidden = hideExcluded && !ok;
         card.classList.toggle('is-dimmed', !hideExcluded && !ok);
+        card.style.order = hideExcluded || !filtering ? '' : String(ok ? i : cards.length + i);
       });
-      empty.hidden = visible > 0;
+
+      if (empty) empty.hidden = visible > 0;
+      if (!animate) return;
+
+      let entering = 0;
+      cards.forEach((card) => {
+        if (card.hidden) return;
+        const before = first.get(card);
+        if (!before) enter(card, entering++);
+        else if (!calm) glide(card, before);
+      });
     };
 
-    const selectArea = (area: string) => {
+    const selectArea = (area: string, animate = true) => {
       press(area);
       if (number) number.value = '';
-      show((card) => area === 'all' || !!card.dataset.areas?.split(' ').includes(area));
+      show((card) => area === 'all' || !!card.dataset.areas?.split(' ').includes(area), animate);
     };
 
     filter.addEventListener('click', (e) => {
@@ -90,16 +152,17 @@ const areas = getAllAreas(projects);
       show((card) => !value || card.dataset.number === String(Number(value)));
     });
 
-    const applyHash = () => {
+    const applyHash = (animate = true) => {
       const area = location.hash.slice(1);
       if (!buttons.some((b) => b.dataset.area === area)) return false;
-      selectArea(area);
+      selectArea(area, animate);
       return true;
     };
 
-    if (applyHash()) view.closest('section')?.scrollIntoView();
-    window.addEventListener('hashchange', applyHash);
-    document.addEventListener('astro:before-swap', () => window.removeEventListener('hashchange', applyHash), { once: true });
+    if (applyHash(false)) view.closest('section')?.scrollIntoView();
+    const onHashChange = () => applyHash();
+    window.addEventListener('hashchange', onHashChange);
+    document.addEventListener('astro:before-swap', () => window.removeEventListener('hashchange', onHashChange), { once: true });
   };
 
   document.addEventListener('astro:page-load', init);
