@@ -1,32 +1,8 @@
 @font-face {
   font-family: "Overused Grotesk";
-  src: url("/fonts/OverusedGrotesk-Regular.woff2") format("woff2");
-  font-weight: 400;
+  src: url("/fonts/OverusedGrotesk-VF.woff2") format("woff2");
+  font-weight: 400 500;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Overused Grotesk";
-  src: url("/fonts/OverusedGrotesk-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Overused Grotesk";
-  src: url("/fonts/OverusedGrotesk-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Overused Grotesk";
-  src: url("/fonts/OverusedGrotesk-MediumItalic.woff2") format("woff2");
-  font-weight: 500;
-  font-style: italic;
   font-display: swap;
 }
 
