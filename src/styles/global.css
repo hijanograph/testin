@@ -59,8 +59,14 @@
   --max-w: 1920px;
   --min-w: 320px;
   --measure: 68ch;
-  --transition-color: 0.2s ease;
-  --transition-move: 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in: cubic-bezier(0.32, 0, 0.67, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 350ms;
+  --dur-2: 500ms;
+  --dur-3: 600ms;
+  --transition-color: var(--dur-1) var(--ease);
+  --transition-move: var(--dur-2) var(--ease);
 
   --cols: 4;
   --margin: clamp(24px, 7vw, 36px);
@@ -379,7 +385,7 @@ a > :is(h1, h2, h3)::after,
   font-size: var(--fs-2);
 }
 
-:is(.t-label, .badge, .project-meta, .project-nav) {
+:is(.t-label, .badge) {
   font-size: var(--fs-1);
   line-height: 1.25;
 }
@@ -605,7 +611,7 @@ a > :is(h1, h2, h3)::after,
         width: 100%;
         height: var(--toggle-t);
         background: currentColor;
-        transition: transform var(--transition-move), opacity var(--transition-color);
+        transition: transform var(--dur-2) var(--ease-in-out), opacity var(--dur-1) var(--ease);
       }
 
       &[aria-expanded="true"] span {
@@ -643,6 +649,26 @@ a > :is(h1, h2, h3)::after,
     &.open {
       opacity: 1;
       visibility: visible;
+    }
+
+    .nav-overlay__list li {
+      opacity: 0;
+      translate: 0 16px;
+      transition:
+        opacity var(--dur-2) var(--ease),
+        translate var(--dur-3) var(--ease);
+    }
+
+    &.open .nav-overlay__list li {
+      opacity: 1;
+      translate: 0 0;
+
+      &:nth-child(1) { transition-delay: 120ms; }
+      &:nth-child(2) { transition-delay: 180ms; }
+      &:nth-child(3) { transition-delay: 240ms; }
+      &:nth-child(4) { transition-delay: 300ms; }
+      &:nth-child(5) { transition-delay: 360ms; }
+      &:nth-child(6) { transition-delay: 420ms; }
     }
 
     .nav-overlay__inner {
@@ -751,14 +777,14 @@ a > :is(h1, h2, h3)::after,
 
       @media (hover: hover) {
         &:hover .project-card__img {
-          transform: scale(1.03);
+          transform: scale(1.04);
         }
       }
     }
 
     .project-card__img {
       aspect-ratio: 4 / 3;
-      transition: transform var(--transition-move);
+      transition: transform var(--dur-3) var(--ease);
 
       @media (min-width: 768px) {
         aspect-ratio: 1;
@@ -1159,11 +1185,56 @@ a > :is(h1, h2, h3)::after,
   align-items: start;
 
   .project-hero__img-wrap {
+    --col-md: 1 / span 3;
     --col-lg: 1 / span 8;
+
+    @media (min-width: 1072px) {
+      position: relative;
+      align-self: start;
+      min-height: 15rem;
+      height: calc(100vh - 80px - var(--nav-h) - var(--s-5));
+      height: calc(100dvh - 80px - var(--nav-h) - var(--s-5));
+    }
+  }
+
+  .project-hero__img {
+    aspect-ratio: 2 / 3;
+
+    @media (min-width: 1072px) {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  &.project-hero--natural {
+    .project-hero__img-wrap {
+      --col-md: 1 / -1;
+
+      @media (min-width: 1072px) {
+        position: static;
+        min-height: 0;
+        height: auto;
+      }
+    }
+
+    .project-hero__img {
+      aspect-ratio: auto;
+
+      @media (min-width: 1072px) {
+        position: static;
+        height: auto;
+      }
+    }
+
+    .project-hero__info {
+      --col-md: 1 / span 6;
+    }
   }
 
   .project-hero__info {
-    --col-md: 1 / span 6;
+    --col-md: 4 / -1;
     --col-lg: 9 / -1;
     --gap: var(--s-4);
 
@@ -1179,6 +1250,12 @@ a > :is(h1, h2, h3)::after,
 
   .project-meta {
     --gap: var(--s-2);
+    font-size: var(--fs-2);
+    line-height: 1.25;
+
+    .t-label {
+      font-size: var(--fs-2);
+    }
 
     .project-meta__item {
       --gap: var(--s-0);
@@ -1289,25 +1366,14 @@ a > :is(h1, h2, h3)::after,
 
 .project-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--s-2);
   padding-top: var(--s-5);
-
-  .project-nav__links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--s-2) var(--s-4);
-
-    .cta {
-      white-space: normal;
-    }
-  }
+  line-height: 1.25;
 
   .project-nav__back {
     --arrow-dir: -1;
+    font-size: var(--fs-2);
 
     &::before {
       content: "←\2060";
@@ -1427,21 +1493,17 @@ a > :is(h1, h2, h3)::after,
   }
 }
 
-@keyframes fadeUp {
+@keyframes reveal-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    transform: translateY(24px);
   }
 }
 
-@keyframes page-fade-out {
+@keyframes page-out {
   to {
     opacity: 0;
+    transform: translateY(-8px);
   }
 }
 
@@ -1454,11 +1516,19 @@ a > :is(h1, h2, h3)::after,
 }
 
 ::view-transition-old(page) {
-  animation: page-fade-out 0.2s ease-in both;
+  animation: page-out var(--dur-1) var(--ease-in) both;
 }
 
 ::view-transition-new(page) {
-  animation: fadeUp 0.2s ease-out 0.2s both;
+  animation: reveal-in var(--dur-3) var(--ease) 150ms both;
+}
+
+.reveal:not(.is-revealed) {
+  opacity: 0;
+}
+
+.reveal.is-revealed {
+  animation: reveal-in var(--dur-3) var(--ease) var(--reveal-delay, 0ms) backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

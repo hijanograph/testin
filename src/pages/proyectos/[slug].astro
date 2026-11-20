@@ -8,14 +8,14 @@ import { imageSize } from '../../image-size';
 export async function getStaticPaths() {
   const all = await getProjects();
 
-  return all.map((project, i) => ({
+  return all.map((project) => ({
     params: { slug: project.id },
-    props: { project, prev: all[i - 1], next: all[i + 1] },
+    props: { project },
   }));
 }
 
 type Entry = CollectionEntry<'portfolio'>;
-const { project, prev, next } = Astro.props as { project: Entry; prev?: Entry; next?: Entry };
+const { project } = Astro.props as { project: Entry };
 const d = project.data;
 const { Content } = await render(project);
 
@@ -42,7 +42,7 @@ const musicParams = d.musicId
   <div class="page">
     <div class="container">
 
-      <section class="project-hero">
+      <section class:list={['project-hero', { 'project-hero--natural': d.heroFit === 'natural' }]}>
         <div class="project-hero__img-wrap">
           {d.heroImg ? (
             <img
@@ -130,14 +130,23 @@ const musicParams = d.musicId
       </div>
 
       <nav class="project-nav" aria-label="Navegación del proyecto">
-        <a href={withBase('proyectos')} class="project-nav__back t-label">Proyectos</a>
-
-        <div class="project-nav__links">
-          {prev && <a href={withBase(`proyectos/${prev.id}`)} class="cta">{prev.data.title}</a>}
-          {next && <a href={withBase(`proyectos/${next.id}`)} class="cta">{next.data.title}</a>}
-        </div>
+        <a href={withBase('proyectos')} class="project-nav__back t-label">Volver</a>
       </nav>
 
     </div>
   </div>
 </Layout>
+
+<script>
+  const init = () => {
+    const back = document.querySelector<HTMLAnchorElement>('.project-nav__back');
+    back?.addEventListener('click', (e) => {
+      const cameFromSite = (history.state?.index ?? 0) > 0 || document.referrer.startsWith(location.origin);
+      if (!cameFromSite) return;
+      e.preventDefault();
+      history.back();
+    });
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>

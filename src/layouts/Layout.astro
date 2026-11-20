@@ -70,3 +70,40 @@ const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefin
     <Footer />
   </body>
 </html>
+
+<script>
+  const targets = [
+    '.section__title', '.section__head', '.split', '.project-card', '.project-block', '.project-wip__media',
+    '.project-wip__text', '.project-body', '.banner', '.section__media', '.cv__col', '.cv__img', '.facts > div',
+    '.big-email', '.link-list', '.contact-methods', '.project-nav', '.footer__grid',
+  ].join(', ');
+
+  const init = () => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const belowFold = [...document.querySelectorAll<HTMLElement>(targets)].filter(
+      (el) => el.getBoundingClientRect().top > innerHeight,
+    );
+    if (!belowFold.length) return;
+
+    belowFold.forEach((el) => el.classList.add('reveal'));
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries
+          .filter((entry) => entry.isIntersecting)
+          .forEach((entry, i) => {
+            const el = entry.target as HTMLElement;
+            el.style.setProperty('--reveal-delay', `${Math.min(i, 5) * 70}ms`);
+            el.classList.add('is-revealed');
+            observer.unobserve(el);
+          });
+      },
+      { rootMargin: '0px 0px -8% 0px' },
+    );
+
+    belowFold.forEach((el) => observer.observe(el));
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>

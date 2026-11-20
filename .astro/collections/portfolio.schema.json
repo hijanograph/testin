@@ -46,6 +46,14 @@
     "heroAlt": {
       "type": "string"
     },
+    "heroFit": {
+      "default": "frame",
+      "type": "string",
+      "enum": [
+        "frame",
+        "natural"
+      ]
+    },
     "coverImg": {
       "type": "string"
     },

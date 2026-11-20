@@ -28,6 +28,7 @@ const portfolio = defineCollection({
     wip: z.boolean().default(false),
     heroImg: z.string().optional(),
     heroAlt: z.string().optional(),
+    heroFit: z.enum(['frame', 'natural']).default('frame'),
     coverImg: z.string().optional(),
     coverAlt: z.string().optional(),
     wipImg: z.string().optional(),

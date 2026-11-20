@@ -30,6 +30,7 @@ const areas = getAllAreas(projects);
             min="1"
             max={projects.length}
             inputmode="numeric"
+            autocomplete="off"
             placeholder="Nº"
             aria-label="Filtrar por número de proyecto"
           />
@@ -56,9 +57,13 @@ const areas = getAllAreas(projects);
     const buttons = [...filter.querySelectorAll<HTMLButtonElement>('.filter__btn')];
     const hideExcluded = view.dataset.mode === 'hide';
     const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const easing = 'cubic-bezier(0.2, 0.7, 0.2, 1)';
+    const tokens = getComputedStyle(document.documentElement);
+    const easing = tokens.getPropertyValue('--ease').trim();
+    const easingIn = tokens.getPropertyValue('--ease-in').trim();
+    const ms = (name: string) => parseFloat(tokens.getPropertyValue(name));
     let run = 0;
     filter.hidden = false;
+    if (number) number.value = '';
 
     const press = (area: string) =>
       buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.area === area)));
@@ -68,10 +73,10 @@ const areas = getAllAreas(projects);
         calm
           ? [{ opacity: 1 }, { opacity: 0 }]
           : [
-              { opacity: 1, transform: 'scale(1)', filter: 'blur(0)' },
-              { opacity: 0, transform: 'scale(0.94)', filter: 'blur(6px)' },
+              { opacity: 1, transform: 'scale(1)' },
+              { opacity: 0, transform: 'scale(0.97)' },
             ],
-        { duration: 260, easing: 'ease-out', fill: 'forwards' },
+        { duration: ms('--dur-1'), easing: easingIn, fill: 'forwards' },
       ).finished;
 
     const enter = (card: HTMLElement, position: number) =>
@@ -82,7 +87,7 @@ const areas = getAllAreas(projects);
               { opacity: 0, transform: 'translateY(24px) scale(0.96)' },
               { opacity: 1, transform: 'none' },
             ],
-        { duration: 500, delay: position * 60, easing, fill: 'backwards' },
+        { duration: ms('--dur-3'), delay: position * 70, easing, fill: 'backwards' },
       );
 
     const glide = (card: HTMLElement, from: DOMRect) => {
@@ -92,7 +97,7 @@ const areas = getAllAreas(projects);
       if (dx || dy) {
         card.animate(
           [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
-          { duration: 650, easing },
+          { duration: ms('--dur-3'), easing },
         );
       }
     };
@@ -112,6 +117,7 @@ const areas = getAllAreas(projects);
       let visible = 0;
 
       cards.forEach((card, i) => {
+        card.classList.remove('reveal');
         card.getAnimations().forEach((animation) => animation.cancel());
         const ok = matches(card);
         if (ok) visible++;
@@ -143,7 +149,9 @@ const areas = getAllAreas(projects);
       if (!button) return;
       const area = button.dataset.area!;
       selectArea(area);
-      history.replaceState(history.state, '', area === 'all' ? location.pathname + location.search : `#${area}`);
+      if (hideExcluded) {
+        history.replaceState(history.state, '', area === 'all' ? location.pathname + location.search : `#${area}`);
+      }
     });
 
     number?.addEventListener('input', () => {
@@ -156,10 +164,11 @@ const areas = getAllAreas(projects);
       const area = location.hash.slice(1);
       if (!buttons.some((b) => b.dataset.area === area)) return false;
       selectArea(area, animate);
+      if (!hideExcluded) history.replaceState(history.state, '', location.pathname + location.search);
       return true;
     };
 
-    if (applyHash(false)) view.closest('section')?.scrollIntoView();
+    if (applyHash(false)) view.closest('section')?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth' });
     const onHashChange = () => applyHash();
     window.addEventListener('hashchange', onHashChange);
     document.addEventListener('astro:before-swap', () => window.removeEventListener('hashchange', onHashChange), { once: true });

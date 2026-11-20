@@ -10,6 +10,7 @@ rol: "Director creativo — Diseñador visual — Diseño gráfico"
 software: "Illustrator — InDesign — After Effects — Figma"
 order: 1
 heroImg: "images/projects/arbocala-hero.png"
+heroFit: "natural"
 heroAlt: "Bodegas Arbocala — identidad visual"
 coverImg: "images/index/arbocala-cover.png"
 coverAlt: "Bodegas Arbocala branding"
