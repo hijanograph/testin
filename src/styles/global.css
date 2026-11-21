@@ -41,6 +41,8 @@
   --dur-1: 350ms;
   --dur-2: 500ms;
   --dur-3: 600ms;
+  --dur-4: 900ms;
+  --ease-glide: cubic-bezier(0.45, 0, 0.2, 1);
   --transition-color: var(--dur-1) var(--ease);
   --transition-move: var(--dur-2) var(--ease);
 
@@ -478,6 +480,11 @@ a > :is(h1, h2, h3)::after,
     inset: 0 0 auto;
     z-index: 100;
     height: var(--nav-h);
+    pointer-events: none;
+
+    :is(.nav__logo, .nav__link, .nav__toggle) {
+      pointer-events: auto;
+    }
 
     .nav__inner {
       display: flex;
@@ -1495,16 +1502,31 @@ a > :is(h1, h2, h3)::after,
   animation: page-out var(--dur-1) var(--ease-in) both;
 }
 
+::view-transition-group(page) {
+  animation-delay: var(--dur-1);
+  animation-duration: 0.01ms;
+}
+
 ::view-transition-new(page) {
-  animation: reveal-in var(--dur-3) var(--ease) 150ms both;
+  animation: reveal-in var(--dur-3) var(--ease) var(--dur-1) both;
+}
+
+:root:has(.hero)::view-transition-new(page) {
+  animation-name: fade-in;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .reveal:not(.is-revealed) {
-  opacity: 0;
-}
-
-.reveal.is-revealed {
-  animation: reveal-in var(--dur-3) var(--ease) var(--reveal-delay, 0ms) backwards;
+  opacity: var(--reveal, 0);
+  transform: translateY(calc((1 - var(--reveal, 0)) * 28px));
+  transition:
+    opacity 120ms linear,
+    transform 120ms linear;
 }
 
 @media (prefers-reduced-motion: reduce) {

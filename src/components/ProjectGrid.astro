@@ -51,6 +51,7 @@ const areas = getAllAreas(projects);
     if (!view) return;
 
     const filter = view.querySelector<HTMLElement>('.filter')!;
+    const grid = view.querySelector<HTMLElement>('.projects__grid')!;
     const number = view.querySelector<HTMLInputElement>('.filter__input');
     const empty = view.querySelector<HTMLElement>('.projects-view__empty');
     const cards = [...view.querySelectorAll<HTMLElement>('.project-card')];
@@ -60,7 +61,11 @@ const areas = getAllAreas(projects);
     const tokens = getComputedStyle(document.documentElement);
     const easing = tokens.getPropertyValue('--ease').trim();
     const easingIn = tokens.getPropertyValue('--ease-in').trim();
-    const ms = (name: string) => parseFloat(tokens.getPropertyValue(name));
+    const glideEasing = tokens.getPropertyValue('--ease-glide').trim();
+    const ms = (name: string) => {
+      const value = tokens.getPropertyValue(name).trim();
+      return parseFloat(value) * (value.endsWith('ms') ? 1 : 1000);
+    };
     let run = 0;
     filter.hidden = false;
     if (number) number.value = '';
@@ -84,10 +89,10 @@ const areas = getAllAreas(projects);
         calm
           ? [{ opacity: 0 }, { opacity: 1 }]
           : [
-              { opacity: 0, transform: 'translateY(24px) scale(0.96)' },
+              { opacity: 0, transform: 'translateY(16px)' },
               { opacity: 1, transform: 'none' },
             ],
-        { duration: ms('--dur-3'), delay: position * 70, easing, fill: 'backwards' },
+        { duration: ms('--dur-3'), delay: position * 80, easing, fill: 'backwards' },
       );
 
     const glide = (card: HTMLElement, from: DOMRect) => {
@@ -97,38 +102,42 @@ const areas = getAllAreas(projects);
       if (dx || dy) {
         card.animate(
           [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
-          { duration: ms('--dur-3'), easing },
+          { duration: ms('--dur-4'), easing: glideEasing },
         );
       }
     };
 
+    const resize = (from: number, to: number) => {
+      if (from !== to) grid.animate([{ height: `${from}px` }, { height: `${to}px` }], { duration: ms('--dur-3'), easing: glideEasing });
+    };
+
     const show = async (matches: (card: HTMLElement) => boolean, animate = true) => {
       const id = ++run;
-      const visibleBefore = cards.filter((card) => !card.hidden);
-
-      if (animate && hideExcluded) {
-        const leaving = visibleBefore.filter((card) => !matches(card));
-        await Promise.allSettled(leaving.map(leave));
-        if (id !== run) return;
-      }
-
-      const first = new Map(visibleBefore.map((card) => [card, card.getBoundingClientRect()]));
+      const first = new Map(cards.filter((card) => !card.hidden).map((card) => [card, card.getBoundingClientRect()]));
+      const heightBefore = grid.offsetHeight;
       const filtering = cards.some((card) => !matches(card));
+      const leaving: HTMLElement[] = [];
       let visible = 0;
 
+      grid.getAnimations().forEach((animation) => animation.cancel());
       cards.forEach((card, i) => {
         card.classList.remove('reveal');
         card.getAnimations().forEach((animation) => animation.cancel());
         const ok = matches(card);
         if (ok) visible++;
-        card.hidden = hideExcluded && !ok;
-        card.classList.toggle('is-dimmed', !hideExcluded && !ok);
-        card.style.order = hideExcluded || !filtering ? '' : String(ok ? i : cards.length + i);
+        if (hideExcluded) {
+          if (ok) card.hidden = false;
+          else if (!card.hidden) animate ? leaving.push(card) : (card.hidden = true);
+        } else {
+          card.classList.toggle('is-dimmed', !ok);
+        }
+        card.style.order = filtering ? String(ok ? i : cards.length + i) : '';
       });
 
       if (empty) empty.hidden = visible > 0;
       if (!animate) return;
 
+      const heightAfter = grid.offsetHeight;
       let entering = 0;
       cards.forEach((card) => {
         if (card.hidden) return;
@@ -136,6 +145,17 @@ const areas = getAllAreas(projects);
         if (!before) enter(card, entering++);
         else if (!calm) glide(card, before);
       });
+      if (!calm) resize(heightBefore, heightAfter);
+
+      if (!leaving.length) return;
+      await Promise.allSettled(leaving.map(leave));
+      if (id !== run) return;
+
+      leaving.forEach((card) => {
+        card.getAnimations().forEach((animation) => animation.cancel());
+        card.hidden = true;
+      });
+      if (!calm) resize(heightAfter, grid.offsetHeight);
     };
 
     const selectArea = (area: string, animate = true) => {
