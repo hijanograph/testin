@@ -418,8 +418,8 @@ a > :is(h1, h2, h3)::after,
 }
 
 .filter__input {
-  width: 4.5em;
-  padding: 0.5em 0.75em;
+  width: 3em;
+  padding: 0.25em 0.15em;
   border: 1px solid var(--ink-muted);
   border-radius: 0;
   background: none;
