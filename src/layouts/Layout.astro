@@ -3,25 +3,63 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { name, withBase } from '../site';
+import { name, email, social, withBase } from '../site';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   noindex?: boolean;
+  schema?: Record<string, unknown>[];
 }
 
 const {
   title,
-  description = 'Diseñador visual que crea espacios donde cada marca cobra vida.',
+  description = 'Rafael Hijano, diseñador gráfico y visual en Málaga y en remoto. Branding, identidad visual, diseño editorial y motion graphics.',
   image = 'images/index/hero-profile.png',
   noindex = false,
+  schema = [],
 } = Astro.props;
 
-const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador Visual`;
+const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador gráfico y visual en Málaga`;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
-const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefined;
+// Los GIF no se previsualizan bien al compartir enlaces: se usa la foto de perfil.
+const shareImage = /\.gif$/i.test(image) ? 'images/index/hero-profile.png' : image;
+const ogImage = Astro.site ? new URL(withBase(shareImage), Astro.site).href : undefined;
+
+const siteUrl = Astro.site?.href;
+const graph = siteUrl
+  ? [
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}#web`,
+        url: siteUrl,
+        name: `${name} — Diseñador gráfico y visual`,
+        inLanguage: 'es-ES',
+        publisher: { '@id': `${siteUrl}#persona` },
+      },
+      {
+        '@type': 'Person',
+        '@id': `${siteUrl}#persona`,
+        name,
+        url: siteUrl,
+        email,
+        image: new URL(withBase('images/index/hero-profile.png'), Astro.site).href,
+        jobTitle: 'Diseñador gráfico y visual',
+        description:
+          'Diseñador gráfico y visual en Málaga, disponible también en remoto. Especializado en branding, identidad visual, diseño editorial y motion graphics.',
+        address: { '@type': 'PostalAddress', addressLocality: 'Málaga', addressRegion: 'Andalucía', addressCountry: 'ES' },
+        knowsAbout: ['Branding', 'Identidad visual', 'Diseño gráfico', 'Diseño editorial', 'Packaging', 'Motion graphics', 'UX/UI'],
+        alumniOf: [
+          { '@type': 'CollegeOrUniversity', name: 'Universidad de Málaga' },
+          { '@type': 'EducationalOrganization', name: 'La X Gauss' },
+        ],
+        sameAs: Object.values(social),
+      },
+      ...schema,
+    ]
+  : undefined;
+const jsonLd = graph ? JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }) : undefined;
 ---
 
 <!DOCTYPE html>
@@ -32,8 +70,13 @@ const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefin
     <meta name="theme-color" content="#fff5e9" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="author" content={name} />
+    {noindex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow, max-image-preview:large" />}
     {canonical && <link rel="canonical" href={canonical} />}
+
+    {siteUrl && <link rel="sitemap" type="application/xml" href={new URL('sitemap-index.xml', siteUrl).href} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_ES" />
@@ -42,6 +85,8 @@ const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefin
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
     {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     {ogImage && <meta name="twitter:image" content={ogImage} />}
 
@@ -54,6 +99,8 @@ const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefin
       type="font/woff2"
       crossorigin
     />
+
+    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 
     <ClientRouter />
   </head>
@@ -143,4 +190,27 @@ const ogImage = Astro.site ? new URL(withBase(image), Astro.site).href : undefin
 
   document.addEventListener('astro:page-load', init);
   document.addEventListener('astro:before-swap', () => stop?.());
+
+  const trimSlash = (path: string) => path.replace(/\/$/, '') || '/';
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = (e.target as Element).closest<HTMLAnchorElement>('a[href]');
+      if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+
+      const url = new URL(link.href, location.href);
+      const samePage =
+        url.origin === location.origin &&
+        !url.hash &&
+        url.search === location.search &&
+        trimSlash(url.pathname) === trimSlash(location.pathname);
+      if (!samePage) return;
+
+      e.preventDefault();
+      scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    },
+    true,
+  );
 </script>

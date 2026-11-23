@@ -26,19 +26,47 @@ const [heroSize, ...blockSizes] = await Promise.all([
 
 const cap = (v?: string) => v && v[0].toUpperCase() + v.slice(1);
 const meta = [
+  { label: 'Área', value: d.area },
+  { label: 'Software', value: d.software },
+  { label: 'Rol', value: d.rol },
   { label: 'Tipo', value: cap(d.tipo) },
   { label: 'Año', value: d.year },
-  { label: 'Área', value: d.area },
-  { label: 'Rol', value: d.rol },
-  { label: 'Software', value: d.software },
 ].filter((m) => m.value);
+
+const siteUrl = Astro.site?.href;
+const pageUrl = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const schema = siteUrl && pageUrl
+  ? [
+      {
+        '@type': 'CreativeWork',
+        '@id': `${pageUrl}#proyecto`,
+        name: d.title,
+        description: d.desc,
+        url: pageUrl,
+        inLanguage: 'es-ES',
+        creator: { '@id': `${siteUrl}#persona` },
+        ...(d.year ? { dateCreated: d.year } : {}),
+        ...((d.heroImg ?? d.coverImg) && !/\.gif$/i.test(d.heroImg ?? d.coverImg ?? '')
+          ? { image: new URL(withBase((d.heroImg ?? d.coverImg)!), Astro.site).href }
+          : {}),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+          { '@type': 'ListItem', position: 2, name: 'Proyectos', item: new URL(withBase('proyectos'), Astro.site).href },
+          { '@type': 'ListItem', position: 3, name: d.title, item: pageUrl },
+        ],
+      },
+    ]
+  : [];
 
 const musicParams = d.musicId
   ? new URLSearchParams({ controls: '1', playsinline: '1', loop: '1', playlist: d.musicId, rel: '0', modestbranding: '1' })
   : '';
 ---
 
-<Layout title={d.title} description={d.desc} image={d.heroImg ?? d.coverImg}>
+<Layout title={d.title} description={d.desc} image={d.heroImg ?? d.coverImg} schema={schema}>
   <div class="page">
     <div class="container">
 
@@ -61,7 +89,7 @@ const musicParams = d.musicId
 
         <div class="project-hero__info">
           <div>
-            <h1 class="t-hero project-hero__title">{d.title}</h1>
+            <h1 class="t-hero">{d.title}</h1>
             {d.subtitle && <p class="t-body t-muted">{d.subtitle}</p>}
           </div>
 

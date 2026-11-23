@@ -31,6 +31,11 @@
   --s-6: 64px;
   --s-7: 128px;
 
+  --flow-text: var(--s-2);
+  --flow-heading-after: var(--s-1);
+  --flow-heading-before: var(--s-3);
+  --flow-action: var(--s-2);
+
   --nav-h: 86px;
   --max-w: 1920px;
   --min-w: 320px;
@@ -280,7 +285,7 @@ a > :is(h1, h2, h3)::after,
 }
 
 .stack {
-  --gap: var(--s-3);
+  --gap: var(--flow-text);
   align-items: flex-start;
 }
 
@@ -369,11 +374,27 @@ a > :is(h1, h2, h3)::after,
 }
 
 .t-body p {
-  margin-block: 0 var(--s-2);
+  margin-block: 0 var(--flow-text);
 
   &:last-child {
     margin-bottom: 0;
   }
+}
+
+:is(.t-hero, .t-section, .t-title) + :is(.t-label, .t-body, .t-lead, p) {
+  margin-top: var(--flow-heading-after);
+}
+
+:is(.t-body, .t-lead) + :is(.t-hero, .t-section, .t-title) {
+  margin-top: var(--flow-heading-before);
+}
+
+.t-lead + .t-body {
+  margin-top: var(--flow-heading-after);
+}
+
+:is(.t-body, .t-lead) + :is(.cta, .link-list, .big-email) {
+  margin-top: var(--flow-action);
 }
 
 .t-muted,
@@ -418,8 +439,8 @@ a > :is(h1, h2, h3)::after,
 }
 
 .filter__input {
-  width: 3em;
-  padding: 0.25em 0.15em;
+  width: 4.5em;
+  padding: 0.5em 0.75em;
   border: 1px solid var(--ink-muted);
   border-radius: 0;
   background: none;
@@ -618,19 +639,26 @@ a > :is(h1, h2, h3)::after,
     inset: 0;
     z-index: 99;
     padding: var(--nav-h) var(--margin) 0;
-    background: color-mix(in srgb, var(--cream) 70%, transparent);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    opacity: 0;
+    background: rgb(255 245 233 / 0);
+    background: color-mix(in srgb, var(--cream) 0%, transparent);
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
     visibility: hidden;
-    transition: opacity var(--transition-move), visibility var(--transition-move);
+    transition:
+      background-color var(--transition-move),
+      -webkit-backdrop-filter var(--transition-move),
+      backdrop-filter var(--transition-move),
+      visibility var(--transition-move);
 
     @media (min-width: 1072px) {
       display: none;
     }
 
     &.open {
-      opacity: 1;
+      background: rgb(255 245 233 / 0.7);
+      background: color-mix(in srgb, var(--cream) 70%, transparent);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
       visibility: visible;
     }
 
@@ -713,7 +741,7 @@ a > :is(h1, h2, h3)::after,
 }
 
 :is(.hero__text, .intro__bio) {
-  --gap: var(--s-2);
+  --gap: var(--flow-text);
   min-width: 0;
   padding: var(--s-4) 0;
 
@@ -1039,7 +1067,7 @@ a > :is(h1, h2, h3)::after,
         display: block;
         color: var(--ink-muted);
         font-style: normal;
-        margin-top: var(--s-4);
+        margin-top: var(--s-5);
         font-size: var(--fs-1);
         line-height: 1.25;
       }
@@ -1055,7 +1083,15 @@ a > :is(h1, h2, h3)::after,
       }
 
       & p {
-        margin-block: var(--s-1);
+        margin-block: var(--s-1) 0;
+
+        & + p {
+          margin-top: var(--flow-text);
+        }
+      }
+
+      & p + ul {
+        margin-top: var(--s-1);
       }
 
       & :is(p, .cv__col:not(.cv__col--skills) ul) {
@@ -1225,10 +1261,6 @@ a > :is(h1, h2, h3)::after,
       position: sticky;
       top: calc(var(--nav-h) + var(--fs-2));
     }
-  }
-
-  .project-hero__title {
-    margin-bottom: var(--s-1);
   }
 
   .project-meta {

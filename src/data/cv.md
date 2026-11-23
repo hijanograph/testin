@@ -4,10 +4,10 @@
 
 *Feb 2025 — Feb 2026*
 
-Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centrado en la eficiencia energética y la sostenibilidad en la industria de la iluminación proyectada.
+Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centrado en la eficiencia energética y la sostenibilidad en la iluminación proyectada.
 
-- Gestión del departamento de marketing, diseño de packaging y edición de catálogos, asegurando la coherencia visual y el cumplimiento de las guías de marca.
-- Optimización de materiales de venta en formatos editables, garantizando su alineación con los estándares visuales y de marca de la empresa.
+- Gestión del departamento de marketing, diseño de packaging y maquetación de catálogos, con coherencia visual y respeto a las guías de marca.
+- Optimización de materiales de venta en formatos editables, alineados con los estándares visuales y de marca de la empresa.
 
 ### Diseñador de Marca — Freepik
 
@@ -15,8 +15,8 @@ Batterylight es un proveedor líder de soluciones lumínicas innovadoras, centra
 
 Freepik Company S.L. es una plataforma líder de contenido digital que ofrece una amplia gama de recursos gráficos gratuitos y premium, incluyendo fotos, vectores e ilustraciones.
 
-- Participación en el proyecto Neighborhood Design, centrado en la creación de identidad de marca y aplicaciones para un negocio urbano, incluyendo la gestión del rebranding y la coordinación con producción e impresión.
-- Asistencia en la creación de recursos de marca y materiales de marketing para distintas plataformas, con el objetivo de mejorar la visibilidad y el engagement.
+- Participación en Neighborhood Design: identidad de marca y aplicaciones para un negocio urbano, con gestión del rebranding y coordinación con producción e impresión.
+- Apoyo en la creación de recursos de marca y materiales de marketing para distintas plataformas, con el objetivo de mejorar su visibilidad y su engagement.
 
 ### Marketing Specialist — Ertheo
 
