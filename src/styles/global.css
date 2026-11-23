@@ -662,7 +662,7 @@ body.menu-open :is(main, .footer) {
 
     &.open {
       background: rgb(255 245 233 / 0.7);
-      background: color-mix(in srgb, var(--cream) 70%, transparent);
+      background: color-mix(in srgb, var(--cream) 60%, transparent);
       visibility: visible;
     }
 
