@@ -24,7 +24,9 @@ const portfolio = defineCollection({
     tipo: z.string().optional(),
     year: z.string().optional(),
     order: z.number(),
-    featured: z.boolean().default(false),
+    // false = no sale en inicio. Un número (1, 2, 3…) = sale en inicio en esa posición.
+    // `true` también vale: sale después de los numerados, según `order`.
+    featured: z.union([z.boolean(), z.number().int().positive()]).default(false),
     wip: z.boolean().default(false),
     heroImg: z.string().optional(),
     heroAlt: z.string().optional(),
@@ -33,6 +35,8 @@ const portfolio = defineCollection({
     coverAlt: z.string().optional(),
     wipImg: z.string().optional(),
     musicId: z.string().optional(),
+    videoUrl: z.string().url().optional(),
+    videoRatio: z.string().default('16 / 9'),
     blocks: z.array(block).default([]),
   }),
 });

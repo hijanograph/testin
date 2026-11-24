@@ -6,7 +6,7 @@ year: "2024"
 featured: false
 area: "Branding — Aplicaciones — Impresión"
 rol: "Diseñador de marca (Freepik)"
-order: 3
+order: 4
 ---
 
 ## El proyecto

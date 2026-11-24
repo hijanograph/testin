@@ -1,8 +1,15 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
+const featuredPosition = (p: CollectionEntry<'portfolio'>) =>
+  typeof p.data.featured === 'number' ? p.data.featured : Number.POSITIVE_INFINITY;
+
 export async function getProjects({ featured = false } = {}) {
-  const projects = await getCollection('portfolio', (p) => !featured || p.data.featured);
-  return projects.sort((a, b) => a.data.order - b.data.order);
+  const projects = await getCollection('portfolio', (p) => !featured || !!p.data.featured);
+  return projects.sort((a, b) =>
+    featured
+      ? featuredPosition(a) - featuredPosition(b) || a.data.order - b.data.order
+      : a.data.order - b.data.order
+  );
 }
 
 export type Area = { slug: string; label: string };

@@ -4,6 +4,7 @@ import { render, type CollectionEntry } from 'astro:content';
 import { getProjects } from '../../data/projects';
 import { withBase } from '../../site';
 import { imageSize } from '../../image-size';
+import { getGallery } from '../../data/gallery';
 
 export async function getStaticPaths() {
   const all = await getProjects();
@@ -23,6 +24,14 @@ const [heroSize, ...blockSizes] = await Promise.all([
   imageSize(d.heroImg),
   ...d.blocks.map((b) => imageSize(b.image)),
 ]);
+
+const galleryImages = await getGallery(project.id, [
+  d.heroImg,
+  d.coverImg,
+  d.wipImg,
+  ...d.blocks.map((b) => b.image),
+]);
+const gallerySizes = await Promise.all(galleryImages.map((src) => imageSize(src)));
 
 const cap = (v?: string) => v && v[0].toUpperCase() + v.slice(1);
 const meta = [
@@ -60,6 +69,10 @@ const schema = siteUrl && pageUrl
       },
     ]
   : [];
+
+const videoEmbed = d.videoUrl
+  ? `https://www.facebook.com/plugins/video.php?${new URLSearchParams({ href: d.videoUrl, show_text: 'false', t: '0' })}`
+  : undefined;
 
 const musicParams = d.musicId
   ? new URLSearchParams({ controls: '1', playsinline: '1', loop: '1', playlist: d.musicId, rel: '0', modestbranding: '1' })
@@ -107,6 +120,22 @@ const musicParams = d.musicId
       </section>
 
       <div class="project-content">
+        {videoEmbed && (
+          <figure class="project-video" style={`--video-ratio: ${d.videoRatio}`}>
+            <div class="project-video__frame">
+              <iframe
+                src={videoEmbed}
+                title={`${d.title} — vídeo`}
+                loading="lazy"
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+            <figcaption class="t-label t-muted">
+              <a href={d.videoUrl} target="_blank" rel="noopener noreferrer">Ver el vídeo en Facebook</a>
+            </figcaption>
+          </figure>
+        )}
         {d.wip ? (
           <>
             <div class="project-wip__media">
@@ -154,6 +183,25 @@ const musicParams = d.musicId
           </div>
         ) : (
           <div class="project-body"><Content /></div>
+        )}
+
+        {galleryImages.length > 0 && (
+          <section class="project-gallery" aria-label={`Galería de ${d.title}`}>
+            <h2 class="t-title">Galería</h2>
+            <div class="project-gallery__grid">
+              {galleryImages.map((src, i) => (
+                <img
+                  class="project-gallery__img"
+                  src={withBase(src)}
+                  alt={`${d.title} — imagen ${i + 1}`}
+                  width={gallerySizes[i]?.width}
+                  height={gallerySizes[i]?.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ))}
+            </div>
+          </section>
         )}
       </div>
 

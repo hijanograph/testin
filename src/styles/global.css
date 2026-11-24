@@ -1595,3 +1595,57 @@ body.menu-open :is(main, .footer) {
   background: var(--ink-muted);
   border-radius: 2px;
 }
+
+/* Vídeo de proyecto (embed) */
+.project-video {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin: 0;
+
+  .project-video__frame {
+    aspect-ratio: var(--video-ratio, 16 / 9);
+    width: 100%;
+    max-width: 100%;
+    margin-inline: auto;
+    overflow: hidden;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  a { text-decoration: underline; text-underline-offset: 0.2em; }
+}
+
+.project-content > .project-video { --col-lg: 2 / 12; }
+
+
+/* Galería de proyecto (solo se renderiza si hay imágenes extra) */
+.project-content > .project-gallery { --col-lg: 1 / -1; }
+
+.project-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-4);
+
+  .project-gallery__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--gutter);
+    align-items: start;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .project-gallery__img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}

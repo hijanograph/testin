@@ -4,7 +4,7 @@ desc: "Proyecto académico de branding e identidad visual para Editorial Fiambre
 # TODO: confirmar año
 tipo: "académico"
 year: "2023"
-featured: true
+featured: 2   # posición en inicio (1, 2, 3…) · false = no aparece
 area: "Branding — Editorial — Motion Graphics — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseñador gráfico — Motion grapher"
 software: "Illustrator — InDesign — After Effects — Figma"

@@ -34,7 +34,16 @@
     },
     "featured": {
       "default": false,
-      "type": "boolean"
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "maximum": 9007199254740991
+        }
+      ]
     },
     "wip": {
       "default": false,
@@ -64,6 +73,14 @@
       "type": "string"
     },
     "musicId": {
+      "type": "string"
+    },
+    "videoUrl": {
+      "type": "string",
+      "format": "uri"
+    },
+    "videoRatio": {
+      "default": "16 / 9",
       "type": "string"
     },
     "blocks": {
