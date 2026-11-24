@@ -1,0 +1,35 @@
+---
+import { withBase } from '../../site';
+import type { ImageSize } from '../../utils/image-size';
+import type { CollectionEntry } from 'astro:content';
+
+type Block = CollectionEntry<'portfolio'>['data']['blocks'][number];
+
+interface Props {
+  block: Block;
+  side: 'left' | 'right';
+  size?: ImageSize;
+}
+
+const { block, side, size } = Astro.props;
+---
+
+<section class="project-block" data-side={side}>
+  <img
+    class="project-block__img"
+    src={withBase(block.image)}
+    alt={block.alt}
+    width={size?.width}
+    height={size?.height}
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="project-block__text">
+    {block.sections.map((section) => (
+      <div class="project-block__section">
+        {section.title && <h2 class="t-title">{section.title}</h2>}
+        {section.paragraphs.map((paragraph) => <p class="t-body">{paragraph}</p>)}
+      </div>
+    ))}
+  </div>
+</section>

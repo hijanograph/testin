@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Cta from '../components/Cta.astro';
 import { email, pages } from '../site';
 ---
 
@@ -14,11 +15,11 @@ import { email, pages } from '../site';
       </p>
 
       <nav class="link-list" aria-label="Páginas principales">
-        {pages.map((l) => <a href={l.href} class="cta">{l.label}</a>)}
+        {pages.map(({ label, href }) => <Cta href={href}>{label}</Cta>)}
       </nav>
 
       <p class="t-body measure">
-        ¿Seguro que debería estar aquí? <a href={`mailto:${email}`} class="cta">Avísame</a>.
+        ¿Seguro que debería estar aquí? <Cta href={`mailto:${email}`}>Avísame</Cta>.
       </p>
     </div>
   </div>

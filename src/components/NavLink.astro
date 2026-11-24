@@ -1,0 +1,24 @@
+---
+import { externalLinkProps } from '../site';
+
+interface Props {
+  href: string;
+  label: string;
+  variant: 'desktop' | 'overlay';
+  active?: boolean;
+  external?: boolean;
+}
+
+const { href, label, variant, active = false, external = false } = Astro.props;
+---
+
+<li>
+  <a
+    href={href}
+    class:list={['nav__link', variant === 'desktop' ? 't-nav' : 'nav-overlay__link', { 'nav__link--active': active }]}
+    aria-current={active ? 'page' : undefined}
+    {...(external ? externalLinkProps : {})}
+  >
+    {label}
+  </a>
+</li>

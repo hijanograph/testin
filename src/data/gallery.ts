@@ -1,26 +1,26 @@
 import { readdir } from 'node:fs/promises';
 import { join } from 'node:path';
+import { imageSize, type ImageSize } from '../utils/image-size';
+
+export type GalleryImage = { src: string } & Partial<ImageSize>;
 
 const DIR = 'images/projects';
 const EXT = '(?:png|jpe?g|webp|gif|avif)';
-const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-const baseName = (path: string) => path.split('/').pop()!.toLowerCase();
+const escapeRegExp = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const fileName = (path: string) => path.split('/').pop()!.toLowerCase();
 
-/**
- * Imágenes extra de un proyecto: public/images/projects/<slug>-NN.<ext>
- * que no se usen ya en el hero, la portada o los bloques. Orden alfabético
- * (numérico, así que -10 va después de -9). Si no hay ninguna, devuelve [].
- */
-export async function getGallery(slug: string, used: (string | undefined)[] = []): Promise<string[]> {
-  const taken = new Set(used.filter(Boolean).map((p) => baseName(p!)));
-  const pattern = new RegExp(`^${escapeRe(slug)}-\\d+\\.${EXT}$`, 'i');
+export async function getGallery(slug: string, used: (string | undefined)[] = []): Promise<GalleryImage[]> {
+  const taken = new Set(used.filter(Boolean).map((path) => fileName(path!)));
+  const pattern = new RegExp(`^${escapeRegExp(slug)}-\\d+\\.${EXT}$`, 'i');
 
   try {
     const files = await readdir(join(process.cwd(), 'public', DIR));
-    return files
-      .filter((f) => pattern.test(f) && !taken.has(f.toLowerCase()))
+    const sources = files
+      .filter((file) => pattern.test(file) && !taken.has(file.toLowerCase()))
       .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
-      .map((f) => `${DIR}/${f}`);
+      .map((file) => `${DIR}/${file}`);
+
+    return Promise.all(sources.map(async (src) => ({ src, ...(await imageSize(src)) })));
   } catch {
     return [];
   }

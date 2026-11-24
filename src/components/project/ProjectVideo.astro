@@ -1,0 +1,25 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  ratio: string;
+}
+
+const { title, url, ratio } = Astro.props;
+const embedUrl = `https://www.facebook.com/plugins/video.php?${new URLSearchParams({ href: url, show_text: 'false', t: '0' })}`;
+---
+
+<figure class="project-video" style={`--video-ratio: ${ratio}`}>
+  <div class="project-video__frame">
+    <iframe
+      src={embedUrl}
+      title={`${title} — vídeo`}
+      loading="lazy"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+  <figcaption class="t-label t-muted">
+    <a href={url} target="_blank" rel="noopener noreferrer">Ver el vídeo en Facebook</a>
+  </figcaption>
+</figure>

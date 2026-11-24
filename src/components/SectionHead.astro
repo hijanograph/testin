@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  inline?: boolean;
+}
+
+const { title, inline = false } = Astro.props;
+const hasActions = Astro.slots.has('default');
+---
+
+{hasActions ? (
+  <div class:list={['section__head', { 'section__head--inline': inline }]}>
+    <h2 class="t-section">{title}</h2>
+    <slot />
+  </div>
+) : (
+  <h2 class="t-section section__title">{title}</h2>
+)}

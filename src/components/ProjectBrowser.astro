@@ -1,0 +1,25 @@
+---
+import ProjectFilter from './ProjectFilter.astro';
+import ProjectGrid from './ProjectGrid.astro';
+import { getAllAreas } from '../data/projects';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'portfolio'>[];
+  mode?: 'dim' | 'hide';
+  numbered?: boolean;
+}
+
+const { projects, mode = 'hide', numbered = false } = Astro.props;
+---
+
+<div class="project-browser" data-mode={mode}>
+  <ProjectFilter areas={getAllAreas(projects)} numberLimit={numbered ? projects.length : undefined} />
+  <ProjectGrid projects={projects} numbered={numbered} />
+</div>
+
+<script>
+  import { initProjectBrowser } from '../scripts/project-browser';
+
+  document.addEventListener('astro:page-load', initProjectBrowser);
+</script>

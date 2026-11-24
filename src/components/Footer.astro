@@ -1,12 +1,7 @@
 ---
-import { email, social, pages } from '../site';
+import { email, pages, pickSocials, externalLinkProps } from '../site';
 
-const socialLinks = [
-  { label: 'Behance', href: social.behance },
-  { label: 'LinkedIn', href: social.linkedin },
-  { label: 'Instagram', href: social.instagram },
-];
-
+const socialLinks = pickSocials('Behance', 'LinkedIn', 'Instagram');
 const [user, domain] = email.split('@');
 ---
 
@@ -31,7 +26,7 @@ const [user, domain] = email.split('@');
         <nav class="footer__nav" aria-label="Enlaces del pie">
           <div class="footer__nav-col footer__nav-col--social">
             {socialLinks.map(({ label, href }) => (
-              <a href={href} class="footer__nav-link" target="_blank" rel="noopener noreferrer">{label}</a>
+              <a href={href} class="footer__nav-link" {...externalLinkProps}>{label}</a>
             ))}
           </div>
           <div class="footer__nav-col">

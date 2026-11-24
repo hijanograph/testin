@@ -1,0 +1,33 @@
+---
+import { withBase } from '../../site';
+
+interface Props {
+  title: string;
+  image?: string;
+  musicId?: string;
+}
+
+const { title, image, musicId } = Astro.props;
+const musicParams = musicId
+  ? new URLSearchParams({ controls: '1', playsinline: '1', loop: '1', playlist: musicId, rel: '0', modestbranding: '1' })
+  : '';
+---
+
+<div class="project-wip__media">
+  {image && <img src={withBase(image)} alt={`${title} — en proceso`} class="project-wip__img" />}
+  {musicId && (
+    <div class="project-wip__music">
+      <iframe
+        src={`https://www.youtube-nocookie.com/embed/${musicId}?${musicParams}`}
+        title="Música de fondo — reproductor de YouTube"
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    </div>
+  )}
+</div>
+<div class="project-wip__text">
+  <p class="t-label t-muted">Proyecto bajo construcción</p>
+  <slot />
+</div>

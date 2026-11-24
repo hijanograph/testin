@@ -1,0 +1,16 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+}
+
+const { eyebrow, title } = Astro.props;
+---
+
+<section class="page-intro stack">
+  <p class="t-label t-muted">{eyebrow}</p>
+  <h1 class="t-hero page-title">{title}</h1>
+  <div class="measure stack">
+    <slot />
+  </div>
+</section>

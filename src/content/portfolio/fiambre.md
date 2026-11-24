@@ -1,24 +1,23 @@
 ---
 title: "Editorial Fiambre"
 desc: "Proyecto académico de branding e identidad visual para Editorial Fiambre, editorial de terror multiplataforma, con formatos para Fiambre TV y su podcast"
-# TODO: confirmar año
 tipo: "académico"
 year: "2023"
-featured: 2   # posición en inicio (1, 2, 3…) · false = no aparece
-hidden: false   # true = oculto en la web; los números se recalculan
+featured: 2
+hidden: false
 area: "Branding — Editorial — Motion Graphics — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseñador gráfico — Motion grapher"
 software: "Illustrator — InDesign — After Effects — Figma"
 order: 2
-heroImg: "/images/projects/fiambre-hero.gif"
+heroImg: "images/projects/fiambre-hero.gif"
 heroAlt: "Branding e identidad visual de Editorial Fiambre"
-coverImg: "/images/index/fiambre-cover.png"
+coverImg: "images/index/fiambre-cover.png"
 coverAlt: "Branding de Editorial Fiambre"
 wip: false
 intro: "Diseño de un ecosistema visual para Fiambre Editorial, pensado para integrarse en redes sociales, en su plataforma de streaming Fiambre TV y en proyectos subsidiarios como su podcast: Chacina by Fiambre."
 
 blocks:
-  - image: "/images/projects/fiambre-01.png"
+  - image: "images/projects/fiambre-01.png"
     alt: "Identidad visual de Editorial Fiambre"
     side: "right"
     sections:
@@ -32,7 +31,7 @@ blocks:
           - "Un descubrimiento clave fue la necesidad de una tipografía distintiva que evocara una estética popular, y de una marca capaz de adaptarse a una amplia gama de soportes y aplicaciones."
           - "Era muy importante crear una comunicación reconocible dentro del folclore español, sin perder el ambiente de terror. Por eso busqué fusionar un medio cotidiano con mensajes que impactaran, dejando espacio para que el humor tampoco desentonara."
 
-  - image: "/images/projects/fiambre-02.png"
+  - image: "images/projects/fiambre-02.png"
     alt: "Sistema gráfico y aplicaciones de la identidad visual de Fiambre"
     side: "left"
     sections:

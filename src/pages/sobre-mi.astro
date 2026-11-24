@@ -1,10 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCvColumns } from '../data/cv-columns';
-import { withBase, cvUrl } from '../site';
+import AboutIntro from '../components/AboutIntro.astro';
+import Cta from '../components/Cta.astro';
+import CvSection from '../components/CvSection.astro';
+import SectionHead from '../components/SectionHead.astro';
+import SplitRow from '../components/SplitRow.astro';
+import { withBase } from '../site';
 import { ahora, ahoraActualizado, recomendaciones } from '../data/about';
-
-const cvColumns = await getCvColumns();
 ---
 
 <Layout
@@ -14,76 +16,54 @@ const cvColumns = await getCvColumns();
 >
   <div class="page">
     <div class="container">
-      <section class="intro">
-        <h1 class="t-hero page-title">Rafael Hijano, diseñador gráfico y visual en Málaga</h1>
-
-        <div class="intro__grid">
-          <div class="intro__photo-wrap">
-            <img
-              src={withBase('images/about/about-profile.png')}
-              alt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
-              class="intro__photo"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </div>
-
-          <div class="intro__bio">
-            <p class="t-lead">Diseño, arte, alma y transparencia</p>
-            <p class="t-body">
-              Soy diseñador gráfico y visual en Málaga, graduado en comunicación. Mi trabajo es ayudar a las marcas a comunicar con claridad
-              quiénes son y qué hacen por sus clientes. Busco proyectos exigentes en los que seguir creciendo, ya sea
-              integrándome en el equipo de una agencia o estudio, o liderando la imagen de
-              una empresa que quiere dar el siguiente paso. Trabajo desde Málaga y alrededores, y también en remoto.
-            </p>
-            <p class="t-body">
-              Trabajo con identidad visual, branding, diseño gráfico y motion graphics, y me motiva
-              acompañar a un negocio justo cuando funciona y necesita evolucionar: ese
-              momento en que su imagen debe estar a la altura de su potencial.
-            </p>
-            <p class="t-body">
-              Mi vocación nació de niño, fascinado por los videojuegos y los sistemas
-              interactivos, y se consolidó en la universidad, donde descubrí que lo mío es
-              contar historias a través del diseño. Fuera de él, me apasionan la psicología,
-              la música, la tecnología y la cultura geek, y siempre busco algún gato que me
-              alegre el día.
-            </p>
-            <a href={withBase('contacto')} class="cta">Hablemos</a>
-          </div>
-        </div>
-      </section>
+      <AboutIntro
+        title="Rafael Hijano, diseñador gráfico y visual en Málaga"
+        photo="images/about/about-profile.png"
+        photoAlt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
+      >
+        <p class="t-lead">Diseño, arte, alma y transparencia</p>
+        <p class="t-body">
+          Soy diseñador gráfico y visual en Málaga, graduado en comunicación. Mi trabajo es ayudar a las marcas a comunicar con claridad
+          quiénes son y qué hacen por sus clientes. Busco proyectos exigentes en los que seguir creciendo, ya sea
+          integrándome en el equipo de una agencia o estudio, o liderando la imagen de
+          una empresa que quiere dar el siguiente paso. Trabajo desde Málaga y alrededores, y también en remoto.
+        </p>
+        <p class="t-body">
+          Trabajo con identidad visual, branding, diseño gráfico y motion graphics, y me motiva
+          acompañar a un negocio justo cuando funciona y necesita evolucionar: ese
+          momento en que su imagen debe estar a la altura de su potencial.
+        </p>
+        <p class="t-body">
+          Mi vocación nació de niño, fascinado por los videojuegos y los sistemas
+          interactivos, y se consolidó en la universidad, donde descubrí que lo mío es
+          contar historias a través del diseño. Fuera de él, me apasionan la psicología,
+          la música, la tecnología y la cultura geek, y siempre busco algún gato que me
+          alegre el día.
+        </p>
+        <Cta href={withBase('contacto')}>Hablemos</Cta>
+      </AboutIntro>
 
       <img src={withBase('images/about/about-cv.png')} alt="" class="banner" loading="lazy" decoding="async" />
 
-      <div class="section" id="cv">
-        <div class="section__head section__head--inline">
-          <h2 class="t-section">Currículum</h2>
-          <a href={cvUrl} target="_blank" rel="noopener noreferrer" class="cta">Descargar CV</a>
-        </div>
-
-        <div class="cv">
-          {cvColumns.map((col) => <div class={`cv__col cv__col--${col.kind}`} set:html={col.html} />)}
-          <img src={withBase('images/about/about-formacion.png')} alt="" class="cv__img" loading="lazy" decoding="async" />
-        </div>
-      </div>
+      <CvSection inline>
+        <img src={withBase('images/about/about-formacion.png')} alt="" class="cv__img" loading="lazy" decoding="async" />
+      </CvSection>
 
       {recomendaciones.length > 0 && (
         <section class="section" id="recomendaciones">
           <img src={withBase('images/about/about-recomendaciones.png')} alt="" class="section__media" loading="lazy" decoding="async" />
 
           <div class="section__content">
-            <h2 class="t-section section__title">Recomendaciones</h2>
+            <SectionHead title="Recomendaciones" />
 
-            {recomendaciones.map((r) => (
-              <figure class="split">
-                <figcaption class="split__head">
-                  <strong>{r.name}</strong>
-                  <span class="t-label t-muted">{r.role}</span>
-                </figcaption>
-                <blockquote class="split__body">
-                  <p class="t-body">{r.quote}</p>
-                </blockquote>
-              </figure>
+            {recomendaciones.map(({ name, role, quote }) => (
+              <SplitRow as="figure" headAs="figcaption" bodyAs="blockquote">
+                <Fragment slot="head">
+                  <strong>{name}</strong>
+                  <span class="t-label t-muted">{role}</span>
+                </Fragment>
+                <p class="t-body">{quote}</p>
+              </SplitRow>
             ))}
           </div>
         </section>
@@ -93,36 +73,20 @@ const cvColumns = await getCvColumns();
         <img src={withBase('images/about/about-ahora.png')} alt="" class="section__media" loading="lazy" decoding="async" />
 
         <div class="section__content">
-          <div class="section__head">
-            <h2 class="t-section">Ahora mismo</h2>
+          <SectionHead title="Ahora mismo">
             <p class="t-label t-muted">Actualizado: {ahoraActualizado}</p>
-          </div>
+          </SectionHead>
 
-          {ahora.map((item) => (
-            <article class="split">
-              <div class="split__head">
-                <span class="t-label">{item.label}</span>
-              </div>
-              <div class="split__body">
-                <p class="t-body">{item.text}</p>
-              </div>
-            </article>
+          {ahora.map(({ label, text }) => (
+            <SplitRow>
+              <span slot="head" class="t-label">{label}</span>
+              <p class="t-body">{text}</p>
+            </SplitRow>
           ))}
 
-          <a href={withBase('contacto')} class="cta section__cta">Hablemos</a>
+          <Cta href={withBase('contacto')} class="section__cta">Hablemos</Cta>
         </div>
       </section>
     </div>
   </div>
 </Layout>
-
-<script>
-  const init = () => {
-    const intro = document.querySelector<HTMLElement>('.intro');
-    const title = intro?.querySelector<HTMLElement>('.page-title');
-    if (!intro || !title) return;
-    new ResizeObserver(() => intro.style.setProperty('--title-h', `${title.offsetHeight}px`)).observe(title);
-  };
-
-  document.addEventListener('astro:page-load', init);
-</script>

@@ -1,0 +1,28 @@
+---
+import { withBase } from '../../site';
+import type { GalleryImage } from '../../data/gallery';
+
+interface Props {
+  title: string;
+  images: GalleryImage[];
+}
+
+const { title, images } = Astro.props;
+---
+
+<section class="project-gallery" aria-label={`Galería de ${title}`}>
+  <h2 class="t-title">Galería</h2>
+  <div class="project-gallery__grid">
+    {images.map(({ src, width, height }, i) => (
+      <img
+        class="project-gallery__img"
+        src={withBase(src)}
+        alt={`${title} — imagen ${i + 1}`}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+      />
+    ))}
+  </div>
+</section>

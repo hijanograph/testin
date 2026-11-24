@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectGrid from '../../components/ProjectGrid.astro';
+import ProjectBrowser from '../../components/ProjectBrowser.astro';
 import { getProjects } from '../../data/projects';
 
 const projects = await getProjects();
@@ -9,7 +9,7 @@ const projects = await getProjects();
 <Layout title="Proyectos de branding, diseño editorial y motion graphics" description="Proyectos de branding e identidad visual, diseño editorial, packaging, UX/UI y motion graphics de Rafael Hijano, diseñador gráfico en Málaga.">
   <div class="page">
     <div class="container">
-      <header class="projects__intro stack">
+      <header class="projects-header stack">
         <h1 class="t-hero">Proyectos</h1>
         <p class="t-body measure">
           Una selección de mis trabajos de branding e identidad visual, diseño editorial, motion graphics y UX/UI.
@@ -17,7 +17,7 @@ const projects = await getProjects();
         </p>
       </header>
 
-      <ProjectGrid projects={projects} mode="dim" numbered />
+      <ProjectBrowser projects={projects} mode="dim" numbered />
     </div>
   </div>
 </Layout>

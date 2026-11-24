@@ -1,0 +1,14 @@
+---
+interface Props {
+  as?: 'article' | 'figure';
+  headAs?: 'div' | 'figcaption';
+  bodyAs?: 'div' | 'blockquote';
+}
+
+const { as: Row = 'article', headAs: Head = 'div', bodyAs: Body = 'div' } = Astro.props;
+---
+
+<Row class="split">
+  <Head class="split__head"><slot name="head" /></Head>
+  <Body class="split__body"><slot /></Body>
+</Row>

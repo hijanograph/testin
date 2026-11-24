@@ -1,0 +1,42 @@
+---
+import { name, defaultDescription, profileImage, withBase } from '../site';
+import { shareImagePath, siteGraph, type JsonLdNode } from '../data/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  noindex?: boolean;
+  schema?: JsonLdNode[];
+}
+
+const { title, description = defaultDescription, image = profileImage, noindex = false, schema = [] } = Astro.props;
+const { site } = Astro;
+
+const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador gráfico y visual en Málaga`;
+const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
+const ogImage = site ? new URL(withBase(shareImagePath(image)), site).href : undefined;
+const sitemap = site ? new URL('sitemap-index.xml', site).href : undefined;
+const jsonLd = site ? JSON.stringify({ '@context': 'https://schema.org', '@graph': siteGraph(site, schema) }) : undefined;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="author" content={name} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'} />
+{canonical && <link rel="canonical" href={canonical} />}
+{sitemap && <link rel="sitemap" type="application/xml" href={sitemap} />}
+
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="es_ES" />
+<meta property="og:site_name" content={name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{ogImage && <meta property="og:image" content={ogImage} />}
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}

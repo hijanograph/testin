@@ -1,65 +1,19 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
-import { name, email, social, withBase } from '../site';
+import { withBase } from '../site';
+import type { JsonLdNode } from '../data/seo';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   noindex?: boolean;
-  schema?: Record<string, unknown>[];
+  schema?: JsonLdNode[];
 }
-
-const {
-  title,
-  description = 'Rafael Hijano, diseñador gráfico y visual en Málaga y en remoto. Branding, identidad visual, diseño editorial y motion graphics.',
-  image = 'images/index/hero-profile.png',
-  noindex = false,
-  schema = [],
-} = Astro.props;
-
-const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador gráfico y visual en Málaga`;
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
-// Los GIF no se previsualizan bien al compartir enlaces: se usa la foto de perfil.
-const shareImage = /\.gif$/i.test(image) ? 'images/index/hero-profile.png' : image;
-const ogImage = Astro.site ? new URL(withBase(shareImage), Astro.site).href : undefined;
-
-const siteUrl = Astro.site?.href;
-const graph = siteUrl
-  ? [
-      {
-        '@type': 'WebSite',
-        '@id': `${siteUrl}#web`,
-        url: siteUrl,
-        name: `${name} — Diseñador gráfico y visual`,
-        inLanguage: 'es-ES',
-        publisher: { '@id': `${siteUrl}#persona` },
-      },
-      {
-        '@type': 'Person',
-        '@id': `${siteUrl}#persona`,
-        name,
-        url: siteUrl,
-        email,
-        image: new URL(withBase('images/index/hero-profile.png'), Astro.site).href,
-        jobTitle: 'Diseñador gráfico y visual',
-        description:
-          'Diseñador gráfico y visual en Málaga, disponible también en remoto. Especializado en branding, identidad visual, diseño editorial y motion graphics.',
-        address: { '@type': 'PostalAddress', addressLocality: 'Málaga', addressRegion: 'Andalucía', addressCountry: 'ES' },
-        knowsAbout: ['Branding', 'Identidad visual', 'Diseño gráfico', 'Diseño editorial', 'Packaging', 'Motion graphics', 'UX/UI'],
-        alumniOf: [
-          { '@type': 'CollegeOrUniversity', name: 'Universidad de Málaga' },
-          { '@type': 'EducationalOrganization', name: 'La X Gauss' },
-        ],
-        sameAs: Object.values(social),
-      },
-      ...schema,
-    ]
-  : undefined;
-const jsonLd = graph ? JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }) : undefined;
 ---
 
 <!DOCTYPE html>
@@ -68,40 +22,9 @@ const jsonLd = graph ? JSON.stringify({ '@context': 'https://schema.org', '@grap
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fff5e9" />
-    <title>{fullTitle}</title>
-    <meta name="description" content={description} />
-    <meta name="author" content={name} />
-    {noindex
-      ? <meta name="robots" content="noindex, nofollow" />
-      : <meta name="robots" content="index, follow, max-image-preview:large" />}
-    {canonical && <link rel="canonical" href={canonical} />}
-
-    {siteUrl && <link rel="sitemap" type="application/xml" href={new URL('sitemap-index.xml', siteUrl).href} />}
-
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
-    <meta property="og:site_name" content={name} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    {canonical && <meta property="og:url" content={canonical} />}
-    {ogImage && <meta property="og:image" content={ogImage} />}
-    <meta name="twitter:title" content={fullTitle} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
-    {ogImage && <meta name="twitter:image" content={ogImage} />}
-
+    <SeoHead {...Astro.props} />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
-
-    <link
-      rel="preload"
-      href={withBase('fonts/OverusedGrotesk-VF.woff2')}
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-
-    {jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
-
+    <link rel="preload" href={withBase('fonts/OverusedGrotesk-VF.woff2')} as="font" type="font/woff2" crossorigin />
     <ClientRouter />
   </head>
 
@@ -119,98 +42,6 @@ const jsonLd = graph ? JSON.stringify({ '@context': 'https://schema.org', '@grap
 </html>
 
 <script>
-  const targets = [
-    '.section__title', '.section__head', '.split', '.project-card', '.project-block', '.project-wip__media',
-    '.project-wip__text', '.project-body', '.banner', '.section__media', '.cv__col', '.cv__img', '.facts > div',
-    '.big-email', '.link-list', '.contact-methods', '.project-nav', '.footer__grid',
-  ].join(', ');
-
-  let stop: (() => void) | undefined;
-
-  const init = () => {
-    stop?.();
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const items = [...document.querySelectorAll<HTMLElement>(targets)].filter(
-      (el) => el.getBoundingClientRect().top > innerHeight,
-    );
-    if (!items.length) return;
-
-    items.forEach((el) => el.classList.add('reveal'));
-
-    const progress = new WeakMap<HTMLElement, number>();
-    let frame = 0;
-
-    const update = () => {
-      frame = 0;
-      const range = innerHeight * 0.3;
-      const rowCount = new Map<number, number>();
-      let pending = 0;
-
-      items.forEach((el) => {
-        if (!el.classList.contains('reveal') || el.classList.contains('is-revealed')) return;
-
-        const top = el.getBoundingClientRect().top;
-        const row = Math.round(top / 8);
-        const position = rowCount.get(row) ?? 0;
-        rowCount.set(row, position + 1);
-
-        const linear = Math.min(1, Math.max(0, (innerHeight - top - position * 36) / range));
-        const eased = 1 - Math.pow(1 - linear, 3);
-        const value = Math.max(progress.get(el) ?? 0, eased);
-        progress.set(el, value);
-
-        if (value >= 1) {
-          el.classList.add('is-revealed');
-          el.style.removeProperty('--reveal');
-        } else {
-          el.style.setProperty('--reveal', value.toFixed(3));
-          pending++;
-        }
-      });
-
-      if (!pending) stop?.();
-    };
-
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(update);
-    };
-
-    addEventListener('scroll', schedule, { passive: true });
-    addEventListener('resize', schedule);
-    stop = () => {
-      removeEventListener('scroll', schedule);
-      removeEventListener('resize', schedule);
-      cancelAnimationFrame(frame);
-      stop = undefined;
-    };
-
-    update();
-  };
-
-  document.addEventListener('astro:page-load', init);
-  document.addEventListener('astro:before-swap', () => stop?.());
-
-  const trimSlash = (path: string) => path.replace(/\/$/, '') || '/';
-
-  document.addEventListener(
-    'click',
-    (e) => {
-      if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      const link = (e.target as Element).closest<HTMLAnchorElement>('a[href]');
-      if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
-
-      const url = new URL(link.href, location.href);
-      const samePage =
-        url.origin === location.origin &&
-        !url.hash &&
-        url.search === location.search &&
-        trimSlash(url.pathname) === trimSlash(location.pathname);
-      if (!samePage) return;
-
-      e.preventDefault();
-      scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-    },
-    true,
-  );
+  import '../scripts/reveal';
+  import '../scripts/scroll-top';
 </script>

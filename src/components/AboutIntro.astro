@@ -1,0 +1,29 @@
+---
+import HeroFrame from './HeroFrame.astro';
+
+interface Props {
+  title: string;
+  photo: string;
+  photoAlt: string;
+}
+
+const { title, photo, photoAlt } = Astro.props;
+---
+
+<section class="page-intro">
+  <h1 class="t-hero page-title">{title}</h1>
+
+  <div class="about-intro__grid">
+    <HeroFrame src={photo} alt={photoAlt} belowTitle />
+
+    <div class="about-intro__bio">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { trackTitleHeight } from '../scripts/title-height';
+
+  document.addEventListener('astro:page-load', trackTitleHeight);
+</script>

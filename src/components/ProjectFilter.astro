@@ -1,0 +1,36 @@
+---
+import type { Area } from '../data/projects';
+
+interface Props {
+  areas: Area[];
+  numberLimit?: number;
+}
+
+const { areas, numberLimit } = Astro.props;
+---
+
+<div class="project-filter" role="group" aria-label="Filtrar proyectos por área" hidden>
+  <button type="button" class="project-filter__btn t-label" data-area="all" aria-pressed="true">Todos</button>
+  {areas.map(({ slug, label }) => (
+    <button type="button" class="project-filter__btn t-label" data-area={slug} aria-pressed="false">
+      {label}
+    </button>
+  ))}
+  {numberLimit !== undefined && (
+    <div class="project-filter__field">
+      <label class="project-filter__number t-label">
+        <input
+          class="project-filter__input"
+          type="number"
+          min="1"
+          max={numberLimit}
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="Nº"
+          aria-label="Filtrar por número de proyecto"
+        />
+      </label>
+      <p class="t-body t-muted project-browser__empty" role="status" hidden>Ningún proyecto con ese número.</p>
+    </div>
+  )}
+</div>

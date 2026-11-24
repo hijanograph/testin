@@ -1,34 +1,35 @@
 ---
 import { withBase } from '../site';
 import { getAreas } from '../data/projects';
+import { pad2 } from '../utils/format';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   project: CollectionEntry<'portfolio'>;
-  index?: number;
+  number?: number;
 }
 
-const { project, index } = Astro.props;
-const d = project.data;
+const { project, number } = Astro.props;
+const { title, desc, area, coverImg, coverAlt, wip } = project.data;
 const href = withBase(`proyectos/${project.id}`);
-const detailed = index !== undefined;
+const detailed = number !== undefined;
 const Title = detailed ? 'h2' : 'h3';
 const areas = getAreas(project).map((a) => a.slug).join(' ');
 ---
 
-<article class="project-card" data-areas={areas} data-number={index === undefined ? undefined : index + 1}>
-  {detailed && <span class="t-label t-muted">{String(index + 1).padStart(2, '0')}</span>}
+<article class="project-card" data-areas={areas} data-number={number}>
+  {detailed && <span class="t-label t-muted">{pad2(number)}</span>}
 
-  <a href={href} class="project-card__img-link" aria-label={d.title}>
-    {d.coverImg
-      ? <img src={withBase(d.coverImg)} alt={d.coverAlt ?? d.title} class="project-card__img" loading="lazy" decoding="async" />
-      : <div class="img-ph project-card__img"></div>}
-    {d.wip && <span class="project-card__wip badge t-label">En proceso</span>}
+  <a href={href} class="project-card__img-link" aria-label={title}>
+    {coverImg
+      ? <img src={withBase(coverImg)} alt={coverAlt ?? title} class="project-card__img" loading="lazy" decoding="async" />
+      : <div class="img-placeholder project-card__img"></div>}
+    {wip && <span class="project-card__wip badge t-label">En proceso</span>}
   </a>
 
   <div class="project-card__body">
-    <a href={href}><Title class="t-title">{d.title}</Title></a>
-    {detailed && <p class="t-label t-muted">{d.area}</p>}
-    <p class="t-body">{d.desc}</p>
+    <a href={href}><Title class="t-title">{title}</Title></a>
+    {detailed && <p class="t-label t-muted">{area}</p>}
+    <p class="t-body">{desc}</p>
   </div>
 </article>

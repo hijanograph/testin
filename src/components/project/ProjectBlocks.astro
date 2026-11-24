@@ -1,0 +1,18 @@
+---
+import ProjectBlock from './ProjectBlock.astro';
+import type { ImageSize } from '../../utils/image-size';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  blocks: CollectionEntry<'portfolio'>['data']['blocks'];
+  sizes: (ImageSize | undefined)[];
+}
+
+const { blocks, sizes } = Astro.props;
+---
+
+<div class="project-blocks">
+  {blocks.map((block, i) => (
+    <ProjectBlock block={block} side={block.side ?? (i % 2 === 0 ? 'left' : 'right')} size={sizes[i]} />
+  ))}
+</div>

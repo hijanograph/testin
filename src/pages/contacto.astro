@@ -1,12 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import LinkList from '../components/LinkList.astro';
 import { email, socials, downloads, withBase } from '../site';
+
+const contactImage = 'images/contact/Contact-img.png';
+const channels = [
+  { label: 'Redes', links: socials, id: undefined },
+  { label: 'Descargas', links: downloads, id: 'descargas' },
+];
 ---
 
 <Layout
   title="Contacto: diseñador gráfico y visual en Málaga"
   description="Contacta con Rafael Hijano, diseñador gráfico y visual en Málaga y en remoto, para colaborar en proyectos de branding, identidad visual y diseño editorial."
-  image="images/contact/Contact-img.png"
+  image={contactImage}
 >
   <div class="page">
     <div class="container">
@@ -15,7 +22,7 @@ import { email, socials, downloads, withBase } from '../site';
           <h1 class="t-hero">Contacto</h1>
         </header>
 
-        <img src={withBase('images/contact/Contact-img.png')} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="contact-img" decoding="async" />
+        <img src={withBase(contactImage)} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="contact__img" decoding="async" />
 
         <section>
           <p class="t-body">
@@ -24,29 +31,18 @@ import { email, socials, downloads, withBase } from '../site';
           </p>
         </section>
 
-        <section class="contact-item">
-          <span class="t-label contact-label">Correo electrónico</span>
+        <section class="contact__item">
+          <span class="t-label contact__label">Correo electrónico</span>
           <a href={`mailto:${email}`} class="big-email">{email}</a>
         </section>
 
-        <section class="contact-methods">
-          <div class="contact-item">
-            <span class="t-label contact-label">Redes</span>
-            <ul class="link-list">
-              {socials.map((s) => (
-                <li><a href={s.href} target="_blank" rel="noopener noreferrer" class="cta">{s.label}</a></li>
-              ))}
-            </ul>
-          </div>
-
-          <div class="contact-item" id="descargas">
-            <span class="t-label contact-label">Descargas</span>
-            <ul class="link-list">
-              {downloads.map((d) => (
-                <li><a href={d.href} target="_blank" rel="noopener noreferrer" class="cta">{d.label}</a></li>
-              ))}
-            </ul>
-          </div>
+        <section class="contact__methods">
+          {channels.map(({ label, links, id }) => (
+            <div class="contact__item" id={id}>
+              <span class="t-label contact__label">{label}</span>
+              <LinkList links={links} />
+            </div>
+          ))}
         </section>
       </div>
     </div>

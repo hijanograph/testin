@@ -1,0 +1,19 @@
+---
+import LinkList from './LinkList.astro';
+import SectionHead from './SectionHead.astro';
+import { email } from '../site';
+import type { Link } from '../site';
+
+interface Props {
+  title: string;
+  links: Link[];
+}
+
+const { title, links } = Astro.props;
+---
+
+<section class="section stack" id="contacto">
+  <SectionHead title={title} />
+  <a href={`mailto:${email}`} class="big-email">{email}</a>
+  <LinkList links={links} />
+</section>

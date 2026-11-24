@@ -1,0 +1,22 @@
+---
+import NavLink from './NavLink.astro';
+import type { Link } from '../site';
+
+interface Props {
+  items: (Link & { active: boolean })[];
+  externalLinks: Link[];
+}
+
+const { items, externalLinks } = Astro.props;
+---
+
+<div class="nav-overlay" id="navOverlay" aria-hidden="true" inert>
+  <div class="nav-overlay__inner">
+    <nav class="nav-overlay__nav" aria-label="Navegación móvil">
+      <ul class="nav-overlay__list">
+        {items.map((item) => <NavLink {...item} variant="overlay" />)}
+        {externalLinks.map((link) => <NavLink {...link} variant="overlay" external />)}
+      </ul>
+    </nav>
+  </div>
+</div>

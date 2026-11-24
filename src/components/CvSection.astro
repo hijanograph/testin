@@ -1,0 +1,24 @@
+---
+import Cta from './Cta.astro';
+import SectionHead from './SectionHead.astro';
+import { getCvColumns } from '../data/cv-columns';
+import { cvUrl } from '../site';
+
+interface Props {
+  inline?: boolean;
+}
+
+const { inline = false } = Astro.props;
+const columns = await getCvColumns();
+---
+
+<div class="section" id="cv">
+  <SectionHead title="Currículum" inline={inline}>
+    <Cta href={cvUrl} external>Descargar CV</Cta>
+  </SectionHead>
+
+  <div class="cv">
+    {columns.map(({ kind, html }) => <div class={`cv__col cv__col--${kind}`} set:html={html} />)}
+    <slot />
+  </div>
+</div>

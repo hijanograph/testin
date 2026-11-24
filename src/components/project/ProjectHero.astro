@@ -1,0 +1,44 @@
+---
+import HeroFrame from '../HeroFrame.astro';
+import { capitalize } from '../../utils/format';
+import type { ImageSize } from '../../utils/image-size';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'portfolio'>;
+  heroSize?: ImageSize;
+}
+
+const { project, heroSize } = Astro.props;
+const { title, subtitle, intro, area, software, rol, tipo, year, heroImg, heroAlt, heroFit } = project.data;
+
+const meta = [
+  { label: 'Área', value: area },
+  { label: 'Software', value: software },
+  { label: 'Rol', value: rol },
+  { label: 'Tipo', value: capitalize(tipo) },
+  { label: 'Año', value: year },
+].filter((item) => item.value);
+---
+
+<section class:list={['project-hero', { 'project-hero--natural': heroFit === 'natural' }]}>
+  <HeroFrame src={heroImg} alt={heroAlt || title} width={heroSize?.width} height={heroSize?.height} />
+
+  <div class="project-hero__info">
+    <div>
+      <h1 class="t-hero">{title}</h1>
+      {subtitle && <p class="t-body t-muted">{subtitle}</p>}
+    </div>
+
+    {intro && <p class="t-body">{intro}</p>}
+
+    <div class="project-meta">
+      {meta.map(({ label, value }) => (
+        <div class="project-meta__item">
+          <p class="t-label">{label}</p>
+          <p class="t-body">{value}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

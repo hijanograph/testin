@@ -1,37 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import Cta from '../components/Cta.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
 import { getProjects } from '../data/projects';
-import { withBase } from '../site';
+import { profileImage, withBase } from '../site';
 
 const projects = await getProjects({ featured: true });
 ---
 
 <Layout>
-  <section class="hero">
-    <div class="hero__inner">
-      <div class="hero__img-wrap">
-        <img src={withBase('images/index/hero-profile.png')} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="hero__img" fetchpriority="high" decoding="async" />
+  <section class="home-hero">
+    <div class="home-hero__inner">
+      <div class="home-hero__img-wrap">
+        <img src={withBase(profileImage)} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="home-hero__img" fetchpriority="high" decoding="async" />
       </div>
 
-      <div class="hero__text">
+      <div class="home-hero__text">
         <h1 class="t-hero">Hola, soy<br />Rafael Hijano</h1>
         <p class="t-label t-muted">DISEÑADOR GRÁFICO Y VISUAL EN MÁLAGA — BRANDING — MOTION GRAPHICS</p>
         <p class="t-body">
           Soy diseñador gráfico y visual en Málaga, y creo identidades de marca que tienen algo que decir. Creo en los detalles que importan, en las historias bien contadas y en el diseño que perdura.
           Si buscas a alguien para tu proyecto o tu equipo, en Málaga o en remoto, creo que tenemos algo de qué hablar.
         </p>
-        <a href={withBase('contacto')} class="cta">Hablemos</a>
+        <Cta href={withBase('contacto')}>Hablemos</Cta>
       </div>
     </div>
   </section>
 
-  <section class="projects">
+  <section class="home-projects">
     <div class="container">
       <h2 class="t-section section__title">Algunos de mis proyectos de branding y diseño</h2>
-      <div class="projects__grid">
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
+      <ProjectGrid projects={projects} />
     </div>
   </section>
 </Layout>

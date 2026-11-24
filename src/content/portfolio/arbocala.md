@@ -1,11 +1,10 @@
 ---
 title: "Bodegas Arbocala"
 desc: "Proyecto académico de branding e identidad visual para Bodegas Arbocala: papelería, packaging, espacios comerciales y tienda online"
-# TODO: confirmar año
 tipo: "académico"
 year: "2023"
-featured: 1   # posición en inicio (1, 2, 3…) · false = no aparece
-hidden: false   # true = oculto en la web; los números se recalculan
+featured: 1
+hidden: false
 area: "Branding — Editorial — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseño gráfico"
 software: "Illustrator — InDesign — After Effects — Figma"

@@ -1,0 +1,17 @@
+---
+import Cta from './Cta.astro';
+import type { Link } from '../site';
+
+interface Props {
+  links: Link[];
+  external?: boolean;
+}
+
+const { links, external = true } = Astro.props;
+---
+
+<ul class="link-list">
+  {links.map(({ label, href }) => (
+    <li><Cta href={href} external={external}>{label}</Cta></li>
+  ))}
+</ul>

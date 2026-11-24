@@ -1,0 +1,21 @@
+---
+import { withBase } from '../../site';
+---
+
+<nav class="project-nav" aria-label="Navegación del proyecto">
+  <a href={withBase('proyectos')} class="project-nav__back t-label">Volver</a>
+</nav>
+
+<script>
+  const init = () => {
+    const back = document.querySelector<HTMLAnchorElement>('.project-nav__back');
+    back?.addEventListener('click', (event) => {
+      const cameFromSite = (history.state?.index ?? 0) > 0 || document.referrer.startsWith(location.origin);
+      if (!cameFromSite) return;
+      event.preventDefault();
+      history.back();
+    });
+  };
+
+  document.addEventListener('astro:page-load', init);
+</script>
