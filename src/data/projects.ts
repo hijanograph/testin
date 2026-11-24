@@ -4,7 +4,7 @@ const featuredPosition = (p: CollectionEntry<'portfolio'>) =>
   typeof p.data.featured === 'number' ? p.data.featured : Number.POSITIVE_INFINITY;
 
 export async function getProjects({ featured = false } = {}) {
-  const projects = await getCollection('portfolio', (p) => !featured || !!p.data.featured);
+  const projects = await getCollection('portfolio', (p) => !p.data.hidden && (!featured || !!p.data.featured));
   return projects.sort((a, b) =>
     featured
       ? featuredPosition(a) - featuredPosition(b) || a.data.order - b.data.order

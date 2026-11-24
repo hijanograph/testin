@@ -4,10 +4,11 @@ subtitle: "(vídeo de presentación de la plataforma y del Gateway)"
 desc: "Vídeo explicativo en motion graphics para Wehop, la app que convierte el móvil en un walkie-talkie profesional: de la idea y el guion a la animación final"
 tipo: "profesional"
 year: "2026"
-featured: 3   # posición en inicio (1, 2, 3…) · false = no aparece
-area: "Motion Graphics — Vídeo — Guion"
+featured: false
+hidden: true
+area: "Motion Graphics"
 rol: "Director creativo — Guionista — Motion grapher (freelance)"
-software: "After Effects"
+software: "After Effects — Photoshop"
 order: 3
 heroImg: "images/projects/wehop-hero.png"
 heroAlt: "Wehop — vídeo de presentación de la plataforma y del Gateway"

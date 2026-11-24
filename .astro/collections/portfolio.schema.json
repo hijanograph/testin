@@ -45,6 +45,10 @@
         }
       ]
     },
+    "hidden": {
+      "default": false,
+      "type": "boolean"
+    },
     "wip": {
       "default": false,
       "type": "boolean"

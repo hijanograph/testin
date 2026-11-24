@@ -27,6 +27,9 @@ const portfolio = defineCollection({
     // false = no sale en inicio. Un número (1, 2, 3…) = sale en inicio en esa posición.
     // `true` también vale: sale después de los numerados, según `order`.
     featured: z.union([z.boolean(), z.number().int().positive()]).default(false),
+    // true = el proyecto no se muestra en la web (ni en inicio, ni en proyectos, ni tiene página).
+    // Los números de orden se recalculan sin contarlo.
+    hidden: z.boolean().default(false),
     wip: z.boolean().default(false),
     heroImg: z.string().optional(),
     heroAlt: z.string().optional(),

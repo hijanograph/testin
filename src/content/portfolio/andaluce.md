@@ -6,6 +6,7 @@ desc: "Tributo visual a «ANDALUÇÊ YORÁ», de Califato ¾, en ilustración y 
 tipo: "personal"
 year: "2026"
 featured: 4   # posición en inicio (1, 2, 3…) · false = no aparece
+hidden: false   # true = oculto en la web; los números se recalculan
 area: "Ilustración — Motion Graphics"
 rol: "Director creativo — Motion grapher"
 software: "Illustrator — After Effects"
