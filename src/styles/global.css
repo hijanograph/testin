@@ -1313,6 +1313,8 @@ body.is-menu-open :is(main, .footer) {
 
   .project-wip {
     --gap: var(--s-1);
+    isolation: isolate;
+    background: var(--cream);
     align-items: center;
     text-align: center;
 
@@ -1485,11 +1487,8 @@ body.is-menu-open :is(main, .footer) {
   }
 }
 
-/* view-transition-name aísla el contenido en su propio grupo de apilamiento: el fondo crema del body
-   queda fuera y mix-blend-mode: multiply no tendría nada sobre lo que multiplicar. */
 .page-transition {
   view-transition-name: page;
-  background: var(--cream);
 }
 
 ::view-transition {
