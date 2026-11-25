@@ -18,7 +18,7 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props as { project: CollectionEntry<'portfolio'> };
-const { title, desc, heroImg, coverImg, wipImg, wip, blocks, musicId, videoUrl, videoRatio } = project.data;
+const { title, desc, heroImg, coverImg, wipImg, wip, blocks, videoUrl, videoRatio } = project.data;
 const { Content } = await render(project);
 
 const [heroSize, ...blockSizes] = await Promise.all([imageSize(heroImg), ...blocks.map((block) => imageSize(block.image))]);
@@ -33,12 +33,12 @@ const gallery = await getGallery(project.id, [heroImg, coverImg, wipImg, ...bloc
       <div class="project-content">
         {videoUrl && <ProjectVideo title={title} url={videoUrl} ratio={videoRatio} />}
 
-        {wip ? (
-          <ProjectWip title={title} image={wipImg} musicId={musicId}><Content /></ProjectWip>
-        ) : blocks.length > 0 ? (
+        {wip && <ProjectWip title={title} image={wipImg} />}
+
+        {blocks.length > 0 ? (
           <ProjectBlocks blocks={blocks} sizes={blockSizes} />
         ) : (
-          <div class="project-prose"><Content /></div>
+          !wip && <div class="project-prose"><Content /></div>
         )}
 
         {gallery.length > 0 && <ProjectGallery title={title} images={gallery} />}

@@ -13,7 +13,7 @@ interface Props {
 const { title, description = defaultDescription, image = profileImage, noindex = false, schema = [] } = Astro.props;
 const { site } = Astro;
 
-const fullTitle = title ? `${title} — ${name}` : `${name} — Diseñador gráfico y visual en Málaga`;
+const fullTitle = title ? `${title} - ${name}` : `${name} - Diseñador gráfico y visual en Málaga`;
 const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
 const ogImage = site ? new URL(withBase(shareImagePath(image)), site).href : undefined;
 const sitemap = site ? new URL('sitemap-index.xml', site).href : undefined;

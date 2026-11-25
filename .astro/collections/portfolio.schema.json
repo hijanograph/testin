@@ -64,7 +64,8 @@
       "type": "string",
       "enum": [
         "frame",
-        "natural"
+        "natural",
+        "fluid"
       ]
     },
     "coverImg": {
@@ -74,9 +75,6 @@
       "type": "string"
     },
     "wipImg": {
-      "type": "string"
-    },
-    "musicId": {
       "type": "string"
     },
     "videoUrl": {

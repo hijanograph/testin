@@ -1,8 +1,8 @@
 import { prefersReducedMotion } from './motion';
 
 const TARGETS = [
-  '.section__title', '.section__head', '.split', '.project-card', '.project-block', '.project-wip__media',
-  '.project-wip__text', '.project-prose', '.banner', '.section__media', '.cv__col', '.cv__img', '.facts__item',
+  '.section__title', '.section__head', '.split', '.project-card', '.project-block', '.project-wip',
+  '.project-prose', '.banner', '.section__media', '.cv__col', '.cv__img', '.facts__item',
   '.big-email', '.link-list', '.contact__methods', '.project-nav', '.footer__grid',
 ].join(', ');
 

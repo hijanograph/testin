@@ -22,7 +22,7 @@ export async function getCvColumns(): Promise<CvColumn[]> {
         );
       }
       if (kind === 'edu') {
-        col = col.replace(/<h3([^>]*)>([^<]*?) — ([^<]*?)<\/h3>/g, '<h3$1>$2</h3><p>$3</p>');
+        col = col.replace(/<h3([^>]*)>([^<]*?) - ([^<]*?)<\/h3>/g, '<h3$1>$2</h3><p>$3</p>');
       }
       return { kind, html: col };
     });

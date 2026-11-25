@@ -21,13 +21,13 @@ const meta = [
 ].filter((item) => item.value);
 ---
 
-<section class:list={['project-hero', { 'project-hero--natural': heroFit === 'natural' }]}>
+<section class:list={['project-hero', { 'project-hero--natural': heroFit === 'natural', 'project-hero--fluid': heroFit === 'fluid' }]}>
   <HeroFrame src={heroImg} alt={heroAlt || title} width={heroSize?.width} height={heroSize?.height} />
 
   <div class="project-hero__info">
     <div>
       <h1 class="t-hero">{title}</h1>
-      {subtitle && <p class="t-body t-muted">{subtitle}</p>}
+      {subtitle && <p class="t-lead">{subtitle}</p>}
     </div>
 
     {intro && <p class="t-body">{intro}</p>}

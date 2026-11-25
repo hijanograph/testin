@@ -6,17 +6,37 @@ tipo: "personal"
 year: "2026"
 featured: 4
 hidden: false
-area: "Ilustración — Motion Graphics"
-rol: "Director creativo — Motion grapher"
-software: "Illustrator — After Effects"
+area: "Ilustración - Motion Graphics"
+rol: "Director creativo - Motion grapher"
+software: "Illustrator - After Effects"
 order: 5
 heroImg: "images/projects/andaluce-hero.mp4"
-heroAlt: "Andaluçê yorá — ilustración y motion graphics"
+heroFit: "fluid"
+heroAlt: "Andaluçê yorá - ilustración y motion graphics"
 coverImg: "images/index/andaluce-cover.mp4"
-coverAlt: "Andaluçê yorá — ilustración y motion graphics"
+coverAlt: "Andaluçê yorá - ilustración y motion graphics"
+intro: "Este proyecto es un tributo visual a «ANDALUÇÊ YORÁ», de Califato ¾. A través de la ilustración y el motion graphics, exploro la hierofanía morisca y el expolio andaluz. Próximamente disponible."
 wip: true
 wipImg: "images/projects/andaluce-wip.mp4"
-musicId: "4zbzei-ihy4"
----
 
-Este proyecto es un tributo visual a *«ANDALUÇÊ YORÁ»*, de Califato ¾. A través de la ilustración y el motion graphics, exploro la hierofanía morisca y el expolio andaluz. Próximamente disponible.
+# Capturas: añade images/projects/andaluce-01.avif, andaluce-02.avif… (npm run optimize -- <archivo>) y edita los textos.
+blocks:
+  - image: "images/projects/andaluce-01.avif"
+    alt: "Andaluçê yorá - ilustración del proyecto"
+    side: "right"
+    sections:
+      - title: "El proyecto"
+        paragraphs:
+          - "Texto explicativo del proyecto (por escribir)."
+      - title: "Proceso creativo"
+        paragraphs:
+          - "Texto sobre el proceso de ilustración y motion graphics (por escribir)."
+
+  - image: "images/projects/andaluce-02.avif"
+    alt: "Andaluçê yorá - motion graphics en After Effects"
+    side: "left"
+    sections:
+      - title: "Producción"
+        paragraphs:
+          - "Texto sobre la producción y las herramientas (por escribir)."
+---

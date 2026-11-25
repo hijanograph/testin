@@ -6,20 +6,20 @@ tipo: "profesional"
 year: "2024"
 featured: false
 hidden: true
-area: "Branding — Aplicaciones — Impresión"
+area: "Branding - Aplicaciones - Impresión"
 rol: "Diseñador de marca (Freepik)"
 software: "Illustrator"
 order: 4
 heroImg: "images/projects/neighborhood-hero.avif"
-heroAlt: "Neighborhood Design — rediseño de la identidad de Frutería Patricia"
+heroAlt: "Neighborhood Design - rediseño de la identidad de Frutería Patricia"
 coverImg: "images/index/neighborhood-cover.avif"
-coverAlt: "Neighborhood Design — Frutería Patricia"
+coverAlt: "Neighborhood Design - Frutería Patricia"
 wip: false
 intro: "Una renovación para que una frutería con medio siglo de historia en el barrio de La Trinidad estrenara una imagen moderna sin perder su esencia: fachada, identidad y materiales pensados para seguir siendo un comercio cercano y familiar."
 
 blocks:
   - image: "images/projects/neighborhood-01.avif"
-    alt: "Frutería Patricia — antes y después de la fachada"
+    alt: "Frutería Patricia - antes y después de la fachada"
     side: "right"
     sections:
       - title: "El proyecto"

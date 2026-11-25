@@ -24,7 +24,7 @@ export function siteGraph(site: URL, extra: JsonLdNode[] = []): JsonLdNode[] {
       '@type': 'WebSite',
       '@id': `${siteUrl}#web`,
       url: siteUrl,
-      name: `${name} — Diseñador gráfico y visual`,
+      name: `${name} - Diseñador gráfico y visual`,
       inLanguage: 'es-ES',
       publisher: { '@id': `${siteUrl}#persona` },
     },

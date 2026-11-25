@@ -5,9 +5,9 @@ tipo: "académico"
 year: "2023"
 featured: 2
 hidden: false
-area: "Branding — Editorial — Motion Graphics — UX/UI"
-rol: "Director creativo — Diseñador visual — Diseñador gráfico — Motion grapher"
-software: "Illustrator — InDesign — After Effects — Figma"
+area: "Branding - Editorial - Motion Graphics - UX/UI"
+rol: "Director creativo - Diseñador visual - Diseñador gráfico - Motion grapher"
+software: "Illustrator - InDesign - After Effects - Figma"
 order: 2
 heroImg: "images/projects/fiambre-hero.avif"
 heroAlt: "Branding e identidad visual de Editorial Fiambre"

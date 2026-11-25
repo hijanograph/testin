@@ -5,9 +5,9 @@ tipo: "académico"
 year: "2023"
 featured: 1
 hidden: false
-area: "Branding — Editorial — UX/UI"
-rol: "Director creativo — Diseñador visual — Diseño gráfico"
-software: "Illustrator — InDesign — After Effects — Figma"
+area: "Branding - Editorial - UX/UI"
+rol: "Director creativo - Diseñador visual - Diseño gráfico"
+software: "Illustrator - InDesign - After Effects - Figma"
 order: 1
 heroImg: "images/projects/arbocala-hero.avif"
 heroFit: "natural"
@@ -19,7 +19,7 @@ intro: "Un ecosistema visual completo para una bodega con raíces profundas: ide
 
 blocks:
   - image: "images/projects/arbocala-01.avif"
-    alt: "Bodegas Arbocala — proceso creativo y branding"
+    alt: "Bodegas Arbocala - proceso creativo y branding"
     side: "right"
     sections:
       - title: "El proyecto"
