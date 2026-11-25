@@ -1,5 +1,5 @@
 ---
-import { withBase } from '../site';
+import Media from './Media.astro';
 
 interface Props {
   src?: string;
@@ -14,15 +14,7 @@ const { src, alt = '', width, height, belowTitle = false } = Astro.props;
 
 <div class:list={['hero-frame', { 'hero-frame--below-title': belowTitle }]}>
   {src ? (
-    <img
-      src={withBase(src)}
-      alt={alt}
-      width={width}
-      height={height}
-      fetchpriority="high"
-      decoding="async"
-      class="hero-frame__img"
-    />
+    <Media src={src} alt={alt} width={width} height={height} fetchpriority="high" class="hero-frame__img" />
   ) : (
     <div class="img-placeholder img-placeholder--wide hero-frame__img"></div>
   )}

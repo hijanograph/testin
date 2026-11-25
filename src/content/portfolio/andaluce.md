@@ -10,12 +10,12 @@ area: "Ilustración — Motion Graphics"
 rol: "Director creativo — Motion grapher"
 software: "Illustrator — After Effects"
 order: 5
-heroImg: "images/projects/andaluce-hero.gif"
+heroImg: "images/projects/andaluce-hero.mp4"
 heroAlt: "Andaluçê yorá — ilustración y motion graphics"
-coverImg: "images/index/andaluce-cover.gif"
+coverImg: "images/index/andaluce-cover.mp4"
 coverAlt: "Andaluçê yorá — ilustración y motion graphics"
 wip: true
-wipImg: "images/projects/andaluce-wip.gif"
+wipImg: "images/projects/andaluce-wip.mp4"
 musicId: "4zbzei-ihy4"
 ---
 

@@ -1,5 +1,5 @@
 ---
-import { withBase } from '../../site';
+import Media from '../Media.astro';
 
 interface Props {
   title: string;
@@ -14,7 +14,7 @@ const musicParams = musicId
 ---
 
 <div class="project-wip__media">
-  {image && <img src={withBase(image)} alt={`${title} — en proceso`} class="project-wip__img" />}
+  {image && <Media src={image} alt={`${title} — en proceso`} class="project-wip__img" loading="lazy" />}
   {musicId && (
     <div class="project-wip__music">
       <iframe

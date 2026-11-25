@@ -44,4 +44,7 @@ interface Props {
 <script>
   import '../scripts/reveal';
   import '../scripts/scroll-top';
+  import { initVideos } from '../scripts/video';
+
+  document.addEventListener('astro:page-load', initVideos);
 </script>

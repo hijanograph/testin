@@ -10,15 +10,15 @@ area: "Branding — Aplicaciones — Impresión"
 rol: "Diseñador de marca (Freepik)"
 software: "Illustrator"
 order: 4
-heroImg: "images/projects/neighborhood-hero.png"
+heroImg: "images/projects/neighborhood-hero.avif"
 heroAlt: "Neighborhood Design — rediseño de la identidad de Frutería Patricia"
-coverImg: "images/index/neighborhood-cover.png"
+coverImg: "images/index/neighborhood-cover.avif"
 coverAlt: "Neighborhood Design — Frutería Patricia"
 wip: false
 intro: "Una renovación para que una frutería con medio siglo de historia en el barrio de La Trinidad estrenara una imagen moderna sin perder su esencia: fachada, identidad y materiales pensados para seguir siendo un comercio cercano y familiar."
 
 blocks:
-  - image: "images/projects/neighborhood-01.png"
+  - image: "images/projects/neighborhood-01.avif"
     alt: "Frutería Patricia — antes y después de la fachada"
     side: "right"
     sections:
@@ -31,7 +31,7 @@ blocks:
           - "Partí de una conversación cara a cara con Manuel y de conocer la tienda de primera mano. Esa confianza y esa comunicación constante fueron la clave del proyecto: me ayudaron a entender qué quería conservar y qué necesitaba cambiar."
           - "En lugar de empezar de cero, recuperé elementos que el negocio ya tenía para que el resultado mantuviera el ambiente de siempre. Desarrollé la propuesta de fachada y de identidad en Illustrator, apoyándome en recursos de Freepik, sin usar inteligencia artificial."
 
-  - image: "images/projects/neighborhood-02.png"
+  - image: "images/projects/neighborhood-02.avif"
     alt: "Identidad, fachada y materiales de Frutería Patricia"
     side: "left"
     sections:

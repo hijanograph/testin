@@ -1,11 +1,20 @@
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import type { CollectionEntry } from 'astro:content';
 import { name, email, socials, profileImage, withBase } from '../site';
 
 export type JsonLdNode = Record<string, unknown>;
 
-const isGif = (path: string) => /\.gif$/i.test(path);
+// Las redes sociales solo leen bien PNG/JPG: AVIF y MP4 se sustituyen por su JPG hermano (mismo nombre) si existe.
+const isShareable = (path: string) => /\.(png|jpe?g)$/i.test(path);
 
-export const shareImagePath = (image: string) => (isGif(image) ? profileImage : image);
+function shareable(image: string): string | undefined {
+  if (isShareable(image)) return image;
+  const jpg = image.replace(/\.[^.]+$/, '.jpg');
+  return existsSync(join(process.cwd(), 'public', jpg)) ? jpg : undefined;
+}
+
+export const shareImagePath = (image: string) => shareable(image) ?? profileImage;
 
 export function siteGraph(site: URL, extra: JsonLdNode[] = []): JsonLdNode[] {
   const siteUrl = site.href;
@@ -59,7 +68,7 @@ export function projectSchema(project: CollectionEntry<'portfolio'>, site: URL |
       inLanguage: 'es-ES',
       creator: { '@id': `${siteUrl}#persona` },
       ...(year ? { dateCreated: year } : {}),
-      ...(image && !isGif(image) ? { image: new URL(withBase(image), site).href } : {}),
+      ...(image && shareable(image) ? { image: new URL(withBase(shareable(image)!), site).href } : {}),
     },
     {
       '@type': 'BreadcrumbList',

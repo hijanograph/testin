@@ -1,0 +1,54 @@
+---
+import { withBase } from '../site';
+import { imageSize } from '../utils/image-size';
+
+// Imagen (.avif, .jpg…) o animación (.mp4). Para una animación `nombre.mp4` (H.264) se usan además
+// `nombre.av1.mp4` (AV1, más ligero, el navegador lo elige si lo soporta) y `nombre.jpg` (póster).
+// Se generan con `npm run optimize -- <archivo>`.
+interface Props {
+  src: string;
+  alt?: string;
+  class?: string;
+  width?: number;
+  height?: number;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const { src, alt = '', class: className, width, height, loading, fetchpriority } = Astro.props;
+const isVideo = /\.mp4$/i.test(src);
+const stem = src.replace(/\.[^.]+$/, '');
+const poster = `${stem}.jpg`;
+const size = isVideo && !(width && height) ? await imageSize(poster) : undefined;
+---
+
+{isVideo ? (
+  <video
+    class={className}
+    width={width ?? size?.width}
+    height={height ?? size?.height}
+    poster={withBase(poster)}
+    preload={loading === 'lazy' ? 'metadata' : 'auto'}
+    role="img"
+    aria-label={alt}
+    data-loop
+    autoplay
+    loop
+    muted
+    playsinline
+  >
+    <source src={withBase(`${stem}.av1.mp4`)} type='video/mp4; codecs="av01.0.08M.08"' />
+    <source src={withBase(src)} type="video/mp4" />
+  </video>
+) : (
+  <img
+    class={className}
+    src={withBase(src)}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    fetchpriority={fetchpriority}
+    decoding="async"
+  />
+)}

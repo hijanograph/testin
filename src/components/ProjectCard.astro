@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../site';
+import Media from './Media.astro';
 import { getAreas } from '../data/projects';
 import { pad2 } from '../utils/format';
 import type { CollectionEntry } from 'astro:content';
@@ -22,7 +23,7 @@ const areas = getAreas(project).map((a) => a.slug).join(' ');
 
   <a href={href} class="project-card__img-link" aria-label={title}>
     {coverImg
-      ? <img src={withBase(coverImg)} alt={coverAlt ?? title} class="project-card__img" loading="lazy" decoding="async" />
+      ? <Media src={coverImg} alt={coverAlt ?? title} class="project-card__img" loading="lazy" />
       : <div class="img-placeholder project-card__img"></div>}
     {wip && <span class="project-card__wip badge t-label">En proceso</span>}
   </a>

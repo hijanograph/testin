@@ -9,16 +9,16 @@ area: "Branding — Editorial — UX/UI"
 rol: "Director creativo — Diseñador visual — Diseño gráfico"
 software: "Illustrator — InDesign — After Effects — Figma"
 order: 1
-heroImg: "images/projects/arbocala-hero.png"
+heroImg: "images/projects/arbocala-hero.avif"
 heroFit: "natural"
 heroAlt: "Branding e identidad visual de Bodegas Arbocala"
-coverImg: "images/index/arbocala-cover.png"
+coverImg: "images/index/arbocala-cover.avif"
 coverAlt: "Branding de Bodegas Arbocala"
 wip: false
 intro: "Un ecosistema visual completo para una bodega con raíces profundas: identidad de marca, papelería, merchandising, espacios comerciales, packaging de su vino estrella y una tienda online coherente con todo ello."
 
 blocks:
-  - image: "images/projects/arbocala-01.png"
+  - image: "images/projects/arbocala-01.avif"
     alt: "Bodegas Arbocala — proceso creativo y branding"
     side: "right"
     sections:
@@ -30,7 +30,7 @@ blocks:
           - "Empecé con un briefing inicial para entender a fondo la marca, sus objetivos y las funcionalidades que buscaba. Después hice una auditoría exhaustiva y un análisis de la competencia para identificar oportunidades de mejora."
           - "La marca tenía unas raíces históricas muy profundas, tanto por su trayectoria como por su origen, su ubicación e incluso su nombre."
 
-  - image: "images/projects/arbocala-02.png"
+  - image: "images/projects/arbocala-02.avif"
     alt: "Identidad visual, packaging y resultados para Bodegas Arbocala"
     side: "left"
     sections:

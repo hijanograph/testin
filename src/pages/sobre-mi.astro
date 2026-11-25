@@ -12,13 +12,13 @@ import { ahora, ahoraActualizado, recomendaciones } from '../data/about';
 <Layout
   title="Sobre mí: diseñador visual y gráfico en Málaga"
   description="Diseñador gráfico y visual en Málaga y en remoto. Graduado en Comunicación Audiovisual y máster en Diseño Visual, especializado en branding."
-  image="images/about/about-profile.png"
+  image="images/about/about-profile.avif"
 >
   <div class="page">
     <div class="container">
       <AboutIntro
         title="Rafael Hijano, diseñador gráfico y visual en Málaga"
-        photo="images/about/about-profile.png"
+        photo="images/about/about-profile.avif"
         photoAlt="Rafael Hijano, diseñador visual y graduado en comunicación, en Málaga"
       >
         <p class="t-lead">Diseño, arte, alma y transparencia</p>
@@ -43,15 +43,15 @@ import { ahora, ahoraActualizado, recomendaciones } from '../data/about';
         <Cta href={withBase('contacto')}>Hablemos</Cta>
       </AboutIntro>
 
-      <img src={withBase('images/about/about-cv.png')} alt="" class="banner" loading="lazy" decoding="async" />
+      <img src={withBase('images/about/about-cv.avif')} alt="" class="banner" loading="lazy" decoding="async" />
 
       <CvSection inline>
-        <img src={withBase('images/about/about-formacion.png')} alt="" class="cv__img" loading="lazy" decoding="async" />
+        <img src={withBase('images/about/about-formacion.avif')} alt="" class="cv__img" loading="lazy" decoding="async" />
       </CvSection>
 
       {recomendaciones.length > 0 && (
         <section class="section" id="recomendaciones">
-          <img src={withBase('images/about/about-recomendaciones.png')} alt="" class="section__media" loading="lazy" decoding="async" />
+          <img src={withBase('images/about/about-recomendaciones.avif')} alt="" class="section__media" loading="lazy" decoding="async" />
 
           <div class="section__content">
             <SectionHead title="Recomendaciones" />
@@ -70,7 +70,7 @@ import { ahora, ahoraActualizado, recomendaciones } from '../data/about';
       )}
 
       <section class="section" id="ahora">
-        <img src={withBase('images/about/about-ahora.png')} alt="" class="section__media" loading="lazy" decoding="async" />
+        <img src={withBase('images/about/about-ahora.avif')} alt="" class="section__media" loading="lazy" decoding="async" />
 
         <div class="section__content">
           <SectionHead title="Ahora mismo">

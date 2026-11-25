@@ -10,9 +10,9 @@ area: "Motion Graphics"
 rol: "Director creativo — Guionista — Motion grapher (freelance)"
 software: "After Effects — Photoshop"
 order: 3
-heroImg: "images/projects/wehop-hero.png"
+heroImg: "images/projects/wehop-hero.avif"
 heroAlt: "Wehop — vídeo de presentación de la plataforma y del Gateway"
-coverImg: "images/index/wehop-cover.png"
+coverImg: "images/index/wehop-cover.avif"
 coverAlt: "Wehop — vídeo de presentación"
 wip: false
 videoUrl: "https://www.facebook.com/wehopapp/videos/la-diferencia-entre-un-equipo-desorganizado-y-uno-que-trabaja-como-un-reloj-suel/938493342582956/"
@@ -20,7 +20,7 @@ videoRatio: "16 / 9"
 intro: "Un vídeo pensado para explicar, de forma rápida y visual, para qué sirve Wehop y cómo su Gateway conecta radios tradicionales y móviles, con el objetivo de atraer clientes y convertirlos."
 
 blocks:
-  - image: "images/projects/wehop-01.png"
+  - image: "images/projects/wehop-01.avif"
     alt: "Wehop — concepto, guion y bocetos del vídeo"
     side: "right"
     sections:
@@ -32,7 +32,7 @@ blocks:
           - "Trabajé el proyecto de principio a fin, desde la concepción de la idea. Empecé investigando y recopilando datos sobre la plataforma y su público, y mantuve una comunicación constante con el cliente para alinear mensaje y objetivos."
           - "Con esa base escribí el guion y desarrollé el bocetado del vídeo, definiendo el ritmo y la manera de explicar cada función de un vistazo."
 
-  - image: "images/projects/wehop-02.png"
+  - image: "images/projects/wehop-02.avif"
     alt: "Wehop — recursos, logo reveal y animación en After Effects"
     side: "left"
     sections:

@@ -1,0 +1,18 @@
+# dependencias y salida de compilación
+node_modules/
+dist/
+.astro/
+
+# sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# variables de entorno
+.env
+.env.*
+!.env.example
+
+# registros
+npm-debug.log*

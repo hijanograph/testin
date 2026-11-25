@@ -3,7 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Cta from '../components/Cta.astro';
 import ProjectGrid from '../components/ProjectGrid.astro';
 import { getProjects } from '../data/projects';
-import { profileImage, withBase } from '../site';
+import Media from '../components/Media.astro';
+import { homeImage, withBase } from '../site';
 
 const projects = await getProjects({ featured: true });
 ---
@@ -12,7 +13,7 @@ const projects = await getProjects({ featured: true });
   <section class="home-hero">
     <div class="home-hero__inner">
       <div class="home-hero__img-wrap">
-        <img src={withBase(profileImage)} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="home-hero__img" fetchpriority="high" decoding="async" />
+        <Media src={homeImage} alt="Rafael Hijano, diseñador gráfico y visual en Málaga" class="home-hero__img" fetchpriority="high" />
       </div>
 
       <div class="home-hero__text">
