@@ -565,23 +565,18 @@ body.is-menu-open :is(main, .footer) {
   .nav__link,
   .nav-overlay__link {
     color: var(--ink-soft);
-    font-weight: 400;
-    transition:
-      color var(--transition-color),
-      font-weight var(--transition-color);
+    font-weight: var(--fw-medium);
+    transition: color var(--transition-color);
 
     &:is(:hover, :focus-visible) {
       color: var(--ink);
-      font-weight: var(--fw-medium);
     }
 
     &:is([aria-current="page"], .nav__link--active) {
       color: var(--ink);
-      font-weight: var(--fw-medium);
 
       &:is(:hover, :focus-visible) {
         color: var(--ink-soft);
-        font-weight: 400;
       }
     }
   }
@@ -614,14 +609,11 @@ body.is-menu-open :is(main, .footer) {
       --col-lg: 1 / span 4;
       flex-shrink: 0;
       line-height: 1;
-
-      transition:
-        color var(--transition-color),
-        font-weight var(--transition-color);
+      font-weight: var(--fw-medium);
+      transition: color var(--transition-color);
 
       &:is(:hover, :focus-visible) {
         color: var(--ink-soft);
-        font-weight: 400;
       }
     }
 
@@ -1600,6 +1592,23 @@ body.is-menu-open :is(main, .footer) {
 
 ::view-transition {
   background: var(--cream);
+}
+
+/* El nav va en su propio grupo, por encima de la página y sin animación: si no, queda en la captura
+   de root, por debajo del grupo "page", y el contenido que entra o sale lo tapa a medias (el logo
+   parpadea al pasar de/hacia páginas con imagen bajo el nav). */
+.nav {
+  view-transition-name: nav;
+}
+::view-transition-group(nav) {
+  z-index: 1;
+  animation: none;
+}
+::view-transition-old(nav) {
+  display: none;
+}
+::view-transition-new(nav) {
+  animation: none;
 }
 
 ::view-transition-old(page) {
