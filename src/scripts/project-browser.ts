@@ -11,6 +11,7 @@ export function initProjectBrowser() {
   const cards = [...browser.querySelectorAll<HTMLElement>('.project-card')];
   const buttons = [...filter.querySelectorAll<HTMLButtonElement>('.project-filter__btn')];
   const hideExcluded = browser.dataset.mode === 'hide';
+  const lockOnHash = browser.dataset.lock === 'true';
   const reducedMotion = prefersReducedMotion();
 
   const tokens = getComputedStyle(document.documentElement);
@@ -130,7 +131,7 @@ export function initProjectBrowser() {
 
     const area = button.dataset.area!;
     selectArea(area);
-    if (hideExcluded) {
+    if (hideExcluded && !lockOnHash) {
       history.replaceState(history.state, '', area === 'all' ? location.pathname + location.search : `#${area}`);
     }
   });
@@ -143,14 +144,22 @@ export function initProjectBrowser() {
 
   const applyHash = (animate = true) => {
     const area = location.hash.slice(1);
-    if (!buttons.some((button) => button.dataset.area === area)) return false;
+    const valid = buttons.some((button) => button.dataset.area === area);
+
+    if (lockOnHash) {
+      filter.hidden = valid;
+      selectArea(valid ? area : 'all', animate);
+      return valid;
+    }
+
+    if (!valid) return false;
 
     selectArea(area, animate);
     if (!hideExcluded) history.replaceState(history.state, '', location.pathname + location.search);
     return true;
   };
 
-  if (applyHash(false)) {
+  if (applyHash(false) && !lockOnHash) {
     browser.closest('section')?.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth' });
   }
 

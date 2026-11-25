@@ -1,0 +1,42 @@
+---
+import Media from './Media.astro';
+import { getAreas } from '../data/projects';
+import { pad2 } from '../utils/format';
+import type { CollectionEntry } from 'astro:content';
+
+// Hero de las páginas de servicios y de "me contratas": un carrusel con los proyectos destacados y,
+// si la URL lleva #categoria, una sola imagen: la del primer proyecto de esa categoría.
+interface Props {
+  projects: CollectionEntry<'portfolio'>[];
+}
+
+const { projects } = Astro.props;
+const slides = projects
+  .filter((project) => project.data.heroImg)
+  .map((project) => ({
+    src: project.data.heroImg!,
+    alt: project.data.heroAlt ?? project.data.title,
+    areas: getAreas(project).map((area) => area.slug).join(' '),
+  }));
+---
+
+{slides.length > 0 && (
+  <section class="hero-carousel" aria-roledescription="carousel" aria-label="Proyectos destacados">
+    <ul class="hero-carousel__track">
+      {slides.map(({ src, alt, areas }, i) => (
+        <li class="hero-carousel__slide" data-areas={areas}>
+          <Media src={src} alt={alt} class="hero-carousel__img" fetchpriority={i === 0 ? 'high' : undefined} loading={i === 0 ? 'eager' : 'lazy'} />
+        </li>
+      ))}
+    </ul>
+    <p class="hero-carousel__count t-label t-muted" aria-hidden="true" hidden>
+      <span class="hero-carousel__current">{pad2(1)}</span> / <span class="hero-carousel__total">{pad2(slides.length)}</span>
+    </p>
+  </section>
+)}
+
+<script>
+  import { initHeroCarousel } from '../scripts/hero-carousel';
+
+  document.addEventListener('astro:page-load', initHeroCarousel);
+</script>

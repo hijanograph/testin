@@ -8,10 +8,10 @@ export type Link = { label: string; href: string };
 
 export const name = 'Rafael Hijano';
 export const email = 'hey@rafaelhijano.work';
-export const profileImage = 'images/index/hero-profile.jpg'; // og:image y datos estructurados (JPG: lo entienden todas las redes)
+export const profileImage = 'images/index/hero-profile.jpg';
 export const homeImage = 'images/index/hero-profile.avif';
 export const defaultDescription =
-  'Rafael Hijano, diseñador gráfico y visual en Málaga y en remoto. Branding, identidad visual, diseño editorial y motion graphics.';
+  'Rafael Hijano, diseñador gráfico y visual en Málaga y en remoto. Branding, diseño visual, diseño editorial y motion graphics.';
 
 export const socials: Link[] = [
   { label: 'LinkedIn', href: 'https://linkedin.com/in/rafaelhijano' },

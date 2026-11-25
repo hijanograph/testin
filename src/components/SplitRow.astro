@@ -3,12 +3,13 @@ interface Props {
   as?: 'article' | 'figure';
   headAs?: 'div' | 'figcaption';
   bodyAs?: 'div' | 'blockquote';
+  'data-areas'?: string;
 }
 
-const { as: Row = 'article', headAs: Head = 'div', bodyAs: Body = 'div' } = Astro.props;
+const { as: Row = 'article', headAs: Head = 'div', bodyAs: Body = 'div', ...attrs } = Astro.props;
 ---
 
-<Row class="split">
+<Row class="split" {...attrs}>
   <Head class="split__head"><slot name="head" /></Head>
   <Body class="split__body"><slot /></Body>
 </Row>

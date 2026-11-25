@@ -8,12 +8,13 @@ interface Props {
   projects: CollectionEntry<'portfolio'>[];
   mode?: 'dim' | 'hide';
   numbered?: boolean;
+  lockOnHash?: boolean;
 }
 
-const { projects, mode = 'hide', numbered = false } = Astro.props;
+const { projects, mode = 'hide', numbered = false, lockOnHash = false } = Astro.props;
 ---
 
-<div class="project-browser" data-mode={mode}>
+<div class="project-browser" data-mode={mode} data-lock={lockOnHash ? 'true' : undefined}>
   <ProjectFilter areas={getAllAreas(projects)} numberLimit={numbered ? projects.length : undefined} />
   <ProjectGrid projects={projects} numbered={numbered} />
 </div>

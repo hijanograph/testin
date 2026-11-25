@@ -2,12 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import Cta from '../components/Cta.astro';
 import ContactSection from '../components/ContactSection.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import CvSection from '../components/CvSection.astro';
 import PageIntro from '../components/PageIntro.astro';
 import ProjectBrowser from '../components/ProjectBrowser.astro';
 import SectionHead from '../components/SectionHead.astro';
 import { getProjects } from '../data/projects';
-import { esencial } from '../data/mecontratas';
+import { esencial, introPorDefecto, introPorArea } from '../data/mecontratas';
 import { email, downloads, professionalSocials, withBase } from '../site';
 
 const projects = await getProjects({ featured: true });
@@ -21,14 +22,13 @@ const links = [...downloads, ...professionalSocials];
 >
   <div class="page">
     <div class="container">
-      <PageIntro eyebrow="Para reclutadores" title="Me encantaría trabajar contigo">
-        <p class="t-lead">Si has recibido este enlace, es porque tengo un interés real en la oferta.</p>
-        <p class="t-body">
-          He reunido aquí lo esencial para conocerme rápido: quién soy, dónde he trabajado,
-          qué sé hacer y cómo contactar conmigo. Si necesitas algo más, escríbeme y te respondo enseguida.
-        </p>
+      <PageIntro eyebrow="Para reclutadores" title={introPorDefecto.title}>
+        <p class="t-lead">{introPorDefecto.lead}</p>
+        <p class="t-body">{introPorDefecto.body}</p>
         <Cta href={`mailto:${email}`}>Escríbeme</Cta>
       </PageIntro>
+
+      <HeroCarousel projects={projects} />
 
       <section class="section" id="esencial">
         <SectionHead title="Lo esencial" />
@@ -42,16 +42,26 @@ const links = [...downloads, ...professionalSocials];
         </dl>
       </section>
 
-      <CvSection />
-
       <section class="section" id="proyectos">
         <SectionHead title="Proyectos destacados">
           <Cta href={withBase('proyectos')}>Ver todos</Cta>
         </SectionHead>
-        <ProjectBrowser projects={projects} />
+        <ProjectBrowser projects={projects} lockOnHash />
       </section>
+
+      <CvSection />
 
       <ContactSection title="Hablemos" links={links} />
     </div>
   </div>
+
+  <script
+    type="application/json"
+    id="intro-variants"
+    set:html={JSON.stringify({ default: introPorDefecto, ...introPorArea })}
+  />
 </Layout>
+
+<script>
+  import '../scripts/area-intro';
+</script>

@@ -1,13 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Cta from '../components/Cta.astro';
+import HeroCarousel from '../components/HeroCarousel.astro';
 import ContactSection from '../components/ContactSection.astro';
 import PageIntro from '../components/PageIntro.astro';
 import ProjectBrowser from '../components/ProjectBrowser.astro';
 import SectionHead from '../components/SectionHead.astro';
 import SplitRow from '../components/SplitRow.astro';
 import { getProjects } from '../data/projects';
-import { servicios, proceso } from '../data/servicios';
+import { servicios, proceso, introPorDefecto, introPorArea } from '../data/servicios';
 import { pad2 } from '../utils/format';
 import { email, portfolioDownload, professionalSocials, withBase } from '../site';
 
@@ -22,23 +23,22 @@ const samples = [portfolioDownload, ...professionalSocials];
 >
   <div class="page">
     <div class="container">
-      <PageIntro eyebrow="Para empresas y marcas" title="Diseño visual que trabaja para tu marca">
-        <p class="t-lead">Soy Rafael Hijano, diseñador visual freelance en Málaga.</p>
-        <p class="t-body">
-          En esta página tienes lo que puedo hacer por tu proyecto, cómo trabajo y algunos ejemplos reales.
-          Si encaja con lo que buscas, cuéntame tu caso y te respondo con una propuesta.
-        </p>
+      <PageIntro eyebrow="Para empresas y marcas" title={introPorDefecto.title}>
+        <p class="t-lead">{introPorDefecto.lead}</p>
+        <p class="t-body">{introPorDefecto.body}</p>
         <div class="link-list">
           <Cta href={`mailto:${email}`}>Cuéntame tu proyecto</Cta>
           <Cta href={portfolioDownload.href} external>Ver portfolio en PDF</Cta>
         </div>
       </PageIntro>
 
+      <HeroCarousel projects={projects} />
+
       <section class="section section--grid" id="servicios">
         <SectionHead title="Qué puedo hacer por ti" />
 
-        {servicios.map(({ title, detail, items }) => (
-          <SplitRow>
+        {servicios.map(({ title, detail, items, areas }) => (
+          <SplitRow data-areas={areas.join(' ')}>
             <h3 slot="head" class="t-title">{title}</h3>
             <p class="t-body">{detail}</p>
             <ul class="line-list">
@@ -66,10 +66,20 @@ const samples = [portfolioDownload, ...professionalSocials];
         <SectionHead title="Ejemplos de mi trabajo">
           <Cta href={withBase('proyectos')}>Ver todos</Cta>
         </SectionHead>
-        <ProjectBrowser projects={projects} />
+        <ProjectBrowser projects={projects} lockOnHash />
       </section>
 
       <ContactSection title="Hablemos de tu proyecto" links={samples} />
     </div>
   </div>
+
+  <script
+    type="application/json"
+    id="intro-variants"
+    set:html={JSON.stringify({ default: introPorDefecto, ...introPorArea })}
+  />
 </Layout>
+
+<script>
+  import '../scripts/area-intro';
+</script>
