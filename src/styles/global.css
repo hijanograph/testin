@@ -509,9 +509,24 @@ body.is-menu-open :is(main, .footer) {
   .nav__link,
   .nav-overlay__link {
     color: var(--ink-soft);
+    font-weight: 400;
+    transition:
+      color var(--transition-color),
+      font-weight var(--transition-color);
 
-    &:is(:hover, :focus-visible, [aria-current="page"], .nav__link--active) {
+    &:is(:hover, :focus-visible) {
       color: var(--ink);
+      font-weight: var(--fw-medium);
+    }
+
+    &:is([aria-current="page"], .nav__link--active) {
+      color: var(--ink);
+      font-weight: var(--fw-medium);
+
+      &:is(:hover, :focus-visible) {
+        color: var(--ink-soft);
+        font-weight: 400;
+      }
     }
   }
 
@@ -544,8 +559,13 @@ body.is-menu-open :is(main, .footer) {
       flex-shrink: 0;
       line-height: 1;
 
+      transition:
+        color var(--transition-color),
+        font-weight var(--transition-color);
+
       &:is(:hover, :focus-visible) {
         color: var(--ink-soft);
+        font-weight: 400;
       }
     }
 
@@ -655,7 +675,7 @@ body.is-menu-open :is(main, .footer) {
     inset: 0;
     z-index: 99;
     padding: var(--nav-h) var(--margin) 0;
-    background: rgb(255 245 233 / 0);
+    background: var(--ink) 0%;
     background: color-mix(in srgb, var(--cream) 0%, transparent);
     visibility: hidden;
     transition:
@@ -667,7 +687,7 @@ body.is-menu-open :is(main, .footer) {
     }
 
     &.is-open {
-      background: rgb(255 245 233 / 0.7);
+      background: var(--cream) 70%;
       background: color-mix(in srgb, var(--cream) 60%, transparent);
       visibility: visible;
     }
@@ -795,7 +815,8 @@ body.is-menu-open :is(main, .footer) {
 .project-card {
   transition:
     opacity var(--transition-move),
-    filter var(--transition-move);
+    filter var(--transition-move),
+    transform var(--transition-move);
 
   &[hidden] {
     display: none;
@@ -804,6 +825,22 @@ body.is-menu-open :is(main, .footer) {
   &.is-dimmed {
     opacity: 0.3;
     filter: blur(3px);
+  }
+}
+
+:where(:has(.project-card) > *) {
+  transition: filter var(--transition-move), opacity var(--transition-move);
+}
+
+.nav {
+  transition: filter var(--transition-move), opacity var(--transition-move);
+}
+
+@media (hover: hover) {
+  :has(.project-card:hover) > :not(:has(.project-card:hover), .project-card:hover, .site-nav, .skip-link),
+  body:has(.project-card:hover) .nav {
+    filter: blur(2px);
+    opacity: 0.5;
   }
 }
 
@@ -817,11 +854,25 @@ body.is-menu-open :is(main, .footer) {
     .project-card__img-link {
       position: relative;
       display: block;
+      transition: box-shadow var(--transition-move);
+    }
 
-      @media (hover: hover) {
-        &:hover .project-card__img {
-          transform: scale(1.04);
-        }
+    @media (hover: hover) {
+      &:has(.project-card__img-link:hover) .project-card__body a > :is(h2, h3)::after {
+        transform: translateX(calc(var(--arrow-dir, 1) * 0.3em));
+      }
+
+      &:has(.project-card__body a:is(:hover, :focus-visible)) .project-card__img {
+        transform: scale(1.04);
+      }
+
+      .project-card__img-link:hover .project-card__img {
+        transform: scale(1.04);
+      }
+
+      &:hover .project-card__img-link {
+        box-shadow: 0 12px 32px -12px
+        color-mix(in srgb, var(--ink) 12%, transparent);
       }
     }
 
