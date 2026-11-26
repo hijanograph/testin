@@ -1,0 +1,38 @@
+{
+  "about/about-profile.jpg": {
+    "from": "about/about-profile.avif",
+    "hash": "a487249c235670046f642c3eec249a0cdd11635a"
+  },
+  "contact-img.jpg": {
+    "from": "contact-img.avif",
+    "hash": "4bb6f5a4e0c7a3e294a9d3af6fee1916b1647a0d"
+  },
+  "index/hero-profile.jpg": {
+    "from": "index/hero-profile.avif",
+    "hash": "38c635acf657a20c3106d16ee44aed82052eb20b"
+  },
+  "index/andaluce-cover.mp4": {
+    "from": "index/andaluce-cover.av1.mp4",
+    "hash": "edf69ce9de0d2bfc99e0157d2fc5cebdfaadf5bf"
+  },
+  "index/andaluce-cover.jpg": {
+    "from": "index/andaluce-cover.av1.mp4",
+    "hash": "edf69ce9de0d2bfc99e0157d2fc5cebdfaadf5bf"
+  },
+  "projects/andaluce-hero.mp4": {
+    "from": "projects/andaluce-hero.av1.mp4",
+    "hash": "489c1c70a89061df31bdc8c729a0ced84c05e9e8"
+  },
+  "projects/andaluce-hero.jpg": {
+    "from": "projects/andaluce-hero.av1.mp4",
+    "hash": "489c1c70a89061df31bdc8c729a0ced84c05e9e8"
+  },
+  "projects/andaluce-wip.mp4": {
+    "from": "projects/andaluce-wip.av1.mp4",
+    "hash": "e124727ab1cc40a81d5ee7b10509b5ab1136248a"
+  },
+  "projects/andaluce-wip.jpg": {
+    "from": "projects/andaluce-wip.av1.mp4",
+    "hash": "e124727ab1cc40a81d5ee7b10509b5ab1136248a"
+  }
+}
