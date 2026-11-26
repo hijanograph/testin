@@ -10,6 +10,8 @@ const projects = await getProjects({ featured: true });
 ---
 
 <Layout>
+  <link slot="head" rel="preload" as="image" href={withBase(homeImage)} fetchpriority="high" />
+
   <section class="home-hero">
     <div class="home-hero__inner">
       <div class="home-hero__img-wrap">

@@ -49,6 +49,6 @@ const size = isVideo && !(width && height) ? await imageSize(poster) : undefined
     height={height}
     loading={loading}
     fetchpriority={fetchpriority}
-    decoding="async"
+    decoding={fetchpriority === 'high' ? 'sync' : 'async'}
   />
 )}

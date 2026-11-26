@@ -23,6 +23,7 @@ interface Props {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fff5e9" />
     <SeoHead {...Astro.props} />
+    <slot name="head" />
     <link rel="icon" type="image/svg+xml" href={withBase('favicon.svg')} />
     <link rel="preload" href={withBase('fonts/OverusedGrotesk-VF.woff2')} as="font" type="font/woff2" crossorigin />
     <ClientRouter />
