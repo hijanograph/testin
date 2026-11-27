@@ -1,7 +1,6 @@
 ---
-import { withBase } from '../site';
 import Media from './Media.astro';
-import { getAreas } from '../data/projects';
+import { getAreas, projectHref } from '../data/projects';
 import { pad2 } from '../utils/format';
 import type { CollectionEntry } from 'astro:content';
 
@@ -12,7 +11,7 @@ interface Props {
 
 const { project, number } = Astro.props;
 const { title, desc, area, coverImg, coverAlt, wip } = project.data;
-const href = withBase(`proyectos/${project.id}`);
+const href = projectHref(project);
 const detailed = number !== undefined;
 const Title = detailed ? 'h2' : 'h3';
 const areas = getAreas(project).map((a) => a.slug).join(' ');

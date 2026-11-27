@@ -5,6 +5,9 @@
     "title": {
       "type": "string"
     },
+    "parent": {
+      "type": "string"
+    },
     "subtitle": {
       "type": "string"
     },

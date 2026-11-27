@@ -7,9 +7,10 @@ import type { CollectionEntry } from 'astro:content';
 interface Props {
   project: CollectionEntry<'portfolio'>;
   heroSize?: ImageSize;
+  heading?: 'h1' | 'h2';
 }
 
-const { project, heroSize } = Astro.props;
+const { project, heroSize, heading: Heading = 'h1' } = Astro.props;
 const { title, subtitle, intro, area, software, rol, tipo, year, heroImg, heroAlt, heroFit } = project.data;
 
 const meta = [
@@ -26,7 +27,7 @@ const meta = [
 
   <div class="project-hero__info">
     <div>
-      <h1 class="t-hero">{title}</h1>
+      <Heading class="t-hero">{title}</Heading>
       {subtitle && <p class="t-lead">{subtitle}</p>}
     </div>
 

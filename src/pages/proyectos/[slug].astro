@@ -1,50 +1,52 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectHero from '../../components/project/ProjectHero.astro';
-import ProjectVideo from '../../components/project/ProjectVideo.astro';
-import ProjectWip from '../../components/project/ProjectWip.astro';
-import ProjectBlocks from '../../components/project/ProjectBlocks.astro';
-import ProjectGallery from '../../components/project/ProjectGallery.astro';
+import ProjectSection from '../../components/project/ProjectSection.astro';
+import Lightbox from '../../components/project/Lightbox.astro';
 import ProjectNav from '../../components/project/ProjectNav.astro';
-import { render, type CollectionEntry } from 'astro:content';
-import { getProjects } from '../../data/projects';
+import type { CollectionEntry } from 'astro:content';
+import { getProjectPages, getSubprojects } from '../../data/projects';
 import { getGallery } from '../../data/gallery';
 import { projectSchema } from '../../data/seo';
-import { imageSize } from '../../utils/image-size';
 
 export async function getStaticPaths() {
-  const projects = await getProjects();
+  const projects = await getProjectPages();
   return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
 }
 
 const { project } = Astro.props as { project: CollectionEntry<'portfolio'> };
-const { title, desc, heroImg, coverImg, wipImg, wip, blocks, videoUrl, videoRatio } = project.data;
-const { Content } = await render(project);
+const { title, desc, heroImg, coverImg } = project.data;
 
-const [heroSize, ...blockSizes] = await Promise.all([imageSize(heroImg), ...blocks.map((block) => imageSize(block.image))]);
-const gallery = await getGallery(project.id, [heroImg, coverImg, wipImg, ...blocks.map((block) => block.image)]);
+// El proyecto y sus subproyectos comparten una sola galería: el visor recorre las fotos de todos, en orden,
+// así que cada sección sabe cuántas fotos hay antes de la suya.
+const projects = [project, ...(await getSubprojects(project.id))];
+const galleries = await Promise.all(projects.map((p) => getGallery(p)));
+const total = galleries.reduce((sum, images) => sum + images.length, 0);
+let offset = 0;
+const sections = projects.map((p, i) => {
+  const section = { project: p, gallery: galleries[i], offset };
+  offset += galleries[i].length;
+  return section;
+});
 ---
 
 <Layout title={title} description={desc} image={heroImg ?? coverImg} schema={projectSchema(project, Astro.site, Astro.url.pathname)}>
   <div class="page">
     <div class="container">
-      <ProjectHero project={project} heroSize={heroSize} />
-
-      <div class="project-content">
-        {videoUrl && <ProjectVideo title={title} url={videoUrl} ratio={videoRatio} />}
-
-        {wip && <ProjectWip title={title} image={wipImg} />}
-
-        {blocks.length > 0 ? (
-          <ProjectBlocks blocks={blocks} sizes={blockSizes} />
-        ) : (
-          !wip && <div class="project-prose"><Content /></div>
-        )}
-
-        {gallery.length > 0 && <ProjectGallery title={title} images={gallery} />}
-      </div>
+      {sections.map((section, i) => (
+        <ProjectSection {...section} total={total} sub={i > 0} />
+      ))}
 
       <ProjectNav />
     </div>
   </div>
+
+  {total > 0 && <Lightbox />}
 </Layout>
+
+<script>
+  // Al llegar a /proyectos/<proyecto>#<subproyecto> desde otra página, sitúa la sección bajo la barra de navegación.
+  document.addEventListener('astro:page-load', () => {
+    if (!location.hash) return;
+    document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
+  });
+</script>

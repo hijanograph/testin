@@ -102,5 +102,37 @@
   "projects/arbocala/soneto-img02.jpg": {
     "from": "projects/arbocala/soneto-img02.avif",
     "hash": "780cbf649fc561da2f5780ffb78dc456c066e228"
+  },
+  "projects/fiambre/fiambre-01.jpg": {
+    "from": "projects/fiambre/fiambre-01.avif",
+    "hash": "a66014339a29e619f349378ae4c696d3348248a9"
+  },
+  "projects/fiambre/fiambre-02.jpg": {
+    "from": "projects/fiambre/fiambre-02.avif",
+    "hash": "d2fbb39a667a459312950b1f29da4fa4f46c9bef"
+  },
+  "projects/fiambre/fiambre-03.jpg": {
+    "from": "projects/fiambre/fiambre-03.avif",
+    "hash": "b3146cca5a3ad735015523378ccea27886a8005f"
+  },
+  "projects/fiambre/fiambre-04.jpg": {
+    "from": "projects/fiambre/fiambre-04.avif",
+    "hash": "bd4e52a45d54c2336166c27748733c94e25871ce"
+  },
+  "projects/fiambre/fiambre-05.jpg": {
+    "from": "projects/fiambre/fiambre-05.avif",
+    "hash": "de6801809c562ab64d9e8e3f91929ec0ccb2cbbe"
+  },
+  "projects/fiambre/fiambre-06.jpg": {
+    "from": "projects/fiambre/fiambre-06.avif",
+    "hash": "7629b2702459a6b9d96259369050d1f2066d9427"
+  },
+  "projects/fiambre/fiambre-07.jpg": {
+    "from": "projects/fiambre/fiambre-07.avif",
+    "hash": "33942934cb1786431c453cf24cf936537f76ed5a"
+  },
+  "projects/fiambre/fiambre-hero.jpg": {
+    "from": "projects/fiambre/fiambre-hero.mp4",
+    "hash": "29640ea0265e5db294d88a040ade41fab156b7ea"
   }
 }

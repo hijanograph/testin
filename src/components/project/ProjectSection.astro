@@ -1,0 +1,43 @@
+---
+import ProjectHero from './ProjectHero.astro';
+import ProjectVideo from './ProjectVideo.astro';
+import ProjectWip from './ProjectWip.astro';
+import ProjectBlocks from './ProjectBlocks.astro';
+import ProjectGallery from './ProjectGallery.astro';
+import { render, type CollectionEntry } from 'astro:content';
+import { imageSize } from '../../utils/image-size';
+import type { GalleryImage } from '../../data/gallery';
+
+// Un proyecto completo: hero, contenido y galería. Se usa para el proyecto de la página y, con `sub`,
+// para cada subproyecto, que se pinta a continuación con su ancla (#id) y un h2 en vez del h1.
+interface Props {
+  project: CollectionEntry<'portfolio'>;
+  gallery: GalleryImage[];
+  offset: number;
+  total: number;
+  sub?: boolean;
+}
+
+const { project, gallery, offset, total, sub = false } = Astro.props;
+const { title, heroImg, wipImg, wip, blocks, videoUrl, videoRatio } = project.data;
+const { Content } = await render(project);
+const [heroSize, ...blockSizes] = await Promise.all([imageSize(heroImg), ...blocks.map((block) => imageSize(block.image))]);
+---
+
+<section class:list={['project-section', { 'project-section--sub': sub }]} id={sub ? project.id : undefined}>
+  <ProjectHero project={project} heroSize={heroSize} heading={sub ? 'h2' : 'h1'} />
+
+  <div class="project-content">
+    {videoUrl && <ProjectVideo title={title} url={videoUrl} ratio={videoRatio} />}
+
+    {wip && <ProjectWip title={title} image={wipImg} />}
+
+    {blocks.length > 0 ? (
+      <ProjectBlocks blocks={blocks} sizes={blockSizes} />
+    ) : (
+      !wip && <div class="project-prose"><Content /></div>
+    )}
+
+    {gallery.length > 0 && <ProjectGallery title={title} images={gallery} offset={offset} total={total} />}
+  </div>
+</section>

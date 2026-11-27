@@ -1,0 +1,32 @@
+---
+// Visor a pantalla completa de la galería. Se pinta una sola vez por página y recorre todas las fotos
+// marcadas con [data-lightbox-item] (en orden de aparición), aunque pertenezcan a distintas secciones.
+---
+
+<dialog class="lightbox" aria-label="Visor de imágenes">
+  <header class="lightbox__bar">
+    <p class="lightbox__counter t-nav" aria-live="polite"><span data-lightbox-current>1</span>/<span data-lightbox-total>1</span></p>
+    <button type="button" class="lightbox__close" data-lightbox-close aria-label="Cerrar visor">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <div class="lightbox__body">
+    <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Imagen anterior">
+      <span class="lightbox__arrow" aria-hidden="true">←</span>
+    </button>
+    <figure class="lightbox__stage" data-lightbox-stage>
+      <img class="lightbox__img" alt="" decoding="async" />
+    </figure>
+    <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Imagen siguiente">
+      <span class="lightbox__arrow" aria-hidden="true">→</span>
+    </button>
+  </div>
+</dialog>
+
+<script>
+  import { initLightbox } from '../../scripts/lightbox';
+
+  document.addEventListener('astro:page-load', initLightbox);
+</script>

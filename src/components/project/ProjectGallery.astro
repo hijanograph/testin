@@ -5,24 +5,36 @@ import type { GalleryImage } from '../../data/gallery';
 interface Props {
   title: string;
   images: GalleryImage[];
+  // posición global de la primera foto (suma de las fotos de las galerías anteriores de la página)
+  offset?: number;
+  // total de fotos de la página, para el contador del visor
+  total?: number;
 }
 
-const { title, images } = Astro.props;
+const { title, images, offset = 0, total = images.length } = Astro.props;
 ---
 
 <section class="project-gallery" aria-label={`Galería de ${title}`}>
   <h2 class="t-title">Galería</h2>
   <div class="project-gallery__grid">
-    {images.map(({ src, width, height }, i) => (
-      <img
-        class="project-gallery__img"
-        src={withBase(src)}
-        alt={`${title} - imagen ${i + 1}`}
-        width={width}
-        height={height}
-        loading="lazy"
-        decoding="async"
-      />
+    {images.map(({ src, alt, width, height }, i) => (
+      <button
+        type="button"
+        class="project-gallery__item"
+        data-lightbox-item
+        style={width && height ? `--ratio: ${width} / ${height}` : undefined}
+        aria-label={`Ampliar imagen ${offset + i + 1} de ${total}`}
+      >
+        <img
+          class="project-gallery__img"
+          src={withBase(src)}
+          alt={alt || `${title} - imagen ${i + 1}`}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
+        />
+      </button>
     ))}
   </div>
 </section>

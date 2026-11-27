@@ -15,6 +15,8 @@ const portfolio = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/portfolio' }),
   schema: z.object({
     title: z.string(),
+    // id (nombre del .md) del proyecto del que este es subproyecto: se muestra como sección dentro de él (#id)
+    parent: z.string().optional(),
     subtitle: z.string().optional(),
     intro: z.string().optional(),
     desc: z.string(),
