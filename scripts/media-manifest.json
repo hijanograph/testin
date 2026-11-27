@@ -42,5 +42,65 @@
   "projects/fiambre-hero.jpg": {
     "from": "projects/fiambre-hero.mp4",
     "hash": "29640ea0265e5db294d88a040ade41fab156b7ea"
+  },
+  "index/fiambre-cover.jpg": {
+    "from": "index/fiambre-cover.avif",
+    "hash": "2981a56267345de99e82c77c321b4290b82d5f01"
+  },
+  "index/arbocala-cover.jpg": {
+    "from": "index/arbocala-cover.avif",
+    "hash": "f31b38a806d0835ddba87d484060e0f0ae24f119"
+  },
+  "projects/arbocala/arbocala-hero.jpg": {
+    "from": "projects/arbocala/arbocala-hero.avif",
+    "hash": "c49f4e8d036d9d5fa9409d4904e74549a223f46f"
+  },
+  "projects/arbocala/arbocala-img01.jpg": {
+    "from": "projects/arbocala/arbocala-img01.avif",
+    "hash": "388210c37e10b35fba2eef66df097590d49b068b"
+  },
+  "projects/arbocala/arbocala-img02.jpg": {
+    "from": "projects/arbocala/arbocala-img02.avif",
+    "hash": "f31b38a806d0835ddba87d484060e0f0ae24f119"
+  },
+  "projects/arbocala/arbocala-img03.jpg": {
+    "from": "projects/arbocala/arbocala-img03.avif",
+    "hash": "34e62f2fc55414975b61990541c2f6d01d85423f"
+  },
+  "projects/arbocala/arbocala-img04.jpg": {
+    "from": "projects/arbocala/arbocala-img04.avif",
+    "hash": "7361d8314876a787c9d6a113dbb7f31aaf383e06"
+  },
+  "projects/arbocala/arbocala-img05.jpg": {
+    "from": "projects/arbocala/arbocala-img05.avif",
+    "hash": "f14db2628cc7b9a2a521fa85dec135ba95c57e79"
+  },
+  "projects/arbocala/arbocala-img06.jpg": {
+    "from": "projects/arbocala/arbocala-img06.avif",
+    "hash": "b8b4bcf94e336aced837659e0129c46502be53f1"
+  },
+  "projects/arbocala/arbocala-img07.jpg": {
+    "from": "projects/arbocala/arbocala-img07.avif",
+    "hash": "868a3a079bb558c86e69f1bb41888345a12f0bb9"
+  },
+  "projects/arbocala/arbocala-img08.jpg": {
+    "from": "projects/arbocala/arbocala-img08.avif",
+    "hash": "b9e5ba914aabdb1c6e1f8ac48adfa2946a0e75da"
+  },
+  "projects/arbocala/arbocala-img09.jpg": {
+    "from": "projects/arbocala/arbocala-img09.avif",
+    "hash": "48f8ab27be38b46829fba10d3c931c4beeab1dcf"
+  },
+  "projects/arbocala/soneto-hero.jpg": {
+    "from": "projects/arbocala/soneto-hero.avif",
+    "hash": "0ef743fe8ad6e085e23470473d82e250baff2883"
+  },
+  "projects/arbocala/soneto-img01.jpg": {
+    "from": "projects/arbocala/soneto-img01.avif",
+    "hash": "bd4f31cb02e0bde0231a964015d3d897173e7c22"
+  },
+  "projects/arbocala/soneto-img02.jpg": {
+    "from": "projects/arbocala/soneto-img02.avif",
+    "hash": "780cbf649fc561da2f5780ffb78dc456c066e228"
   }
 }

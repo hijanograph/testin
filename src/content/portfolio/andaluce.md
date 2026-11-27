@@ -10,7 +10,7 @@ area: "Ilustración - Motion Graphics"
 rol: "Director creativo - Motion grapher"
 software: "Illustrator - After Effects"
 order: 5
-heroImg: "images/projects/andaluce-hero.mp4"
+heroImg: "images/projects/andaluce/andaluce-hero.mp4"
 heroFit: "fluid"
 heroAlt: "Andaluçê yorá - ilustración y motion graphics"
 coverImg: "images/index/andaluce-cover.mp4"
@@ -19,9 +19,8 @@ intro: "Este proyecto es un tributo visual a «ANDALUÇÊ YORÁ», de Califato �
 wip: true
 wipImg: "images/projects/andaluce-wip.mp4"
 
-# Capturas: añade images/projects/andaluce-01.avif, andaluce-02.avif… (npm run optimize -- <archivo>) y edita los textos.
 blocks:
-  - image: "images/projects/andaluce-01.avif"
+  - image: "images/projects/andaluce/andaluce-01.avif"
     alt: "Andaluçê yorá - ilustración del proyecto"
     side: "right"
     sections:
@@ -32,7 +31,7 @@ blocks:
         paragraphs:
           - "Texto sobre el proceso de ilustración y motion graphics (por escribir)."
 
-  - image: "images/projects/andaluce-02.avif"
+  - image: "images/projects/andaluce/andaluce-02.avif"
     alt: "Andaluçê yorá - motion graphics en After Effects"
     side: "left"
     sections:
