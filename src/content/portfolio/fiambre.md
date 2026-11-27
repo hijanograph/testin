@@ -9,7 +9,7 @@ area: "Branding - Editorial - Motion Graphics - UX/UI"
 rol: "Director creativo - Diseñador visual - Diseñador gráfico - Motion grapher"
 software: "Illustrator - InDesign - After Effects - Figma"
 order: 2
-heroImg: "images/projects/fiambre-hero.avif"
+heroImg: "images/projects/fiambre-hero.av1.mp4"
 heroAlt: "Branding e identidad visual de Editorial Fiambre"
 coverImg: "images/index/fiambre-cover.avif"
 coverAlt: "Branding de Editorial Fiambre"

@@ -34,5 +34,13 @@
   "projects/andaluce-wip.jpg": {
     "from": "projects/andaluce-wip.av1.mp4",
     "hash": "e124727ab1cc40a81d5ee7b10509b5ab1136248a"
+  },
+  "projects/fiambre-hero.av1.mp4": {
+    "from": "projects/fiambre-hero.mp4",
+    "hash": "29640ea0265e5db294d88a040ade41fab156b7ea"
+  },
+  "projects/fiambre-hero.jpg": {
+    "from": "projects/fiambre-hero.mp4",
+    "hash": "29640ea0265e5db294d88a040ade41fab156b7ea"
   }
 }
