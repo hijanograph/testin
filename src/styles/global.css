@@ -470,6 +470,15 @@ body.is-menu-open :is(main, .footer) {
   filter: blur(20px);
 }
 
+/* al elegir una página en el menú, la actual desaparece (sin llegar a desenfocarse de nuevo) antes de cambiar */
+body.is-leaving :is(main, .footer) {
+  filter: blur(20px);
+  opacity: 0;
+  transition:
+    filter var(--transition-move),
+    opacity var(--dur-0) var(--ease-in);
+}
+
 .t-muted,
 .footer__copy {
   color: var(--ink-muted);
@@ -1702,34 +1711,41 @@ body.is-menu-open :is(main, .footer) {
 }
 
 .project-gallery {
-  --gap: var(--s-4);
-
   .project-gallery__grid {
     display: grid;
-    grid-template-columns: var(--grid);
-    gap: var(--gutter);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-2);
+
+    /* móvil: 2 por fila · tablet: 3 por fila · escritorio: 3 por fila, cada una de 4 de las 12 columnas */
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--gutter);
+    }
+
+    @media (min-width: 1072px) {
+      grid-template-columns: var(--grid);
+    }
   }
 
-  /* 4 columnas de ancho (3 por fila en escritorio). Todas las fotos de una fila se ajustan al ancho de la */
-  /* columna y la fila mide lo que la más alta: `aspect-ratio` solo aporta la altura natural de cada foto. */
+  /* todas las casillas tienen la misma proporción (--ratio), así que las filas miden lo mismo; la foto rellena la casilla */
   .project-gallery__item {
-    --ratio: 4 / 3;
-    grid-column: span 4;
-    justify-self: stretch;
-    align-self: stretch;
-    min-width: 0;
     position: relative;
     display: block;
+    min-width: 0;
     padding: 0;
     border: 0;
     background: none;
     overflow: hidden;
-    aspect-ratio: var(--ratio);
+    aspect-ratio: var(--ratio, 4 / 3);
     cursor: zoom-in;
     transition:
       opacity var(--transition-move),
       filter var(--transition-move),
       box-shadow var(--transition-move);
+
+    @media (min-width: 1072px) {
+      grid-column: span 4;
+    }
 
     @media (hover: hover) {
       &:hover {
@@ -1750,6 +1766,11 @@ body.is-menu-open :is(main, .footer) {
     object-fit: cover;
     transition: transform var(--dur-3) var(--ease);
   }
+}
+
+/* fotos junto al texto: abren el visor */
+.is-zoomable {
+  cursor: zoom-in;
 }
 
 .project-section--sub {
@@ -1781,30 +1802,110 @@ html:has(.lightbox[open]) {
   margin: 0;
   padding: 0;
   border: 0;
+  overflow: hidden;
   background: var(--cream);
   color: var(--ink);
 
-  &[open] {
-    display: grid;
-    grid-template-rows: var(--nav-h) minmax(0, 1fr);
+  /* alineado con el contenido del nav */
+  --inset: max(var(--margin), calc((100% - var(--max-w)) / 2 + var(--margin)));
+
+  -webkit-tap-highlight-color: transparent;
+
+  /* Los controles van sobre la foto: cream si detrás hay oscuro, ink si hay claro (lo fija el script en data-tone) */
+  [data-lightbox-tone] {
+    --tone: var(--ink);
+    --tone-soft: var(--ink-soft);
+    color: var(--tone);
+    transition: color var(--transition-color);
+
+    &[data-tone="dark"] {
+      --tone: var(--cream);
+      --tone-soft: color-mix(in srgb, var(--cream) 75%, transparent);
+    }
   }
 
-  :is(.lightbox__bar, .lightbox__body) {
+  /* la foto ocupa todo el visor, ajustada por su lado más largo */
+  .lightbox__stage {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .lightbox__img {
+    grid-area: 1 / 1;
     width: 100%;
-    max-width: var(--max-w);
-    margin-inline: auto;
-    padding-inline: var(--margin);
+    height: 100%;
+    object-fit: contain;
+    cursor: zoom-in;
+    -webkit-user-drag: none;
+  }
+
+  .lightbox__stage.is-zoomed .lightbox__img {
+    cursor: grab;
+  }
+
+  .lightbox__stage.is-zoomed.is-dragging .lightbox__img {
+    cursor: grabbing;
+  }
+
+  .lightbox__stage.is-smooth .lightbox__img {
+    transition:
+      scale var(--dur-2) var(--ease),
+      translate var(--dur-2) var(--ease);
   }
 
   .lightbox__bar {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: var(--nav-h);
+    padding-inline: var(--inset);
+    pointer-events: none;
+  }
+
+  .lightbox__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--s-4);
+    pointer-events: auto;
   }
 
   .lightbox__counter {
     line-height: 1;
     font-weight: var(--fw-medium);
+  }
+
+  .lightbox__zoom {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background: none;
+    line-height: 1;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -14px -8px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--tone-soft);
+      }
+    }
+
+    &:focus-visible {
+      color: var(--tone-soft);
+    }
   }
 
   /* mismo aspecto que el botón del menú móvil cuando está abierto (la X) */
@@ -1822,8 +1923,6 @@ html:has(.lightbox[open]) {
     border: 0;
     background: transparent;
     translate: 0 1px;
-    color: var(--ink);
-    transition: color var(--transition-color);
 
     @supports not (height: 1cap) {
       --toggle-h: 0.7em;
@@ -1832,12 +1931,12 @@ html:has(.lightbox[open]) {
 
     @media (hover: hover) {
       &:hover {
-        color: var(--ink-soft);
+        color: var(--tone-soft);
       }
     }
 
     &:focus-visible {
-      color: var(--ink-soft);
+      color: var(--tone-soft);
     }
 
     &::after {
@@ -1865,53 +1964,30 @@ html:has(.lightbox[open]) {
     }
   }
 
-  .lightbox__body {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: var(--s-2);
-    min-height: 0;
-    padding-bottom: var(--s-4);
-  }
-
-  .lightbox__stage {
-    display: grid;
-    grid-template: minmax(0, 1fr) / minmax(0, 1fr);
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    touch-action: pan-y;
-  }
-
-  .lightbox__img {
-    grid-area: 1 / 1;
-    place-self: center;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    min-width: 0;
-    min-height: 0;
-    object-fit: contain;
-  }
-
   /* flechas ← → con la misma animación de hover que los enlaces */
   .lightbox__nav {
     --arrow-dir: 1;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    z-index: 1;
     display: grid;
     place-items: center;
     min-width: 40px;
+    min-height: 44px;
     padding: 0;
     border: 0;
     background: none;
-    color: var(--ink);
     font-size: var(--fs-3);
     line-height: 1;
-    transition: color var(--transition-color);
+    translate: 0 -50%;
 
     &.lightbox__nav--prev {
       --arrow-dir: -1;
+      left: var(--inset);
+    }
+
+    &.lightbox__nav--next {
+      right: var(--inset);
     }
 
     &::after {
@@ -1926,7 +2002,7 @@ html:has(.lightbox[open]) {
     }
 
     &:is(:focus-visible, :active) {
-      color: var(--ink-soft);
+      color: var(--tone-soft);
 
       .lightbox__arrow {
         transform: translateX(calc(var(--arrow-dir) * 0.3em));
@@ -1935,7 +2011,7 @@ html:has(.lightbox[open]) {
 
     @media (hover: hover) {
       &:hover {
-        color: var(--ink-soft);
+        color: var(--tone-soft);
 
         .lightbox__arrow {
           transform: translateX(calc(var(--arrow-dir) * 0.3em));

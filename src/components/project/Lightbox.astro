@@ -1,28 +1,38 @@
 ---
-// Visor a pantalla completa de la galería. Se pinta una sola vez por página y recorre todas las fotos
-// marcadas con [data-lightbox-item] (en orden de aparición), aunque pertenezcan a distintas secciones.
+// Visor a pantalla completa. Se pinta una sola vez por página y recorre todas las fotos del proyecto (y de sus
+// subproyectos) en orden. Cada foto se abre desde donde aparece: el grid de la galería, el hero o los bloques.
+interface Props {
+  slides: { src: string; alt: string }[];
+}
+
+const { slides } = Astro.props;
 ---
 
-<dialog class="lightbox" aria-label="Visor de imágenes">
+<dialog class="lightbox" aria-label="Visor de imágenes" tabindex="-1" data-slides={JSON.stringify(slides)}>
+  <figure class="lightbox__stage" data-lightbox-stage>
+    <img class="lightbox__img" alt="" draggable="false" decoding="async" />
+  </figure>
+
+  <!-- Todo lo que va sobre la foto cambia de color (cream/ink) según lo que haya detrás: lo hace el script -->
   <header class="lightbox__bar">
-    <p class="lightbox__counter t-nav" aria-live="polite"><span data-lightbox-current>1</span>/<span data-lightbox-total>1</span></p>
-    <button type="button" class="lightbox__close" data-lightbox-close aria-label="Cerrar visor">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </button>
+    <p class="lightbox__counter t-nav" aria-live="polite" data-lightbox-tone>
+      <span data-lightbox-current>1</span>/<span data-lightbox-total>1</span>
+    </p>
+    <div class="lightbox__actions">
+      <button type="button" class="lightbox__zoom t-nav" data-lightbox-zoom data-lightbox-tone>Ampliar</button>
+      <button type="button" class="lightbox__close" data-lightbox-close data-lightbox-tone aria-label="Cerrar visor">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
   </header>
 
-  <div class="lightbox__body">
-    <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev aria-label="Imagen anterior">
-      <span class="lightbox__arrow" aria-hidden="true">←</span>
-    </button>
-    <figure class="lightbox__stage" data-lightbox-stage>
-      <img class="lightbox__img" alt="" decoding="async" />
-    </figure>
-    <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next aria-label="Imagen siguiente">
-      <span class="lightbox__arrow" aria-hidden="true">→</span>
-    </button>
-  </div>
+  <button type="button" class="lightbox__nav lightbox__nav--prev" data-lightbox-prev data-lightbox-tone aria-label="Imagen anterior">
+    <span class="lightbox__arrow" aria-hidden="true">←</span>
+  </button>
+  <button type="button" class="lightbox__nav lightbox__nav--next" data-lightbox-next data-lightbox-tone aria-label="Imagen siguiente">
+    <span class="lightbox__arrow" aria-hidden="true">→</span>
+  </button>
 </dialog>
 
 <script>

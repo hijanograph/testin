@@ -15,12 +15,15 @@ interface Props {
   gallery: GalleryImage[];
   offset: number;
   total: number;
+  ratio: string;
   sub?: boolean;
 }
 
-const { project, gallery, offset, total, sub = false } = Astro.props;
+const { project, gallery, offset, total, ratio, sub = false } = Astro.props;
 const { title, heroImg, wipImg, wip, blocks, videoUrl, videoRatio } = project.data;
 const { Content } = await render(project);
+// al grid solo van las fotos que no acompañan al texto; estas se abren en el visor desde donde están
+const grid = gallery.map((image, i) => ({ ...image, index: offset + i })).filter((image) => !image.inText);
 const [heroSize, ...blockSizes] = await Promise.all([imageSize(heroImg), ...blocks.map((block) => imageSize(block.image))]);
 ---
 
@@ -38,6 +41,6 @@ const [heroSize, ...blockSizes] = await Promise.all([imageSize(heroImg), ...bloc
       !wip && <div class="project-prose"><Content /></div>
     )}
 
-    {gallery.length > 0 && <ProjectGallery title={title} images={gallery} offset={offset} total={total} />}
+    {grid.length > 0 && <ProjectGallery title={title} images={grid} total={total} ratio={ratio} />}
   </div>
 </section>

@@ -7,6 +7,7 @@ import type { CollectionEntry } from 'astro:content';
 import { getProjectPages, getSubprojects } from '../../data/projects';
 import { getGallery } from '../../data/gallery';
 import { projectSchema } from '../../data/seo';
+import { withBase } from '../../site';
 
 export async function getStaticPaths() {
   const projects = await getProjectPages();
@@ -21,6 +22,12 @@ const { title, desc, heroImg, coverImg } = project.data;
 const projects = [project, ...(await getSubprojects(project.id))];
 const galleries = await Promise.all(projects.map((p) => getGallery(p)));
 const total = galleries.reduce((sum, images) => sum + images.length, 0);
+// Todas las casillas del grid tienen la misma proporción, para que las filas midan lo mismo; 4/3 es la más cercana
+// a la de las fotos de los proyectos (la foto rellena la casilla y en el visor siempre se ve entera)
+const ratio = '4 / 3';
+const slides = projects.flatMap((p, i) =>
+  galleries[i].map((image, n) => ({ src: withBase(image.src), alt: image.alt || `${p.data.title} - imagen ${n + 1}` })),
+);
 let offset = 0;
 const sections = projects.map((p, i) => {
   const section = { project: p, gallery: galleries[i], offset };
@@ -33,20 +40,12 @@ const sections = projects.map((p, i) => {
   <div class="page">
     <div class="container">
       {sections.map((section, i) => (
-        <ProjectSection {...section} total={total} sub={i > 0} />
+        <ProjectSection {...section} total={total} ratio={ratio} sub={i > 0} />
       ))}
 
       <ProjectNav />
     </div>
   </div>
 
-  {total > 0 && <Lightbox />}
+  {total > 0 && <Lightbox slides={slides} />}
 </Layout>
-
-<script>
-  // Al llegar a /proyectos/<proyecto>#<subproyecto> desde otra página, sitúa la sección bajo la barra de navegación.
-  document.addEventListener('astro:page-load', () => {
-    if (!location.hash) return;
-    document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
-  });
-</script>

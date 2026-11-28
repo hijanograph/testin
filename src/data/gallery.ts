@@ -3,7 +3,8 @@ import { join, posix } from 'node:path';
 import type { CollectionEntry } from 'astro:content';
 import { imageSize, type ImageSize } from '../utils/image-size';
 
-export type GalleryImage = { src: string; alt?: string } & Partial<ImageSize>;
+// `inText`: la foto ya aparece junto al texto del proyecto (hero o bloques). Cuenta en el visor, pero no se repite en el grid.
+export type GalleryImage = { src: string; alt?: string; inText?: boolean } & Partial<ImageSize>;
 
 const ROOT = 'images/projects';
 // Si hay varios formatos de la misma foto (p. ej. .avif y .jpg) se usa el primero de esta lista.
@@ -14,8 +15,8 @@ const stem = (path: string) => path.replace(/\.[^.]+$/, '').toLowerCase();
 const format = (path: string) => FORMATS.indexOf(path.split('.').pop()!.toLowerCase());
 
 /**
- * Todas las fotos de un proyecto, en este orden: hero, imágenes de los bloques y el resto de fotos
- * numeradas (`<slug>-01.avif`, `<slug>-02.avif`…) que haya junto al hero, en `images/projects/<slug>/`
+ * Todas las fotos de un proyecto para el visor, en este orden: hero, imágenes de los bloques (`inText`) y el
+ * resto de fotos numeradas (`<slug>-01.avif`, `<slug>-02.avif`…) que haya junto al hero, en `images/projects/<slug>/`
  * o en `images/projects/`. Una misma foto en varios formatos cuenta una sola vez. Los vídeos no entran.
  */
 export async function getGallery(project: CollectionEntry<'portfolio'>): Promise<GalleryImage[]> {
@@ -23,8 +24,8 @@ export async function getGallery(project: CollectionEntry<'portfolio'>): Promise
   const slug = project.id;
 
   const listed: GalleryImage[] = [
-    { src: heroImg ?? '', alt: heroAlt || title },
-    ...blocks.map((block) => ({ src: block.image, alt: block.alt })),
+    { src: heroImg ?? '', alt: heroAlt || title, inText: true },
+    ...blocks.map((block) => ({ src: block.image, alt: block.alt, inText: true })),
   ].filter((image) => IMAGE.test(image.src));
 
   const dirs = [
@@ -58,7 +59,7 @@ export async function getGallery(project: CollectionEntry<'portfolio'>): Promise
   const sorted = [...extras.values()].sort((a, b) =>
     posix.basename(a).localeCompare(posix.basename(b), undefined, { numeric: true, sensitivity: 'base' }),
   );
-  const all = [...listed, ...sorted.map((src) => ({ src, alt: undefined }))];
+  const all = [...listed, ...sorted.map((src) => ({ src, alt: undefined, inText: false }))];
 
   return Promise.all(all.map(async (image) => ({ ...image, ...(await imageSize(image.src)) })));
 }

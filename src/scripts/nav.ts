@@ -1,4 +1,7 @@
-import { isActivePath } from '../utils/path';
+import { isActivePath, trimSlash } from '../utils/path';
+
+// por si el navegador restaura desde caché una página que se estaba abandonando
+addEventListener('pageshow', (event) => event.persisted && document.body.classList.remove('is-leaving'));
 
 export function initNav() {
   const toggle = document.getElementById('navToggle');
@@ -30,7 +33,21 @@ export function initNav() {
   };
 
   toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-  overlay.addEventListener('click', () => setOpen(false));
+  // Al pulsar un enlace del menú que lleva a otra página, la página actual desaparece (salvo el nav) mientras el
+  // menú se cierra, en vez de verse la página anterior y luego el cambio. La nueva aparece con normalidad.
+  overlay.addEventListener('click', (event) => {
+    const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
+    const modified = event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+    const leaves =
+      link &&
+      !modified &&
+      link.origin === location.origin &&
+      link.target !== '_blank' &&
+      !link.hasAttribute('download') &&
+      !(trimSlash(link.pathname) === trimSlash(location.pathname) && link.search === location.search);
+    if (leaves) document.body.classList.add('is-leaving');
+    setOpen(false);
+  });
   document.addEventListener('keydown', (event) => event.key === 'Escape' && setOpen(false));
   matchMedia('(min-width: 1072px)').addEventListener('change', (event) => event.matches && setOpen(false));
   setOpen(false);
