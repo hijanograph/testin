@@ -470,13 +470,19 @@ body.is-menu-open :is(main, .footer) {
   filter: blur(20px);
 }
 
-/* al elegir una página en el menú, la actual desaparece (sin llegar a desenfocarse de nuevo) antes de cambiar */
+/* al elegir una página en el menú, la actual se desvanece (sin dejar de estar desenfocada) y sube un poco, como en
+   el resto de cambios de página, antes de navegar */
 body.is-leaving :is(main, .footer) {
   filter: blur(20px);
   opacity: 0;
+  transform: translateY(-8px);
   transition:
-    filter var(--transition-move),
-    opacity var(--dur-0) var(--ease-in);
+    opacity var(--dur-0) var(--ease),
+    transform var(--dur-0) var(--ease);
+}
+
+.site-nav :is(a, button) {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .t-muted,
@@ -1425,7 +1431,8 @@ body.is-leaving :is(main, .footer) {
     text-align: center;
 
     .project-wip__img {
-      max-width: 240px;
+      width: 200px;
+      max-width: 100%;
       mix-blend-mode: multiply;
     }
   }
@@ -1782,6 +1789,10 @@ body.is-leaving :is(main, .footer) {
   }
 
   .project-hero__info {
+    padding-top: var(--fs-hero);
+  }
+
+  .project-hero__info {
     @media (min-width: 1072px) {
       margin-block: var(--fs-hero);
     }
@@ -1883,30 +1894,6 @@ html:has(.lightbox[open]) {
     font-weight: var(--fw-medium);
   }
 
-  .lightbox__zoom {
-    position: relative;
-    padding: 0;
-    border: 0;
-    background: none;
-    line-height: 1;
-    cursor: pointer;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: -14px -8px;
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        color: var(--tone-soft);
-      }
-    }
-
-    &:focus-visible {
-      color: var(--tone-soft);
-    }
-  }
 
   /* mismo aspecto que el botón del menú móvil cuando está abierto (la X) */
   .lightbox__close {

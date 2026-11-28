@@ -26,7 +26,6 @@ export function initLightbox() {
 
   const stage = dialog.querySelector<HTMLElement>('[data-lightbox-stage]')!;
   const counter = dialog.querySelector<HTMLElement>('[data-lightbox-current]')!;
-  const zoomButton = dialog.querySelector<HTMLElement>('[data-lightbox-zoom]')!;
   const toneTargets = [...dialog.querySelectorAll<HTMLElement>('[data-lightbox-tone]')];
 
   dialog.querySelector<HTMLElement>('[data-lightbox-total]')!.textContent = String(total);
@@ -127,6 +126,8 @@ export function initLightbox() {
     const left = area.left + area.width / 2 + tx - width / 2;
     const top = area.top + area.height / 2 + ty - height / 2;
 
+    const arrows = new Set<HTMLElement>();
+    const sums = new Map<HTMLElement, number>();
     toneTargets.forEach((element) => {
       const box = element.getBoundingClientRect();
       let sum = 0;
@@ -139,7 +140,13 @@ export function initLightbox() {
           sum += inside ? grid.values[Math.floor(v * grid.h) * grid.w + Math.floor(u * grid.w)] : 0.97;
         }
       }
-      element.dataset.tone = sum / 25 < 0.5 ? 'dark' : 'light';
+      sums.set(element, sum / 25);
+      if (element.closest('.lightbox__nav')) arrows.add(element);
+    });
+    // Las dos flechas comparten siempre el mismo tono (el de su media).
+    const arrowMean = arrows.size ? [...arrows].reduce((t, el) => t + sums.get(el)!, 0) / arrows.size : 0;
+    sums.forEach((value, element) => {
+      element.dataset.tone = (arrows.has(element) ? arrowMean : value) < 0.5 ? 'dark' : 'light';
     });
   }
 
@@ -162,7 +169,6 @@ export function initLightbox() {
       image.style.removeProperty('scale');
       image.style.removeProperty('translate');
     }
-    zoomButton.textContent = scale > 1 ? 'Reducir' : 'Ampliar';
     scheduleTones();
   };
 
@@ -187,7 +193,6 @@ export function initLightbox() {
     scale = 1;
     tx = ty = 0;
     stage.classList.remove('is-zoomed', 'is-smooth');
-    zoomButton.textContent = 'Ampliar';
   };
 
   /* ---------- cambio de foto ---------- */
@@ -314,7 +319,6 @@ export function initLightbox() {
   dialog.querySelector('[data-lightbox-prev]')!.addEventListener('click', () => go(index - 1, -1), { signal });
   dialog.querySelector('[data-lightbox-next]')!.addEventListener('click', () => go(index + 1, 1), { signal });
   dialog.querySelector('[data-lightbox-close]')!.addEventListener('click', close, { signal });
-  zoomButton.addEventListener('click', () => zoomAt(scale > 1 ? 1 : CLICK_ZOOM), { signal });
 
   // Esc: que el cierre pase también por el fade
   dialog.addEventListener(

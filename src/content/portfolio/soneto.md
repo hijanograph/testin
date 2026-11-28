@@ -17,7 +17,8 @@ heroAlt: "Estuche y botella de Soneto Gran Reserva, el vino de Bodegas Arbocala"
 # TEMPORAL: sustituir por images/index/soneto-cover.avif cuando exista
 coverImg: "images/projects/arbocala/soneto-hero.avif"
 coverAlt: "Soneto Gran Reserva, packaging para Bodegas Arbocala"
-wip: false
+wip: true
+wipImg: "images/projects/andaluce/andaluce-wip.mp4"
 intro: "La identidad de Bodegas Arbocala llevada a la botella de su producto estrella, Soneto Gran Reserva."
 
 blocks:
